@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <title>参与纪录</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/record.css" />
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+</head>
+
+<body>
+    <div class="lw-record">
+        <ul id="lw-data">
+        </ul>
+        <div style="display:none;" id="lw-nodata" class="lw-nodata">
+            <s></s>
+            <p>暂无记录</p>
+        </div>
+        <div style="display:none;" id="lw-loading" class="lw-load">加载中...</div>
+        <div style="display:none;" id="lw-loadover" style="margin-bottom:50px;" class="lw-load">没有更多数据了</div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+    var page = 1; // 分页页数
+
+    apiready = function() {
+        var goodsID = api.pageParam.goodsID; //获取页面传递过来的商品ID
+        loadList(goodsID);
+
+        // 分页监听
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+        }, function(ret, err){
+            if ($('#lw-loadover').css('display') != 'block') {
+                if ($('#lw-data li').length > 6) {
+                    $('#lw-loading').show();
+                }
+            }
+            loadList(goodsID);
+        });
+
+        // 更改顶部标题的请求
+        api.sendEvent({
+            name: 'setGoodsInfoTitle',
+            extra: '参与纪录'
+        });
+
+        //页面下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+    }
+
+    function loadList(goodsID) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://192.168.1.180/index.php/join/get_goumaijilu',
+            data: {goods_id: goodsID, page: page},
+            dateType: 'json',
+            success: function(result) {
+                if (result != 0) {
+                    var json = JSON.parse(result);
+                    var html = '';
+                    $(json).each(function(index){
+                        html+='<li>';
+                        html+='<i class="fr"></i>';
+                        html+='<p class="lw-record-img">';
+                        html+='<a href="javascript:;" onclick="userindex(\''+this.uid+'\')"><img src="http://m.51edb.com/love/uploads/'+this.img+'"></a>';
+                        html+='</p>';
+                        html+='<dl><dt><span><a onclick="userindex(\''+this.uid+'\')" href="javascript:;">'+this.username+'</a></span><em>参与了<b>'+this.gonumber+'</b>人次</em></dt>';
+                        html+='<dd>'+this.ip+'</dd><dd>'+this.time+'</dd></dl>';
+                        html+='</li>';
+                    });
+                    $("#lw-data").append(html);
+                    page++;
+
+                }else{
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+                if ($('#lw-data li').length < 6) {
+                    $('#lw-loadover').hide();
+                    $('#lw-loading').hide();
+                }
+                if ($('#lw-data li').length < 1) {
+                    $('#lw-nodata').show();
+                }
+            }
+        });
+    }
+
+    //名字和头像点击
+    function userindex(uid) {
+        api.openWin({
+            name: 'edbpeopleWin',
+            url: '../people.html',
+            pageParam: {
+                uid: uid
+            },
+            bounces:false,
+            hScrollBarEnabled:false
+        });
+    }
+
+    //返回
+    function closeWin() {
+        api.closeWin();
+    }
+</script>

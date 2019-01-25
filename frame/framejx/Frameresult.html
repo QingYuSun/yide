@@ -1,0 +1,288 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>揭晓结果frame</title>
+    <script type="text/javascript" src="../../js/dep/api.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/deatails.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/result.css" />
+    </head>
+<body>
+	<section>
+		<div id="deatailswarp" class="lw-deatails-warp">
+		</div>
+        <div id="lw-deatails-info">
+
+        </div>
+		<!-- <div class="lw-deatails-info">
+            <h2 class="lw-gary6">
+                        (第34期)
+                        Apple iPhone6s Plus 64G 颜色随机
+                        <span>唯一的不同，就是处处不同</span>
+                    </h2>
+        </div>
+        <div class="lw-deatails-no">
+            <span>您没有参与本期商品</span>
+        </div>
+        <div style="display:none;" class="lw-deatails-yes">
+            <p class="lw-yes-word">您参与了：<em>1</em>人次</span><br></p>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>幸运号码：</td>
+                        <td><b>10001915</b></td>
+                        <td><b>10001915</b></td>
+                        <td><b>10001915</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>10001915</b></td>
+                        <td><b>10001915</b></td>
+                        <td><b>10001915</b></td>
+                        <td><b><a href="3">查看全部</a></b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="lw-result-gainer">
+            <div class="lw-gainer-information">
+                <div class="lw-gainer-img">
+                    <p>
+                        <a href="">
+                            <img src="../../image/icon/member.jpg">
+                        </a>
+                    </p>
+                    <dl>
+                        <dt>
+                            <a href="">您的名字</a>
+                        </dt>
+                        <dd>
+                            手机号码:<i>1599063581</i>
+                        </dd>
+                        <dd>
+                                    浙江省绍兴市嵊州市 60.187.186.126
+                                </dd>
+                        <dd>
+                            本期参与:
+                            <i>14</i>人次
+                        </dd>
+                        <dd>
+                                    揭晓时间: 2016-07-06 14:04:10
+                                </dd>
+                    </dl>
+                    <div class="lw-luck">
+                        <div class="lw-luck-number">
+                            <dd>
+                                幸运号码:<i>10000016</i>
+                            </dd>
+                        </div>
+                        <div class="lw-count">
+                            <dd>
+                                <a href="#">计算详情>></a>
+                            </dd>
+                        </div>
+                    </div>
+                    <div class="lw-luck-icon">获得者</div>
+                </div>
+            </div>
+        </div> -->
+		<!-- <div class="lw-deatails-include">
+            <a href="#">
+                参与记录
+                <s class="lw-fr"></s>
+            </a>
+            <a href="#">
+                商品晒单
+                <s class="lw-fr"></s>
+            </a>
+            <a href="#">
+                往期揭晓
+                <s class="lw-fr"></s>
+            </a>
+        </div> -->
+	</section>
+</body>
+</html>
+<script type="text/javascript">
+apiready = function(){
+    var qishu=api.pageParam.qishu;
+    var shopid=api.pageParam.id;
+    api.ajax({
+            url: 'http://jl.haodbao.com/index.php/showindex/datasever',
+            method: 'get',
+            returnAll:false,
+            dateType:'json',
+            data: {
+                values: {
+                    shopid: shopid,
+                    qishu: qishu
+                },
+            }
+        },function(ret, err){
+        if (ret) {
+            var html='';
+            var qishu='';
+            for(var i in ret){
+                    html+='<div class="lw-deatails-info">';
+                    html+='<h2 class="lw-gary6">(第'+ret[i].qishu+'期)'+ret[i].title+'</span></h2></div>';
+                    html+='<div class="lw-deatails-no"><span>您没有参与本期商品</span></div>';
+                    html+='<div style="display:none;" class="lw-deatails-yes"><p class="lw-yes-word">您参与了：<em>1</em>人次</span><br></p>';
+                    html+='<table><tbody>';
+                    html+='<tr>';
+                    html+='<td>幸运号码：</td>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='</tr>';
+                    html+='<tr>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='<td><b><a href="3">查看全部</a></b></td>';
+                    html+='</tr></tbody></table></div>';
+                    html+='<div class="lw-result-gainer"><div class="lw-gainer-information"><div class="lw-gainer-img">';
+                    html+='<p><a onclick="sult('+ret[i].uid+')" href="javascript:;"><img src="'+ret[i].img+'"></a></p>';
+                    html+='<dl><dt>';
+                    html+='<a onclick="sult('+ret[i].uid+')" href="javascript:;">'+ret[i].username+'</a></dt>';
+                    html+='<dd>手机号码:<i>'+ret[i].mobile+'</i></dd>';
+                    html+='<dd>'+ret[i].ip+'</dd>';
+                    html+='<dd> 本期参与:<i>'+ret[i].gonumber+'</i>人次</dd>';
+                    html+='<dd>揭晓时间: '+ret[i].q_end_time+'</dd></dl>';
+                    html+='<div class="lw-luck"><div class="lw-luck-number">';
+                    html+='<dd>幸运号码:<i>'+ret[i].q_user_code+'</i></dd></div>';
+                    html+='<div class="lw-count">';
+                    html+='<dd><a onclick="oncount()" href="javascript:;">计算详情>></a>';
+                    html+='</dd></div></div>';
+                    html+='<div class="lw-luck-icon">获得者</div>';
+                    html+='</div></div></div>';
+                    html+='<div class="lw-deatails-include">';
+                    html+='<a onclick="sultcanyu('+ret[i].id+')" href="javascript:;">参与记录<s class="lw-fr"></s></a>';
+                    html+='<a onclick="sultshai('+ret[i].id+')" href="javascript:;">商品晒单<s class="lw-fr"></s></a>';
+                    html+='<a onclick="sultbeforepublish('+ret[i].id+')" href="javascript:;">往期揭晓<s class="lw-fr"></s></a>';
+                    html+='</div>';
+                    qishu=ret[i].maxqishu;
+            }
+            $api.append($api.byId('lw-deatails-info'),html)
+                //发送监听
+                api.sendEvent({
+                    name: 'update_foot',
+                    extra: {
+                        qishu: qishu
+                    }
+                });
+        } else {
+            alert( JSON.stringify( err ) );
+        }
+    });
+    var deatailswarp=document.getElementById('deatailswarp');
+        var win = window.screen.width;
+        deatailswarp.style.height=win/2.3+"px";
+        var UIScrollPicture = api.require('UIScrollPicture');
+        UIScrollPicture.open({
+            rect: {
+                x: (api.winWidth -api.winWidth/2.3)/2,
+                y: 20,
+                w: api.winWidth/2.3,
+                h: api.winWidth/2.3,
+            },
+            data: {
+                paths: [
+                'widget://image/20943729429500.jpg',
+                'widget://image/74839464428399.jpg',
+                'widget://image/79323602428381.jpg',
+                'widget://image/79349982429501.jpg',
+                'widget://image/92099980429501.jpg',
+                ],
+            },
+            styles: {
+                caption: {
+                    height: 35,
+                    color: '#E0FFFF',
+                    size: 13,
+                    bgColor: '#696969',
+                    position: 'bottom'
+                },
+                indicator: {
+                    align: 'center',
+                    color: '#bbb',
+                    activeColor: '#e60044'
+                }
+            },
+            placeholderImg: 'widget://res/slide1.jpg',
+            contentMode: 'scaleToFill',
+            interval: 3,
+            fixedOn: api.frameName,
+            loop: true,
+            fixed: false
+        });
+
+    //页面下拉刷新
+    api.setRefreshHeaderInfo({
+        visible: true,
+        bgColor: '#ccc',
+        textColor: '#fff',
+        textDown: '下拉刷新...',
+        textUp: '松开刷新...',
+        showTime: true
+    }, function(ret, err){
+        location.reload();
+        api.refreshHeaderLoadDone();
+    });
+}
+    //商品详情的个人中心（传参让商品详情打来个人中心frame）
+    function sult(id){
+        api.openWin({
+            name: 'record',
+            url: '../../html/announce/record.html',
+            pageParam: {
+                uid: id,
+                num: 5
+            },
+        });
+    }
+    //监听打开计算详情
+    function oncount(){
+    api.sendEvent({
+        name: 'sultname',
+        extra: {
+            }
+        });
+    }
+    //商品详情的参与记录（传参让商品详情打来参与记录frame）
+    function sultcanyu(shopid){
+        api.openWin({
+            name: 'record',
+            url: '../../html/announce/record.html',
+            pageParam: {
+                    shopid: shopid,
+                    num: 1
+                },
+        });
+    }
+     //商品详情的商品晒单（传参让商品详情打来商品晒单frame）
+    function sultshai(shopid){
+        api.openWin({
+            name: 'record',
+            url: '../../html/announce/record.html',
+            pageParam: {
+                    shopid: shopid,
+                    num: 3
+                },
+        });
+    }
+    //往期揭晓（传参让商品详情打来往期揭晓frame）
+    function sultbeforepublish(shopid){
+        api.openWin({
+            name: 'record',
+            url: '../../html/announce/record.html',
+            pageParam: {
+                    shopid: shopid,
+                    num: 4
+                },
+        });
+    }
+</script>

@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>正在晒单</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/winintegral.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+    </head>
+<body>
+    <section>
+        <div class="lw-win-wrap">
+            <form>
+                <ul>
+                    <div id="lw-heard-title">
+                        <!-- <li>
+                            商品：舒客早晚立体牙膏120g&nbsp;6支装
+                            <a onclick="wina()" class="lw-win-a" target="_blank" href="javascript:;">[查看]</a>
+                        </li> -->
+                    </div>
+
+                    <li>
+                        <input id="wintitle" type="text" name="" placeholder="请填写您的晒单标题">
+                    </li>
+                    <li>
+                        <input id="winword" type="text" name="" placeholder="请填写您的晒单内容，不得少于15个汉字。">
+                    </li>
+                    <li>
+                        晒单图片请拍实物照片，截图不予审核
+                    </li>
+                    <li>
+                        <input class="lw-common" name="Filedata" type="file" id="file1" accept="image/*" placeholder="请选择晒单图片图片1">
+                    </li>
+                    <li>
+                        <input class="lw-common" name="Filedata" type="file" id="file2" accept="image/*" placeholder="请选择晒单图片图片2">
+                    </li>
+                    <li>
+                        <input class="lw-common" name="Filedata" type="file" id="file3" accept="image/*" placeholder="请选择晒单图片图片3">
+                    </li>
+                    <li name="disnone" style="display:none;">
+                        <input class="lw-common" name="Filedata" type="file" id="file4" accept="image/*" placeholder="请选择晒单图片图片1">
+                    </li>
+                    <li name="disnone" style="display:none;">
+                        <input class="lw-common" name="Filedata" type="file" id="file5" accept="image/*" placeholder="请选择晒单图片图片2">
+                    </li>
+                    <li name="disnone" style="display:none;">
+                        <input class="lw-common" name="Filedata" type="file" id="file6" accept="image/*" placeholder="请选择晒单图片图片3">
+                    </li>
+                    <li class="lw-win-add">
+                        <a id="disa" href="javascript:disnone();">我要上传多个图片</a>
+                    </li>
+                    <li class="lw-win-affirm">
+                        <input value="确认提交" name="button" type="button" onclick="winaffirm()">
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </section>
+</body>
+<script type="text/javascript">
+    var uid = getUrlParam('uid');
+    var goodsID = getUrlParam('goodsID');
+    //alert(goodsID)
+
+   $.ajax({
+        type: 'GET',
+        url: AJAX_URI+'/users/my_unpost_list_click',
+        datatype: 'json',
+        data: {goods_id: goodsID},
+        success: function(result){
+            var result=JSON.parse(result);
+            var html='';
+                html+='<li>'+result.title+'';
+                html+='<a class="lw-win-a" target="_blank" href="javascript:openGoods(\''+result.id+'\');">[查看]</a>';
+                html+='</li>';
+                $('#lw-heard-title').append(html);
+        }
+    });
+
+    function check_input(){
+        if ($('#wintitle').val() =='') {
+            alert('标题不能为空!');
+            return false;
+        }
+
+        if ($('#winword').val().length <= 15) {
+            alert('内容不得少于15个字！')
+        return false;
+        }
+
+        if ($("[name='Filedata']").val() !='') {
+            return true;
+        }else {
+            alert('至少上传1张晒单照片!');
+            return false;
+        }
+    }
+
+    function winaffirm(){
+        var bool=check_input();
+        if(bool){
+            var form_data = new FormData();
+            var file_data;
+            for (var i = 1; i <=6; i++) {
+                if($("#file"+i).val()){
+                    file_data = $("#file"+i).prop("files")[0];
+                    form_data.append("file"+i, file_data);
+                }
+            }
+            var wintitle= $("#wintitle").val();
+            var winword= $("#winword").val();
+            form_data.append("wintitle", wintitle);
+            form_data.append("winword", winword);
+            form_data.append("goods_id", goodsID);
+            form_data.append("data", uid);
+            //alert( JSON.stringify(form_data) );
+
+            $.ajax({
+                type: "POST",
+                url: AJAX_URI+"/users/up_win_pic",
+                dataType: 'JSON',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                success: function(data) {
+                    var data=JSON.parse(data);
+                    if(data=='3'){
+                        alert("晒单成功!等待管员审核！");
+                        window.location.href='./Frameusertalk.html';
+                    }else if(data=='2'){
+                        alert("上传的图片格式错误！")
+                        location.reload();
+                    }else if(data=='1'){
+                        alert("该商品已晒过单！")
+                        location.reload();
+                    }else{
+                        alert("非法操作")
+                        location.reload();
+                    }
+                }
+            });
+        }
+    }
+
+    //更多input file 显示
+    var d = $("[name='disnone']");
+    function disnone(){
+        for (var i = 0; i < d.length; i++) {
+            if (d.css("display") == "none") {
+                d.show()
+                $('#disa').html('至少上传1张晒单照片');
+                $('#disa').css('color','#bbb');
+            }
+        }
+    }
+
+    function openGoods(goodsID) {
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/get_goods_status',
+            data: {goods_id: goodsID},
+            dateType:'json',
+            success: function(result) {
+                switch(result){
+                    case '1': // 详情页
+                        winName = 'edbGoodsDetailWin';
+                        url = '../html/goods.html';
+                        break;
+                    case '2': // 揭晓页
+                        winName = 'edbGoodsAnnounceWin';
+                        url = '../html/goods-win.html';
+                        break;
+                    case '3': // 倒计时页
+                        winName = 'edbGoodsTimeWin';
+                        url = '../html/goods-time.html';
+                        break;
+                }
+                api.openWin({
+                    name: winName,
+                    url: url,
+                    pageParam: {
+                        goodsID: goodsID
+                    },
+                    bounces:false,
+                    hScrollBarEnabled:false
+                });
+            }
+        });
+    }
+</script>
+</html>

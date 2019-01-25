@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>图文详情</title>
+    <script type="text/javascript" src="../../js/api.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/goods.css" />
+</head>
+<body>
+    <section>
+    <!-- 内页顶部 -->
+        <div class="lw-goods"  >
+            <div id="lw-goods-date"></div>
+            <div class="lw-goods-word">
+                <p>重要说明：</p>
+                <p>1、本商品由第三方提供；</p>
+                <p>2、以上详情页面展示信息仅供参考，商品以实物为准；</p>
+                <p>3、如快递无法配送至获得者提供的送货地址，将默认配送到距离最近的送货地，由获得者本人自提。</p>
+            </div>
+            <br>
+            <br>
+            <br>
+        </div>
+    </section>
+</body>
+</html>
+<script type="text/javascript">
+    apiready = function(){
+        var shopid = api.pageParam.shopid;//获取首页传递过来的商品ID
+            api.ajax({
+                url: 'http://jl.haodbao.com/index.php/Join/picdate',
+                method: 'get',
+                returnAll:false,
+                dateType:'json',
+                data: {
+                    values: {shopid: shopid},
+                }
+            },function(ret, err){
+            if (ret) {
+                ret=eval(ret);
+                var html="";
+                for(var i in ret){
+                    html+=ret[i].content;
+                }
+                $api.append($api.byId('lw-goods-date'),html);
+
+            } else {
+                alert( JSON.stringify( err ) );
+            }
+        });
+    }
+
+    //返回
+    function houtui(){
+        api.closeWin();
+    }
+</script>

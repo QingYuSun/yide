@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>立即注册</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/register.css" />
+    <script type="text/javascript" src="../../js/dep/api.js"></script>
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+    </head>
+<body>
+    <section>
+        <div class="lw-register">
+            <ul>
+                <li>
+                    <input id="lw-mover-right" class="lw-mover-right" type="text" name="" placeholder="请输入您的手机号码">
+                    <s class="lw-icon-one"></s>
+                </li>
+                <li>
+                    <input id="regpassword" class="lw-mover-right" type="password" type="text" name="" placeholder="密码">
+                    <s class="lw-icon-two"></s>
+                </li>
+                <li>
+                    <input id="regcode" class="lw-mover" type="text" name="" placeholder="验证码">
+                    <span>
+                        <img class="lw-register-img" src="../../image/1467877578009.png">
+                    </span>
+                    <s class="lw-icon-two"></s>
+                </li>
+                <li id="nextstep" onclick="next()" class="lw-next-step">
+                    <a href="javascript:;">下一步</a>
+                </li>
+                <li>
+                    <span id="lw-consent" class="lw-consent">
+                        <em onclick="onem()"></em>
+                        我已经阅读并同意
+                    </span>
+                    <a class="lw-consent-a" href="../help/answer.html?type=2&id=3">一得宝用户服务协议</a>
+                </li>
+            </ul>          
+        </div>
+        <div id="regalert" class="lw-regalert">
+            <div id="alertreg" class="lw-alertreg"></div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript">
+apiready = function(){
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '立即注册'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+      }
+
+  function onnext(){
+    reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+    if ($('#lw-mover-right').val() == "") {
+            api.toast({
+                msg: '请输入您的手机号码',
+                duration: 2000,
+                location: 'middle'
+            });
+            return false;
+        }
+        if (!reg.test($('#lw-mover-right').val())) {
+            api.toast({
+                msg: '请输入正确的手机号',
+                duration: 2000,
+                location: 'middle'
+            });
+            return false;
+        }
+        if ($('#regpassword').val().length < 6) {
+            api.toast({
+                msg: '密码长度不得小于6位',
+                duration: 2000,
+                location: 'middle'
+            });
+            return false;
+        }
+        if ($('#regcode').val() == '') {
+            api.toast({
+                msg: '请输入验证码',
+                duration: 2000,
+                location: 'middle'
+            });
+            return false;
+        }
+  }
+    function next(){
+        onnext();
+    }
+    function onem(){
+        if ($('#lw-consent').hasClass("notconsent")){
+          $('#lw-consent').removeClass("notconsent");
+          $('#nextstep').removeClass("notnext");
+          $('#nextstep').attr("onclick","next();");
+        } else {
+          $('#lw-consent').addClass("notconsent");
+          $('#nextstep').addClass("notnext");
+          $('#nextstep').removeAttr('onclick');
+        }
+    }
+</script>
+</html>

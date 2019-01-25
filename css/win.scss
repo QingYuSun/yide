@@ -1,0 +1,106 @@
+@charset "utf-8";
+
+@import "variable";
+//中间部分中奖商品文字的样式
+.lw-win-wrap{
+    clear: both;
+    width: 100%;
+    ul{
+        li{
+            padding: 15px 40px 15px 10px;
+            background-color: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            overflow: hidden;
+            position: relative;
+            dl{
+                margin-left:86px;
+                line-height:18px;
+                position:relative;
+                top:-2px;
+                dt{
+                    display: block;
+                    margin-bottom: 3px;
+                    font-size: 1.2rem;
+                    line-height: 18px;
+                    a{
+                        color:#666;
+                        display:block;
+                        max-height: 18px;
+                        overflow: hidden;
+                        word-break: break-all;
+                    }
+                }
+                dd{
+                    font-size: 1.1rem;
+                    line-height: 14px!important;
+                    margin: 0;
+                    padding: 0;
+                    color: #bbb;
+                    word-break: break-all;
+                    em{
+                        display:inline;
+                    }
+                }
+            }
+        }
+    }
+}
+//中奖商品图片的样式
+.lw-win-img{
+    float:left;
+    width:74px;
+    height:74px;
+    border:1px solid $bordercolor;
+    border-radius:3px;
+    overflow:hidden;
+    text-align:center;
+    a{
+        display:block;
+        img{
+            display:block;
+            width:64px;
+            height:64px;
+            margin:5px auto;
+        }
+    }
+
+}
+//"晒单赢积分"的样式
+.lw-win-integral{
+    display:inline-block;
+    background:$background;
+    font-size: 1.2rem;
+    height: 25px;
+    line-height: 25px;
+    padding: 0 15px;
+    margin-top: 5px;
+    margin-right: 10px;
+    border-radius: 4px;
+    color: #fff;
+}
+
+//加载跟多的样式
+.lw-load{
+    text-align: center;
+    padding: 10px;
+    background:#f7f7f7;
+}
+
+//暂无记录
+.lw-nodata{
+    padding:50px 0;
+    background:#f7f7f7;
+    text-align:center;
+    font-size:2rem;
+    color:#bbb;
+    s{
+        background:url(../image/icon/setIcon.png);
+        background-size:80px auto;
+        display:block;
+        background-position:0 -102px;
+        background-repeat:no-repeat;
+        width:57px;
+        height:57px;
+        margin:0 auto;
+    }
+}

@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的晒单</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/usertalk.css" />
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    </head>
+<body>
+    <section>
+        <div class="lw-usertalk-wrap">
+            <div class="lw-user-talk">
+                <a id="titlehave" onclick="talkcut(1)" class="lw-talk-red" href="javascript:;">已晒单</a>
+                <b></b>
+            </div>
+            <div class="lw-user-talk">
+                <a id="titlenone" onclick="talkcut(0)" href="javascript:;">未晒单</a>
+            </div>
+        </div>
+        <div class="lw-talk-record">
+            <div id="nodata" class="lw-talk-color">
+                <s></s>
+                暂无记录
+            </div>
+            <div >
+                <ul id="havetalk">
+                    <!-- <li class="lw-talk-yes">
+                        <a onclick="talkgoods()" class="lw-talk-img" href="javascript:;">
+                            <img src="../image/92149415431432.jpg">
+                        </a>
+                        <div class="lw-talk-word">
+                            <p class="lw-talk-p">
+                                <a onclick="talkgoods()" href="javascript:;">舒客早晚立体牙膏120g&nbsp;6支装</a>
+                            </p>
+                            <p>幸运号码：10000078</p>
+                            <p>揭晓时间：2016-07-06 12:14:10</p>
+                        </div>
+                        <div class="lw-talk-me">
+                            <b>已晒单</b>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <div>
+               <ul id="nonetalk">
+                   <!-- <li class="lw-talk-yes">
+                       <a onclick="talkgoods()" class="lw-talk-img" href="javascript:;">
+                           <img src="../image/92149415431432.jpg">
+                       </a>
+                       <div class="lw-talk-word">
+                           <p class="lw-talk-p">
+                               <a onclick="talkgoods()" href="javascript:;">舒客早晚立体牙膏120g&nbsp;6支装</a>
+                           </p>
+                           <p>幸运号码：10000078</p>
+                           <p>揭晓时间：2016-07-06 12:14:10</p>
+                       </div>
+                       <div class="lw-talk-me">
+                           <a onclick="talkme()" href="javascript:;">我要晒单</a>
+                       </div>
+                   </li> -->
+               </ul>
+            </div>
+        </div>
+        <div style="display:none;" id="lw-loading" class="lw-load">加载中...</div>
+        <div style="display:none;" id="lw-loadover" class="lw-load">没有更多数据了</div>
+    </section>
+</body>
+<script type="text/javascript">
+    var uid=getUrlParam('uid');
+    var ret=1;  //已晒单点击切换要知道有没有数据
+    var ert=0;   //未晒单点击切换要知道有没有数据
+    var page = 1;//已晒单分页
+    var nopage = 1;//未晒单分页
+    show(2);//先执行隐藏效果
+    noajax(uid);
+    yesajax(uid);
+    apiready = function(){
+
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '我的晒单'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+
+        //页面下拉刷新
+        api.setRefreshHeaderInfo({
+        visible: true,
+        bgColor: '#ccc',
+        textColor: '#fff',
+        textDown: '下拉刷新...',
+        textUp: '松开刷新...',
+        showTime: true
+        }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+
+        // 分页监听
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+        }, function(ret, err){
+            if ($('#havetalk').css("display") == "block"){
+                if ($('lw-loadover').css('display') != 'block') {
+                    if ($('#havetalk li').length > 5) {
+                        $('#lw-loading').show();
+                    }
+                }
+                
+                yesajax(uid);
+            }
+            if ($('#nonetalk').css("display") == "block") {
+                if ($('lw-loadover').css('display') != 'block') {
+                    if ($('#nonetalk li').length > 5) {
+                        $('#lw-loading').show();
+                    }
+                }
+                noajax(uid);
+            }
+        });
+    }
+
+    //判断加载时有没有数据
+    function show(i){
+        if (i==2) {
+            $('#nodata').hide();
+            $('#havetalk').show();
+            $('#nonetalk').hide();
+        }else{
+            $('#nodata').show();
+            $('#havetalk').hide();
+            $('#nonetalk').hide();
+        }
+    }
+    //已晒单
+    function yesajax(uid){
+        $.ajax({
+            type: 'post',
+            url: AJAX_URI+'/users/my_post_list',
+            datatype: 'json',
+            data: {uid: uid,page: page},   //测试数据 data: {uid: 545},
+            success: function(result){
+                var result=JSON.parse(result);
+                if(result==0 && page==1){
+                    ret=result;
+                }else{
+                    var html='';
+                        //html+='<ul>';
+                    $(result).each(function(index){
+                        html+='<li class="lw-talk-yes">';
+                        html+='<a class="lw-talk-img" href="javascript:openGoods(\''+this.id+'\');"><img src="http://m.51edb.com/love/uploads/'+this.thumb+'"></a>';
+                        html+='<div class="lw-talk-word">';
+                        html+='<p class="lw-talk-p"><a href="javascript:openGoods(\''+this.id+'\');">'+this.title+'</a></p>';
+                        html+='<p>幸运号码：'+this.q_user_code+'</p><p>揭晓时间：'+this.q_end_time+'</p></div>';
+                        html+='<div class="lw-talk-me"><b>已晒单</b></div>';
+                        html+='</li>';
+                    });
+                       // html+='</ul>';
+                       $('#havetalk').append(html);
+                       page++;
+
+                       if (html=='') {
+                            $('#lw-loadover').show();
+                            $('#lw-loading').hide();
+                        }
+
+                        if ($('#havetalk li').length < 5) {
+                            $('#lw-loadover').hide();
+                            $('#lw-loading').hide();
+                        }
+                }
+            }
+        });
+    }
+    //未晒单
+    function noajax(uid){
+        $.ajax({
+            type: 'post',
+            url: AJAX_URI+'/users/my_unpost_list',
+            datatype: 'json',
+            data: {uid: uid,page: nopage},//测试数据 data: {uid: 545},
+            success: function(result){
+                var result=JSON.parse(result);
+                if (page==1) {
+                    if(result==1 || result==2 && page==1){ // 1 代表没有中奖的商品，2 代表没有商品需要晒单
+                        ert=result;
+                        show(1);
+                    }else{
+                        addframe(result);
+                    }
+                }else{
+                    addframe(result);
+                }
+
+            }
+        });
+    }
+
+    function addframe(result){
+        var html='';
+        $(result).each(function(index){
+            html+='<li class="lw-talk-yes">';
+            html+='<a class="lw-talk-img" href="javascript:openGoods(\''+this.id+'\');"><img src="http://m.51edb.com/love/uploads/'+this.thumb+'"></a>';
+            html+='<div class="lw-talk-word"><p class="lw-talk-p">';
+            html+='<a href="javascript:openGoods(\''+this.id+'\');">'+this.title+'</a></p>';
+            html+='<p>幸运号码：'+this.q_user_code+'</p><p>揭晓时间：'+this.q_end_time+'</p></div>';
+            html+='<div class="lw-talk-me"><a onclick="gotourl(\'./Framewinintegral.html?goodsID='+this.id+'\')" href="javascript:;">我要晒单</a></div>';
+            html+='</li>';
+        });
+           // html+='</ul>';
+           $('#nonetalk').append(html);
+           nopage++;
+
+           if (html=='') {
+                $('#lw-loadover').show();
+                $('#lw-loading').hide();
+            }
+
+            if ($('#nonetalk li').length < 5) {
+                $('#lw-loadover').hide();
+                $('#lw-loading').hide();
+            }
+        //alert( JSON.stringify( result ) );
+    }
+
+    //已晒单和未晒单的切换效果
+    function talkcut(i){
+        $('#lw-loading').hide();
+        $('#lw-loadover').hide();
+        if (i==1) {
+            $('#titlehave').addClass('lw-talk-red');
+            $('#titlenone').removeClass ('lw-talk-red');
+
+            if (ret!=0) {
+                $('#nodata').hide();
+                $('#havetalk').show();
+                $('#nonetalk').hide();
+            }else{
+                $('#nodata').show();
+                $('#havetalk').hide();
+                $('#nonetalk').hide();
+            }
+        }else{
+            $('#titlehave').removeClass('lw-talk-red');
+            $('#titlenone').addClass('lw-talk-red');
+            if (ert!=2 && ert!=1) {
+                $('#nodata').hide();
+                $('#havetalk').hide();
+                $('#nonetalk').show();
+            }else{
+                $('#nodata').show();
+                $('#havetalk').hide();
+                $('#nonetalk').hide();
+            }
+        }
+    }
+
+    //添加晒单 页面跳转
+    function gotourl(url) {
+        window.location.href=url;
+    }
+
+    function openGoods(goodsID) {
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/get_goods_status',
+            data: {goods_id: goodsID},
+            dateType:'json',
+            success: function(result) {
+                switch(result){
+                    case '1': // 详情页
+                        winName = 'edbGoodsDetailWin';
+                        url = '../html/goods.html';
+                        break;
+                    case '2': // 揭晓页
+                        winName = 'edbGoodsAnnounceWin';
+                        url = '../html/goods-win.html';
+                        break;
+                    case '3': // 倒计时页
+                        winName = 'edbGoodsTimeWin';
+                        url = '../html/goods-time.html';
+                        break;
+                }
+                api.openWin({
+                    name: winName,
+                    url: url,
+                    pageParam: {
+                        goodsID: goodsID
+                    },
+                    bounces:false,
+                    hScrollBarEnabled:false
+                });
+            }
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>所有商品</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commoditystyle.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/commodity.js"></script>
+</head>
+<body id="lock" class="">
+    <div class="lw-classify">
+        <a href="javascript:showDefault();" id="titlecut">
+            全部分类<span></span><cite id="lw-triangleone" type="0" class="according"><em></em></cite>
+        </a>
+        <a href="javascript:showannounce();" id="dropdown">
+            即将揭晓<span></span><cite id="lw-triangletwo" type="0" class="according"><em></em></cite>
+        </a>
+    </div>
+    <div class="lw-hidden">
+        <div id="hidden" class="hidden according">
+            <ul id="lw-eq">
+                <li name="cutclassify" onclick="cutclassify(this)" id="0" ><a href="javascript:;">全部分类</a></li>
+                <li name="cutclassify" onclick="cutclassify(this)" id="30" ><a href="javascript:;">手机平板</a></li>
+                <li name="cutclassify" onclick="cutclassify(this)" id="41" ><a href="javascript:;">电脑数码</a></li>
+                <li name="cutclassify" onclick="cutclassify(this)" id="44" ><a href="javascript:;">黄金珠宝</a></li>
+                <li name="cutclassify" onclick="cutclassify(this)" id="47" ><a href="javascript:;">家用电器</a></li>
+                <li name="cutclassify" onclick="cutclassify(this)" id="51" ><a href="javascript:;">生活用品</a></li>
+                <li name="cutclassify" onclick="cutclassify(this)" id="54" ><a href="javascript:;">虚拟充值</a></li>
+                <li name="cutclassify" onclick="cutclassify(this)" id="101" ><a href="javascript:;">美食天地</a></li>
+                <li name="cutclassify" onclick="cutclassify(this)" id="108" ><a href="javascript:;">户外运动</a></li>
+                <li name="cutclassify" onclick="cutclassify(this)" id="116" ><a href="javascript:;">玩具礼品</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="lw-sort-list" class="lw-sort-list according">
+        <ul>
+            <li name="detail" class="hover" id="0" onclick="cutdetail(this)">
+                <a href="javascript:;" >
+                    即将揭晓
+                    <i></i>
+                </a>
+            </li>
+            <li name="detail" id="1" onclick="cutdetail(this)">
+                <a href="javascript:;">
+                    最火
+                    <i></i>
+                </a>
+            </li>
+            <li name="detail" id="2" onclick="cutdetail(this)">
+                <a href="javascript:;">
+                    剩余人次
+                    <i></i>
+                </a>
+            </li>
+            <li name="detail" id="3" onclick="cutdetail(this)">
+                <a href="javascript:;">
+                    价值<em>(由高到低)</em>
+                    <i></i>
+                </a>
+            </li>
+            <li name="detail" id="4" onclick="cutdetail(this)">
+                <a href="javascript:;">
+                    价值<em>(由低到高)</em>
+                    <i></i>
+                </a>
+            </li>
+            <li name="detail" id="5" onclick="cutdetail(this)">
+                <a href="javascript:;">
+                    最新
+                    <i></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="lw-goods" id="lw-goods">
+
+    </div>
+
+    <div id="block" onclick="block()" class="block according"></div>
+
+    <script type="text/javascript">
+    function openItem(itemID) {
+        api.openWin({
+            name: 'edbItemWindow',
+            url: '/item.htm',
+            pageParam: {
+                "itemID": itemID
+            },
+            bounces:true,
+            hScrollBarEnabled:false,
+            progress:{
+                type:"default"
+            }
+        });
+    }
+    </script>
+</body>
+</html>
+<script type="text/javascript">
+     apiready = function(){
+        api.setRefreshHeaderInfo({
+            bgColor: '#ededed',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: false
+        }, function(ret, err) {
+            api.refreshHeaderLoadDone();
+            location.reload();
+        });
+
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '所有商品'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+
+        var cateid=api.pageParam.cateid; // 首页点击 所有商品和手机专区  0是所有商品 30是手机专区
+        api.ajax({
+            url: AJAX_URI+'/showindex/allshop',
+            method: 'get',
+            cache:false,
+            dateType:'json',
+            returenAll:false,
+            data: {
+                    values: {cateid: cateid},
+                }
+            },function(ret, err){
+               if (ret) {
+                var infohtml=info(ret);
+                $api.append($api.byId('lw-goods'),infohtml)
+               } else {
+                   alert( JSON.stringify( err ) );
+               }
+        });
+    }
+
+    //全部分类的点击效果
+    function showDefault(){
+        if ($api.hasCls($api.byId("hidden"),"according")) {
+            $api.removeCls($api.byId("hidden"),"according");
+            $api.removeCls($api.byId("block"),"according");
+            $api.addCls($api.byId("lw-sort-list"),"according");
+            $api.addCls($api.byId("lock"),"lock");
+            $api.removeCls($api.byId("lw-triangleone"),"according");
+            $api.addCls($api.byId("lw-triangletwo"),"according");
+        }else{
+            $api.addCls($api.byId("hidden"),"according");
+            $api.addCls($api.byId("lw-sort-list"),"according");
+            $api.addCls($api.byId("block"),"according");
+            $api.removeCls($api.byId("lock"),"lock");
+            $api.addCls($api.byId("lw-triangleone"),"according");
+        }
+    }
+    //即将揭晓的点击效果
+    function showannounce(){
+        if ($api.hasCls($api.byId("lw-sort-list"),"according")) {
+            $api.removeCls($api.byId("lw-sort-list"),"according");
+            $api.removeCls($api.byId("block"),"according");
+            $api.addCls($api.byId("hidden"),"according");
+            $api.addCls($api.byId("lock"),"lock");
+            $api.removeCls($api.byId("lw-triangletwo"),"according");
+            $api.addCls($api.byId("lw-triangleone"),"according");
+
+        }else{
+            $api.addCls($api.byId("lw-sort-list"),"according");
+            $api.addCls($api.byId("hidden"),"according");
+            $api.addCls($api.byId("block"),"according");
+            $api.removeCls($api.byId("lock"),"lock");
+            $api.addCls($api.byId("lw-triangletwo"),"according");
+        }
+    }
+    //黑幕的点击效果
+    function block(){
+        $api.addCls($api.byId("hidden"),"according");
+        $api.addCls($api.byId("lw-sort-list"),"according");
+        $api.addCls($api.byId("block"),"according");
+        $api.addCls($api.byId("lw-triangletwo"),"according");
+        $api.addCls($api.byId("lw-triangleone"),"according");
+    }
+    //全部分类的里面分类点击效果
+    var c =document.getElementsByName('cutclassify');
+    var t = document.getElementById('titlecut');
+    function cutclassify(obj){
+        for (var i = 0; i < c.length; i++) {
+            if (c[i].className="cutred") {
+                c[i].className="";
+            }
+            if (c[i]==obj) {
+                var id=obj.id;
+                t.innerHTML=c[i].innerText+'<span></span><cite id="lw-triangleone" type="'+id+'"><em></em></cite>';
+                //alert('<cite id="lw-triangleone" type="'+id+'"><em></em></cite>')
+                c[i].className="cutred";
+            }
+        }
+        block();
+        var cateid = document.getElementById("lw-triangleone").getAttribute("type");
+        var paixu = document.getElementById("lw-triangletwo").getAttribute("type");
+        api.ajax({
+            url: 'http://jl.haodbao.com/index.php/showindex/allshop',
+            method: 'get',
+            cache:false,
+            dateType:'json',
+            returenAll:false,
+            data: {
+                    values: {
+                        cateid: cateid,
+                        paixu: paixu
+                    },
+                }
+            },function(ret, err){
+            if (ret) {
+                    var infohtml=info(ret);
+                    $api.html($api.byId('lw-goods'),'')
+                    $api.append($api.byId('lw-goods'),infohtml)
+            } else {
+                alert( JSON.stringify( err ) );
+            }
+        });
+    }
+    //即将揭晓的里面分类的点击效果
+    var d =document.getElementsByName('detail');
+    var p = document.getElementById('dropdown');
+    function cutdetail(obj){
+        for (var i = 0; i < d.length; i++) {
+            if (d[i].className="hover") {
+                d[i].className="";
+            }
+            if (d[i]==obj) {
+                var id=obj.id;
+                p.innerHTML=d[i].innerText+'<span></span><cite id="lw-triangletwo" type="'+id+'"><em></em></cite>';
+                d[i].className="hover";
+            }
+        }
+        block();
+        var cateid = document.getElementById("lw-triangleone").getAttribute("type");
+        var paixu = document.getElementById("lw-triangletwo").getAttribute("type");
+        api.ajax({
+            url: AJAX_URI+'/showindex/allshop',
+            method: 'get',
+            cache:false,
+            dateType:'json',
+            returenAll:false,
+            data: {
+                    values: {
+                        cateid: cateid,
+                        paixu: paixu
+                    },
+                }
+            },function(ret, err){
+            if (ret) {
+                var infohtml=info(ret);
+                $api.html($api.byId('lw-goods'),'')
+                $api.append($api.byId('lw-goods'),infohtml)
+            } else {
+                alert( JSON.stringify( err ) );
+            }
+        });
+    }
+    function info(ret){
+        var html='';
+            for(var i in ret){
+                if(ret[i].id != null){
+                    html+='<div onclick="goodslist()"><ul>';
+                    html+='<li id="lw-goods-list" class="lw-goods-list"><span class="lw-goods-img"><img src="'+ret[i].thumb+'"></span>';
+                    html+='<div class="lw-goods-information"><h3>(第'+ret[i].qishu+'期)'+ret[i].title+'</h3><em>价值：￥'+ret[i].money+'</em>';
+                    html+='<div class="lw-goods-particpation">';
+                    var j=parseInt(ret[i].canyurenshu *100)/ret[i].zongrenshu;
+                    html+='<p><span style="width:'+parseInt(j)+'%;"></span></p>';
+                    html+='<ul class="lw-goods-number"><li class="lw-goods-numer-li">';
+                    html+='<em>'+ret[i].canyurenshu+'</em>已参与</li>';
+                    html+='<li class="lw-goods-numer-two"><em>'+ret[i].zongrenshu+'</em>总需人数</li>';
+                    html+=' <li class="lw-goods-numer-three"><em>'+ret[i].shenyurenshu+'</em>剩余</li>';
+                    html+='</ul></div></div></li></ul></div>';
+                }
+            }
+            return html;
+    }
+    function goodslist(){
+        api.openWin({
+            name: 'deatails',
+            url: '../html/goods/deatails.html',
+            pageParam: {
+                },
+        });
+    }
+</script>

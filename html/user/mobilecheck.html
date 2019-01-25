@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>手机验证</title>
+    <link rel="stylesheet" type="text/css" href="../../css/mobilecheck.css" />
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../../js/global.js"></script>
+</head>
+<body>
+    <section>
+        <div class="lw-mobilecheck-warp">
+            <ul>
+                <li>
+                    <input type="text" id="lw-mobileCode" placeholder="请输入手机验证码" class="lw-Text">
+                    <s></s>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" id="btnPostCode" class="lw-nextBtn">确认，下一步</a>
+                </li>
+                <li>如未收到验证短信，请在120秒后点击重新发送。</li>
+                <li>
+                    <a id="lw-btnGetCode" class="lw-resendBtn"></a>
+                </li>
+            </ul>
+        </div>
+    </section>
+</body>
+<script type="text/javascript">
+    $(function(){
+        var countdown=120;
+            function settime(){
+                var t = setTimeout(function() { 
+                    settime();
+                },1000)
+                if (countdown == 0) {
+                    clearTimeout(t);
+                    $('#lw-btnGetCode').html('重新发送');
+                    $("#lw-btnGetCode").attr('onclick','sendMobCode()');
+                    $("#lw-btnGetCode").removeAttr("style");
+                    countdown = 120;
+                }else{
+                    $("#lw-btnGetCode").css({
+                        "background":"#ddd",
+                        "border":"1px solid #bbb",
+                        "color":"#818181"
+                    }); 
+                    $('#lw-btnGetCode').html('重新发送('+countdown+')');
+                    countdown--;
+                }
+            }
+            settime();
+    })
+</script>
+</html>

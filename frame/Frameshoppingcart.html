@@ -1,0 +1,299 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>购物车frame</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shoppingcart.css" />
+    <script type="text/javascript" src="../js/dep/api.js"></script>
+    </head>
+<body>
+    <section id="lw-shoppingcart" style="display:none;">
+        <div class="lw-shopping-cart">
+            <s></s>
+                您还未添加商品
+            <div class="lw-no-participation">
+                <a href="">立即参与</a>
+            </div>
+        </div>
+    </section>
+    <section id="lw-shoppinghidden" class="lw-shopping-hidden">
+    </section>
+    <div id="alertcut" class="lw-alertcut">
+        <div id="alertcutword" class="lw-alertcutword"></div>
+    </div>
+</body>
+    <script type="text/javascript">
+        function getpagedate(){
+            var shopid = api.pageParam.shopid;//获取首页传递过来的商品ID
+            return shopid;
+        }
+        apiready = function(){
+            // 发送更改顶部导航标题的监听请求
+            api.sendEvent({
+                name: 'setHomeTitle',
+                extra: '购物车'
+            });
+
+            // 激活底部按钮
+            api.sendEvent({
+                name: 'activeFooter',
+                extra: '4'
+            });
+            
+            // 显示后退按钮
+            api.sendEvent({
+                name: 'showBackButton'
+            });
+            
+            //页面下拉刷新
+            api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+            }, function(ret, err){
+                location.reload();
+                api.refreshHeaderLoadDone();
+            });
+            
+            //数据加载
+            var shopid=getpagedate();
+            api.ajax({
+                url: 'http://jl.haodbao.com/index.php/showindex/jz',
+                method: 'get',
+                returnAll:false,
+                dateType:'json',
+                data: {
+                    values: {shopid: shopid},
+                }
+            },function(ret, err){
+                if (ret) {
+                    ret=eval(ret);
+                    var html="";
+                    html+='<div class="lw-hidden-wrap">'
+                    html+='<ul>'
+                    for(var i in ret){
+                        html+='<li>'
+                        html+='<a class="lw-hidden-img" href="">'
+                        html+='<img src="../image/92149415431432.jpg">'
+                        html+='</a>'
+                        html+='<div class="lw-hidden-word">'
+                        html+='<p class="lw-p-one">'
+                        html+='<a class="lw-gray6" href="#">(第42期)Apple iPhone6s 64G 颜色随机</a>'
+                        html+='</p>'
+                        html+='<ins class="lw-gray9 lw-hideen-ins">剩余'
+                        html+='<em name="ins">666</em>人次'
+                        html+='</ins>'
+                        html+='<p class="lw-gray9 lw-p-two">参与'
+                        html+='<em name="oneem"></em>人次/'
+                        html+='<em name="twoem" class="lw-two-em"></em>'
+                        html+='</p>'
+                        html+='<p class="lw-p-three">'
+                        html+='<a class="lw-fr lw-hidden-del" href="javascript:;"></a>'
+                        html+='<a name="minus" id="minus" onclick="onminus(this)" class="lw-fl lw-hidden-minus" href="javascript:;">-</a>'
+                        html+='<input name="inputvalue" class="lw-fl lw-hidden-input" type="text"  onblur="inputgo()" oninput="inputvalue()">'
+                        html+='<a name="plus" id="plus" onclick="onplus(this)" class="lw-fl lw-hidden-plus" href="javascript:;">+</a>'
+                        html+='<div onclick="surplus(this)" name="surplus" class="lw-hidden-surplus">包尾</div>'
+                        html+='</p>'
+                        html+='</div>'
+                        html+='</li>'
+                        }
+                        html+='</ul>'
+                        html+='</div>'
+                        html+='<div class="lw-gray9 lw-close-account">'
+                        html+='<p>共'
+                        html+='<span>1</span>件商品 总计:'
+                        html+='<span id="">5</span>元'
+                        html+='</p>'
+                        html+='<a href="#">结算</a>'
+                        html+='</div>'
+                        $api.append($api.byId('lw-shoppinghidden'),html);
+                    } else {
+                        alert( JSON.stringify( err ) );
+                    }
+                });
+
+            //判断有没有数据
+            var i=2;
+            if (i<3) {
+            }else{
+                $api.css($api.byId("lw-shoppingcart"),"display:block;");
+                $api.css($api.byId("lw-shoppinghidden"),"display:none;");
+            }
+        }
+
+        //底层共用
+        var iBase = {
+            Id: function(name){
+                return document.getElementById(name);
+            },
+            //设置元素透明度,透明度值按IE规则计,即0~100
+            SetOpacity: function(ev, v){
+                ev.filters ? ev.style.filter = 'alpha(opacity=' + v + ')' : ev.style.opacity = v / 100;
+            }
+        }
+
+        //淡入效果(含淡入到指定透明度)
+        function fadeIn(elem, speed, opacity){
+            /*
+             * 参数说明
+             * elem==>需要淡入的元素
+             * speed==>淡入速度,正整数(可选)
+             * opacity==>淡入到指定的透明度,0~100(可选)
+             */
+            speed = speed || 20;
+            opacity = opacity || 100;
+            //显示元素,并将元素值为0透明度(不可见)
+            elem.style.display = 'block';
+            iBase.SetOpacity(elem, 0);
+            //初始化透明度变化值为0
+            var val = 0;
+            //循环将透明值以5递增,即淡入效果
+            (function(){
+            iBase.SetOpacity(elem, val);
+                val += 5;
+                if (val <= opacity) {
+                    setTimeout(arguments.callee, speed)
+                }
+            })();
+        }
+
+      //淡出效果(含淡出到指定透明度)
+        function fadeOut(elem, speed, opacity){
+            /*
+             * 参数说明
+             * elem==>需要淡入的元素
+             * speed==>淡入速度,正整数(可选)
+             * opacity==>淡入到指定的透明度,0~100(可选)
+             */
+            speed = speed || 20;
+            opacity = opacity || 0;
+            //初始化透明度变化值为0
+            var val = 100;
+            //循环将透明值以5递减,即淡出效果
+            (function(){
+                iBase.SetOpacity(elem, val);
+                val -= 5;
+                if (val >= opacity) {
+                    setTimeout(arguments.callee, speed);
+                }else if (val < 0) {
+                //元素透明度为0后隐藏元素
+                    elem.style.display = 'none';
+                }
+            })();
+        }
+
+        var x = document.getElementsByName("inputvalue");
+        var a = document.getElementsByName("oneem");
+        var b = document.getElementsByName("twoem");
+        var ins = document.getElementsByName("ins");
+        var m = document.getElementsByName('minus');
+        var p = document.getElementsByName('plus');
+        var sur = document.getElementsByName('surplus');
+        var cutword = document.getElementById('alertcutword');
+        //输入框失去焦点
+        function inputgo(){
+            for(var i = 0; i < x.length; i++){
+                var s = Number(ins[i].innerHTML);
+                x[i].value=a[i].innerHTML;
+                if (1 < x[i].value&&x[i].value < s) {
+                    m[i].style.background='#fff';
+                    p[i].style.background='#fff';
+                }
+            }
+        }
+
+        //减号效果
+        function onminus(obj){
+            for(var i = 0; i < m.length; i++){
+                if (m[i]==obj) {
+                    x[i].value--;
+                }
+                if (x[i].value < 2) {
+                    x[i].value=1;
+                    m[i].style.background='#f7f7f7';
+            }if (x[i].value > 1) {
+                p[i].style.background='#fff';
+            }
+            a[i].innerHTML=x[i].value;
+            b[i].innerHTML='￥'+x[i].value+'.00';
+            }
+        }
+
+        //加号效果
+        function onplus(obj){
+            for(var i = 0; i < p.length; i++){
+                var s = Number(ins[i].innerHTML);
+                if (p[i]==obj) {
+                    x[i].value++;
+                }
+                if (x[i].value > s-1) {
+                    x[i].value=s;
+                    p[i].style.background='#f7f7f7';
+            }
+            if (x[i].value < s) {
+                m[i].style.background='#fff';
+            }
+            a[i].innerHTML=x[i].value;
+            b[i].innerHTML='￥'+x[i].value+'.00';
+            }
+        }
+
+        //包尾效果
+        function surplus(obj){
+            for (var i = 0; i < sur.length; i++) {
+                if (sur[i]==obj) {
+                    x[i].value=ins[i].innerHTML;
+                    p[i].style.background='#f7f7f7';
+                    a[i].innerHTML=x[i].value;
+                    b[i].innerHTML='￥'+x[i].value+'.00';
+                }
+            }
+        }
+
+        //输入框效果
+        function inputvalue(){
+            for(var i = 0; i < x.length; i++){
+                var s = Number(ins[i].innerHTML);
+                x[i].value=x[i].value.replace(/\D/gi,"");
+                if (x[i].value > s) {
+                    p[i].style.background='#f7f7f7';
+                    x[i].value=s;
+                    a[i].innerHTML=s;
+                    b[i].innerHTML='￥'+s+'.00';
+                    cutword.innerHTML='最多'+s+'人次';
+                    fadeIn(iBase.Id('alertcut'));
+                    setTimeout(function(){
+                    fadeOut(iBase.Id('alertcut'));
+                    },2000);
+                    return;
+                }
+                a[i].innerHTML=x[i].value;
+                b[i].innerHTML='￥'+x[i].value+'.00';
+                if (1 < x[i].value&&x[i].value < s) {
+                    m[i].style.background='#fff';
+                    p[i].style.background='#fff';
+                }
+                if (x[i].value < 2) {
+                    m[i].style.background='#f7f7f7';
+                }
+                if (x[i].value > s-1) {
+                    p[i].style.background='#f7f7f7';
+                }
+                if (x[i].value=='') {
+                    a[i].innerHTML=5;
+                    b[i].innerHTML='￥'+5+'.00';
+                    m[i].style.background='#fff';
+                    p[i].style.background='#fff';
+                }
+            }
+        }
+    </script>
+</html>

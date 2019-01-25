@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>签到</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/sign.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/dep/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/dep/jQueryRotate.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+
+
+    </head>
+<body>
+    <section>
+    <div id='lw-heard'></div>
+        <div class="lw-sign-word">
+            <span class="lw-sign-span">
+                <b>签到说明</b>
+            </span>
+            <br>
+            <span>1.每天签到时间为00:00到23:59</span>
+            <span>
+                2.<span style="color:red;">已手机绑定用户</span>
+                每天签到一次可获得一次抽奖的机会,如果当天未使用抽奖机会第二天将会自动清零
+            </span>
+            <span>3.中奖后,积分奖品会立即充值到用户账户(可在积分获得明细里查看,100积分=1元)</span>
+        </div>
+        <div class="lw-sign-frequency" id="lw-userdate">
+        </div>
+        <div class="lw-sign-img">
+            <img id="signimg" src="../image/icon/start.png">
+        </div>
+    </section>
+</body>
+<script type="text/javascript">
+    apiready = function() {
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '签到'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            api.refreshHeaderLoadDone();
+        });
+    }
+
+    var uid = getUrlParam('uid');
+    loadajax(uid);
+    function loadajax(uid){
+        $.ajax({
+            type: 'POST',
+            url: AJAX_URI+'/users/loadinfo',
+            data: { uid: uid },
+            dataType: 'json',
+            success: function(result) {
+                var html='';
+                var userhtml='';
+                html+='<div class="lw-sign-wrap">';
+                html+='<div class="lw-sign-date">';
+                html+='<dd>您已连续签到：<b>' + result[0].sign_in_time + '</b>天</dd>';
+                html+='<dd>总共签到：<b>' + result[0].sign_in_time_all + '</b>天</dd>';
+                html+='<dd>最后签到日期：<b>' + result[0].sign_in_date + '</b></dd>';
+                html+='</div></div>';
+                html+='<div class="lw-sign-promptiy"><div class="lw-sign-red">';
+                html+='<input id="sign" onclick="sign(' + result[0].uid + ')" type="button" name="" value="马上签到">';
+                html+='</div></div>';
+                html+='<input type="hidden" id="huodong" value="' + result[0].huodong + '"> ';
+                html+='<input type="hidden" id="mobile" value="' + result[0].mobilecode + '"> ';
+                $("#lw-heard").append(html);
+                userhtml+='<span>亲爱的:' + result[0].username + '&nbsp;&nbsp;</span>';
+                userhtml+='<span>您的抽奖次数：<span id="numberplus" style="color:red">' + result[0].huodong + '</span>次</span>';
+                $("#lw-userdate").append(userhtml);
+                //alert( JSON.stringify( result ) )
+            }
+        });
+    }
+
+    function sign(uid){
+        $.ajax({
+            type: 'POST',
+            url: AJAX_URI+'/users/ajax_qiandao',
+            data: { uid: uid },
+            dataType: 'json',
+            success: function(result) {
+                if(result=='0'){
+                    alert('今日已签到');
+                }
+                if(result=='1'){
+                    alert('连续签到成功');
+                }
+                if(result=='2'){
+                    alert('签到成功');
+                }
+                location.reload();
+                //alert( JSON.stringify( result ) )
+            }
+        });
+    }
+
+</script>
+<script type="text/javascript">
+    $(function(){
+        $("#signimg").rotate({
+            bind:{
+                click:function(){
+                    var huodong =document.getElementById("huodong");
+                    var mobile =document.getElementById("mobile");
+                    //alert(huodong.value)
+                    //alert(mobile.value)
+                    if(huodong.value== '0' ){
+                        alert("您今天还未签到或已参与本活动");
+                        return false;
+                    }else if(mobile.value!= '1'){
+                        alert("您还未绑定手机，请先绑定手机");
+                        return false;
+                    }
+                    var a = runzp(uid);
+                    $(this).rotate({
+                            duration:4000,               //转动时间
+                            angle: 0,                    //起始角度
+                            animateTo:1440+a.angle,      //结束的角度
+                            easing: $.easing.easeOutSine,//动画效果，需加载jquery.easing.min.js
+                            callback: function(){
+                                if(a.v==1){
+                                    alert(a.message+a.prize);//弹出获奖信息
+                                    location.reload();
+                                }else{
+                                    alert("您今天已参与过了，请明天再来");
+                                }
+                            }
+                    });
+                    $(this).unbind("click");
+                }
+            }
+        });
+    });
+
+    function randomnum(smin, smax) {// 获取2个值之间的随机数
+        var Range = smax - smin;
+        var Rand = Math.random();
+        return (smin + Math.round(Rand * Range));
+    }
+
+    //点击转盘旋转图片 ajax 加载数据
+    function runzp(uid) {
+        var index;
+        var prize;
+        var boo;
+        $.ajax({
+            url: AJAX_URI+'/users/rotate',
+            type: 'POST',
+            data: { uid: uid },
+            async: false,
+            dataType: 'json',
+            success: function(result){
+                index=result.yes;
+                prize=result.prize;
+                boo=result.josn;
+            }
+        });
+
+        var angle = 330;
+        var message = "";
+        var id="";
+        var myreturn = new Object;
+
+        message = "恭喜中奖了获得:";
+        var angle0 = [ 347, 393 ];//一等奖圆盘坐标
+        var angle1 = [ 233, 280 ];//二等奖圆盘坐标
+        var angle2 = [ 103, 160 ];//三等奖圆盘坐标
+        var angle3 = [ 49, 93 ]; //四等奖圆盘坐标
+        var angle4 = [ 169, 220 ];//五等奖圆盘坐标
+        var angle5 = [ 293, 340 ];//六等奖圆盘坐标
+        switch (index) {
+            case 0:// 一等奖
+                var r0 = randomnum(angle0[0], angle0[1]);
+                angle = r0;
+                break;
+            case 1:// 二等奖
+                var r1 = randomnum(angle1[0], angle1[1]);
+                angle = r1;
+                break;
+            case 2:// 三等奖
+                var r2 = randomnum(angle2[0], angle2[1]);
+                angle = r2;
+                break;
+            case 3 ://四等奖
+                var r3 = randomnum(angle3[0], angle3[1]);
+                angle = r3;
+                break;
+            case 4 ://五等奖
+                var r4 = randomnum(angle4[0], angle4[1]);
+                angle = r4;
+                break;
+            case 5 ://六等奖
+                var r5 = randomnum(angle5[0], angle5[1]);
+                angle = r5;
+                break;
+        }
+        myreturn.v=boo;
+        myreturn.prize = prize+"积分";
+        myreturn.angle = angle;
+        myreturn.message = message;
+        return myreturn;
+    }
+</script>
+</html>

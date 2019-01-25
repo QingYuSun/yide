@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>往期揭晓</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/beforepublish.css" />
+    <script type="text/javascript" src="../../js/dep/api.js"></script>
+    <script type="text/javascript" src="../../js/beforepublish.js"></script>
+</head>
+<body>
+    <section>
+        <div class="lw-befoer-publish">
+            <span class="lw-before-head">直达第</span>
+            <span id="lw-orange" class="lw-before-several"><a onclick="go()" href="">期
+                <s></s></a>
+            </span>
+            <div class="lw-before-figure">
+                <input onfocus="nonstop()" onblur="cancel()" id="lw-nonstop-word" type="text" name="" placeholder="请输入数字">
+            </div>
+        </div>
+        <div class="lw-befor-winner">
+            <ul id="lw-date">
+            </ul>
+        </div>
+    </section>
+</body>
+</html>
+<script type="text/javascript">
+    apiready = function(){
+        var shopid = api.pageParam.shopid;//获取上个页面传递过来的商品ID
+        var pageSize=10; // 页容量
+            var totalData=0;  //定义一个变量存储第一次加载返回来的总记录数
+            var totalPages=0;  // 定义一个变量存储第一次加载返回来的总页数
+            localStorage.setItem("currentPage", 1); // 默认设置为第一页
+            // 默认第一次打开页面就加载数据
+            ajax(1,true); // 第一次加载
+        //下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            ajax(1,true); // 第一次加载
+            api.refreshHeaderLoadDone();
+        });
+        // 分页加载
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+            }, function(ret, err){
+                    //$api.setStorage类似于设置COOKIE  $api.setStorage('key',value) $api.getStorage 类似于获取COOKIE
+                    var _page=parseInt(localStorage.getItem("currentPage"));
+                    if(_page+1<=totalPages){
+                        ajax(_page+1,false);
+                        localStorage.setItem("currentPage", _page+1); // 页码+1
+                    }
+                    else{
+                    }
+            });
+
+        function ajax(currentPage,isReload){
+        api.ajax({
+                url: 'http://jl.haodbao.com/index.php/join/wangqi',
+                method: 'get',
+                returnAll:false,
+                dateType:'json',
+                //reload:false
+                data: {
+                    values: {
+                        shopid: shopid,
+                        pagesize: pageSize,
+                        page: currentPage
+                    },
+                }
+            },function(ret, err){
+                if (ret) {
+                        totalData=ret.totalCount;
+                        totalPages=ret.totalPages;
+                    if(isReload){
+                            localStorage.setItem("currentPage", 1);        // 重新设置为1
+                    }
+                    var html="";
+                    for(var i in ret ){
+                        if(i!='totalCount' && i!='totalPages'){
+                            if(ret[i].codeState==1){
+                                html+='<li class="lw-before-croci" onclick="beforeimg('+ret[i].id+')">';
+                                html+='<p>第'+ret[i].qishu+'期</p>';
+                                html+='<div class="lw-before-ing">';
+                                html+='<div class="lw-befor-img">';
+                                html+='<img src="http://m.51edb.com/love/uploads/'+ret[i].thumb+'">';
+                                html+='</div>';
+                                html+='<h4>进行中<s class="lw-dotting"></s></h4>';
+                                html+='</div></li>';
+                            }else if(ret[i].codeState==2){
+                                html+='<li onclick="beforetitle('+ret[i].id+')">';
+                                html+='<p>第'+ret[i].qishu+'期</p>';
+                                html+='<div class="lw-pao-title">';
+                                html+='<h4>正在揭晓</h4>';
+                                html+='<div class="lw-pao">';
+                                html+='<ul id="paoma1" class="lw-paoma">';
+                                html+='<li></li>';
+                                html+='</ul>';
+                                html+='<ul id="paoma2"></ul></div>';
+                                html+='<h5>敬请期待</h5>';
+                                html+='</div></li>';
+                            }else if(ret[i].codeState==3){
+                                html+='<li onclick="beforeword('+ret[i].id+','+ret[i].qishu+')">';
+                                html+='<p>第'+ret[i].qishu+'期</p>';
+                                html+='<dl>';
+                                html+='<div class="lw-before-photo">';
+                                html+='<dt>';
+                                html+='<img src="http://m.51edb.com/love/uploads/'+ret[i].img+'">';
+                                html+='</dt></div></dl>';
+                                html+='<div class="lw-before-word">';
+                                html+='<dd class="lw-word-name">'+ret[i].username+'</dd>';
+                                html+='<dd class="lw-word">'+ret[i].ip+'</dd>';
+                                html+='<dd class="lw-word">手机号码 ：'+(ret[i].mobile ? ret[i].mobile : " ") +'</dd>';
+                                html+='<dd class="lw-word">幸运号码 : <em>'+ret[i].q_user_code+'</em></dd>';
+                                html+='<dd class="lw-word">参与人次：'+ret[i].gonumber+'</dd>';
+                                html+='<dd class="lw-word-color">揭晓时间：'+ret[i].q_end_time+'</dd>';
+                                html+='</div></li>';
+                            }
+                        }
+                    }
+                    $api.append($api.byId('lw-date'),html);
+                } else {
+                    alert( JSON.stringify( err ) );
+                }
+            });
+        }
+    }
+    function go(){
+        var qishu=$api.val($api.byId('lw-nonstop-word'));
+        var shopid = api.pageParam.shopid;//获取上个页面传递过来的商品ID
+        api.openWin({
+            name: 'result',
+            url: '../../html/win/result.html',
+            pageParam: {
+                    qishu: qishu,
+                    shopid: shopid,
+                },
+        });
+    }
+    //进行中的商品
+    function beforeimg(id){
+        api.openWin({
+            name: 'deatails',
+            url: '../../html/goods/deatails.html',
+            pageParam: {
+                    shopid: id
+                },
+        });
+    }
+    //正在揭晓的商品
+    function beforetitle(id){
+        api.openWin({
+            name: 'deatails',
+            url: '../../html/goods/deatails.html',
+            pageParam: {
+                    shopid: id
+                },
+        });
+    }
+    //已经揭晓的商品
+    function beforeword(id,qishu){
+        api.openWin({
+            name: 'result',
+            url: '../../html/win/result.html',
+            pageParam: {
+                shopid: id,
+                qishu: qishu,
+
+                },
+        });
+    }
+</script>

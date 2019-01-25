@@ -1,0 +1,160 @@
+@charset "utf-8";
+
+@import "variable";
+body{
+    background-color: #f4f4f4;
+}
+//"您当前余额"的样式
+.lw-money-balance{
+	color:#999;
+	background: #f4f4f4 none repeat scroll 0 0;
+    border-bottom: 1px solid #dcdcdc;
+    font-size: 1.4rem;
+    line-height: 30px;
+    padding: 5px 10px 0;
+    span{
+    	color:$background;
+    	font-size:1.3rem;
+    }
+}
+//中间部分的外层样式
+.lw-plus-money{
+	background: #f4f4f4 none repeat scroll 0 0;
+    padding: 10px 5px;
+}
+//中间部分充值多少的样式
+.lw-plus-how{
+	ul{
+		li{
+			float: left;
+            margin-bottom: 10px;
+            width: 33%;
+            //"20元和200元"的样式
+            &.lw-center{
+            	width:34%;
+            	text-align:center;
+            }
+            //左对齐的样式
+            &.lw-right{
+            	text-align:right;
+            }
+            a{
+                background: #fff none repeat scroll 0 0;
+                border: 1px solid #eaeaea;
+                border-radius: 5px;
+                box-shadow: 1px 1px 1px #ededed;
+                color: #959595;
+                display: inline-block;
+                line-height: 30px;
+                position: relative;
+                text-align: center;
+                width: 90%;
+                //点击出现边框的样式
+                &.moneyred{
+                	border: 1px solid $background;
+                    color: #666;
+                }
+            }
+            b{
+            	background: #fff none repeat scroll 0 0;
+                border: 1px solid #eaeaea;
+                border-radius: 5px;
+                box-shadow: 1px 1px 1px $bordercolor;
+                color: #959595;
+                display: inline-block;
+                line-height: 30px;
+                position: relative;
+                text-align: center;
+                width: 90%;
+                &.moneyred{
+                    border: 1px solid $background;
+                    color: #666;
+                }
+                input{
+                	color:#666;
+                	border: medium none;
+                    text-align: center;
+                    width: 90%;
+                    outline:none;
+                }
+            }
+		}
+	}
+}
+//选着支付方式的样式
+.lw-money-choice{
+	margin-top:10px;
+	border: 1px solid #DCDCDC;
+    border-radius: 5px;
+    background: #fff;
+    overflow:hidden;
+	ul{
+		li{
+			color: #666;
+			border-top: 1px dotted #cbcbcb;
+            line-height: 36px;
+            margin-top: -1px;
+            max-height: 35px;
+            overflow: hidden;
+            padding: 0 10px;
+            //颜色样式
+            &.lw-gray9{
+            	color:#999;
+            }
+            //支付方式左边圆圈的样式
+            &.lw-shade{
+            	i{
+            		width: 16px;
+                    height: 16px;
+                    box-shadow: 0 1px 1px #ccc inset;
+                    border: 1px solid #bbb;
+                    background: #fff;
+                    border-radius: 16px;
+                    display: inline-block;
+                    margin-right: 5px;
+                    vertical-align: middle;
+                }
+            } 
+            //点击出现圆圈里面圆点的样式  
+            &.lw-dot{
+            	i{
+            		s{
+            			width: 12px;
+                        height: 12px;
+                        border-radius: 12px;
+                        display: inline-block;
+                        background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#ff8a00),color-stop(1,#e60044));
+                        position: relative;
+                        top: -4px;
+                        left:2px;
+                        background-color:$background;
+                        vertical-align: super;
+            		}
+            	}
+            	
+            }
+            em{
+            	color:$background;
+            }
+
+		}
+	}
+}
+//确认充值的样式
+.lw-money-affirm{
+	margin-top:10px;
+	a{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 43px;
+    line-height: 43px;
+    text-align: center;
+    color: #fff!important;
+    border-radius: 5px;
+    font-size: 1.8rem;
+    background:$background;
+	}
+	
+}

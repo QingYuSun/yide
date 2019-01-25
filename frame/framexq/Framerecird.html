@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>参与纪录Frame</title>
+    <script type="text/javascript" src="../../js/api.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/record.css" />
+</head>
+<body>
+<section>
+    <div class="lw-record">
+        <ul id="lw-date">
+        </ul>
+    </div>
+    </section>
+</body>
+</html>
+<script type="text/javascript">
+    function getpagedate(){
+        var shopid = api.pageParam.shopid;//获取页面传递过来的商品ID
+        return shopid;
+    }
+    apiready = function(){
+        //数据加载
+        var shopid=getpagedate();
+        var pageSize=10; // 页容量
+        var totalData=0;  //定义一个变量存储第一次加载返回来的总记录数
+        var totalPages=0;  // 定义一个变量存储第一次加载返回来的总页数
+        localStorage.setItem("currentPage", 1); // 默认设置为第一页
+        // 默认第一次打开页面就加载数据
+        ajax(1,true); // 第一次加载
+        //下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            ajax(1,true); // 第一次加载
+            api.refreshHeaderLoadDone();
+        });
+
+        // 分页加载
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+            }, function(ret, err){
+                //$api.setStorage类似于设置COOKIE  $api.setStorage('key',value) $api.getStorage 类似于获取COOKIE
+                var _page=parseInt(localStorage.getItem("currentPage"));
+                if(_page+1<=totalPages){
+                    ajax(_page+1,false);
+                    localStorage.setItem("currentPage", _page+1); // 页码+1
+                    alert(pageSize);
+                }
+                else{
+                }
+            });
+
+        function ajax(currentPage){
+            api.ajax({
+                url: 'http://jl.haodbao.com/index.php/Join/get_goumaijilu',
+                method: 'get',
+                returnAll:false,
+                dateType:'json',
+                data: {
+                    values: {
+                        shopid: shopid,
+                        pagesize: pageSize,
+                        page: currentPage
+                    },
+                }
+            },function(ret, err){
+                if (ret) {
+                    var html="";
+                    for(var i in ret){
+                        html+='<li>';
+                        html+='<i class="fr"></i>';
+                        html+='<p class="lw-record-img">';
+                        html+='<a href="javascript:;" onclick="userindex('+ret[i].uid+')"><img src="http://m.51edb.com/love/uploads/'+ret[i].img+'"></a>';
+                        html+='</p>';
+                        html+='<dl><dt><span><a onclick="userindex('+ret[i].uid+')" href="javascript:;">'+ret[i].username+'</a></span><em>参与了<b>'+ret[i].gonumber+'</b>人次</em></dt>';
+                         /*var time=format(parseInt(ret[i].time)*1000);*/
+                        //alert(time);
+                        html+='<dd>'+ret[i].ip+'</dd><dd>'+ret[i].time+'</dd></dl>';
+                        html+='</li>';
+                    }
+                    $api.append($api.byId('lw-date'),html);
+                } else {
+                    alert( JSON.stringify( err ) );
+                }
+            });
+        }
+    }
+    /*function add0(m){return m<10?'0'+m:m }
+    function format(shijianchuo)
+    {
+        //shijianchuo是整数，否则要parseInt转换
+        var time = new Date(shijianchuo);
+        var y = time.getFullYear();
+        var m = time.getMonth()+1;
+        var d = time.getDate();
+        var h = time.getHours();
+        var mm = time.getMinutes();
+        var s = time.getSeconds();
+        return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+    }*/
+    //参与纪录点击参与者头像跳转
+    function userindex(uid){
+        api.sendEvent({
+            name: 'recird1',
+            extra: {
+                uid: uid
+            }
+        });
+    }
+</script>

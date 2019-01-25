@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>充值</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/center.css" />
+    <link rel="stylesheet" type="text/css" href="../css/money.css" />
+    <script type="text/javascript" src="../js/dep/api.js"></script>
+    </head>
+<body>
+    <div class="lw-money-wrap">
+        <div class="lw-money-balance">
+            您的当前余额：<span>0.00</span>元
+        </div>
+        <section class="lw-plus-money">
+            <div class="lw-plus-how">
+                <ul>
+                    <li name="howmoney" onclick="moneyclick(this)">
+                        <a name="howmoneya" class="moneyred" href="javascript:;">10元</a>
+                    </li>
+                    <li name="howmoney" onclick="moneyclick(this)" class="lw-center">
+                        <a name="howmoneya" href="javascript:;">20元</a>
+                    </li>
+                    <li name="howmoney"  onclick="moneyclick(this)" class="lw-right">
+                        <a name="howmoneya" href="javascript:;">30元</a>
+                    </li>
+                    <li name="howmoney" onclick="moneyclick(this)">
+                        <a name="howmoneya" href="javascript:;">100元</a>
+                    </li>
+                    <li name="howmoney" onclick="moneyclick(this)" class="lw-center">
+                        <a name="howmoneya" href="javascript:;">200元</a>
+                    </li>
+                    <li name="howmoney" onclick="moneyclick(this)" class="lw-right" onclick="moneyvalue()">
+                        <b name="howmoneya"><input id="moneywrite" oninput="importmoney()" type="number" placeholder="输入金额" value=""></b>
+                    </li>
+                </ul>
+            </div>
+            <article class="lw-money-choice">
+                <ul>
+                    <li>
+                        选择充值方式<em id="affirmmoney">10.00</em>元
+                    </li>
+                    <li name="choicedot" onclick="paydot(this)" class="lw-gray9 lw-shade lw-dot">
+                        <i name="dots">
+                            <s></s>
+                        </i>
+                        微信支付
+                    </li>
+                    <li name="choicedot" onclick="paydot(this)" class="lw-gray9 lw-shade lw-dot">
+                        <i name="dots">
+                        </i>
+                        快捷支付
+                    </li>
+                    <li name="choicedot" onclick="paydot(this)" class="lw-gray9 lw-shade lw-dot">
+                        <i name="dots">
+                        </i>
+                        银联支付
+                    </li>
+                </ul>
+            </article>
+            <div class="lw-money-affirm">
+                <a href="#">确认充值</a>
+            </div>
+        </section>
+    </div>
+</body>
+<script type="text/javascript">
+    apiready = function(){
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '充值'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            api.refreshHeaderLoadDone();
+        });
+    }
+    var howmoney = document.getElementsByName('howmoney');
+    var howmoneya = document.getElementsByName('howmoneya');
+    var affirmmoney = document.getElementById('affirmmoney');
+    var moneywrite = document.getElementById('moneywrite');
+
+    //选着金额点击效果
+    function moneyclick(obj){
+        for (var i = 0; i < howmoney.length; i++) {
+            if (howmoneya[i].className="moneyred") {
+                howmoneya[i].className="";
+            }
+            if (howmoney[i]==obj) {
+                var test = howmoneya[i].innerHTML;
+                var number = parseInt(test);
+                affirmmoney.innerHTML=number;
+                howmoneya[i].className='moneyred';
+            }
+            if (isNaN(number)) {
+                affirmmoney.innerHTML='0.00';
+            }
+        }
+    }
+
+    //输入金额效果
+    function importmoney(){
+        affirmmoney.innerHTML=moneywrite.value+'0.00';
+    }
+
+    var choicedot = document.getElementsByName('choicedot');
+    var dots = document.getElementsByName('dots');
+    //选着支付方式的点击效果
+    function paydot(obj){
+        for (var i = 0; i < choicedot.length; i++) {
+            if (choicedot[i]==obj) {
+                dots[i].innerHTML='<s></s>';
+            }else{
+                dots[i].innerHTML='';
+            }
+        }
+    }
+</script>
+</html>

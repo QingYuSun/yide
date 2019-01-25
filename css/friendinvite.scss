@@ -1,0 +1,45 @@
+@charset "utf-8";
+
+@import "variable";
+//中间部分样式
+.lw-friend-invite{
+	dl{
+		dt{
+			background:#f7f7f7;
+			border-bottom:1px solid $bordercolor;
+			color:#666;
+			span{
+				padding:10px 0;
+				vertical-align: middle;
+			}
+		}
+		dd{
+			color:#999;
+			border-bottom:1px solid $bordercolor;
+			span{
+				padding:10px 0;
+				vertical-align: middle;
+			}
+		}
+	}
+}
+//第一个span的样式
+.lw-friend-one{
+	width:33%;
+	text-align:center;
+}
+//第二个span的样式
+.lw-friend-two{
+	width:24%;
+	text-align:center;
+}
+//第三个span的样式
+.lw-friend-three{
+	width:23%;
+	text-align:center;
+}
+//第四个span的样式
+.lw-friend-four{
+	width:16%;
+	text-align:center;
+}

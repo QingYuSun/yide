@@ -1,0 +1,101 @@
+html, body {
+  height: 100%;
+  background-color: #fff;
+  min-width: 320px;
+  font-size: 62.5%;
+  font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif; }
+
+h1, h2, h3, h4, h5, b {
+  font-weight: normal; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+div, ul, li, dl, dt, dd, table, td, input, span {
+  font-size: 1.2rem; }
+
+.fr {
+  float: right; }
+
+.lw-record ul li {
+  border-bottom: 1px solid #dedede;
+  padding: 10px;
+  overflow: hidden;
+  background: #fff; }
+  .lw-record ul li i {
+    background: url(../image/icon/set.png);
+    background-size: 35px auto;
+    width: 7px;
+    height: 13px;
+    background-position: 0 -182px;
+    display: block;
+    position: relative;
+    top: 19px; }
+  .lw-record ul li dl {
+    margin-left: 61px;
+    line-height: 20px; }
+    .lw-record ul li dl dt {
+      height: 20px;
+      padding-top: 5px;
+      font-size: 1.4rem;
+      overflow: hidden; }
+      .lw-record ul li dl dt span {
+        display: block;
+        height: 20px;
+        float: left;
+        font-size: 1.5rem;
+        overflow: hidden;
+        word-break: break-all; }
+        .lw-record ul li dl dt span a {
+          white-space: nowrap;
+          color: #2af; }
+      .lw-record ul li dl dt em {
+        display: block;
+        padding-left: 5px;
+        color: #666;
+        float: left; }
+        .lw-record ul li dl dt em b {
+          margin: 0 3px;
+          color: #e60044; }
+    .lw-record ul li dl dd {
+      font-size: 1rem;
+      color: #999; }
+
+.lw-record-img {
+  width: 50px;
+  height: 50px;
+  float: left;
+  display: inline;
+  position: relative; }
+  .lw-record-img a img {
+    width: 50px;
+    height: 50px;
+    border-radius: 51px; }
+
+.lw-pic-info img {
+  max-width: 100%;
+  vertical-align: bottom; }
+
+.lw-load {
+  text-align: center;
+  padding: 10px;
+  background: #f7f7f7; }
+
+.lw-nodata {
+  padding: 50px 0;
+  background: #f7f7f7;
+  text-align: center;
+  font-size: 2rem;
+  color: #bbb; }
+  .lw-nodata s {
+    background: url(../image/icon/setIcon.png);
+    background-size: 80px auto;
+    display: block;
+    background-position: 0 -102px;
+    background-repeat: no-repeat;
+    width: 57px;
+    height: 57px;
+    margin: 0 auto; }
+
+/*# sourceMappingURL=record.css.map */

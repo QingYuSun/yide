@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>用户中心frame</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/center.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    </head>
+<body>
+	<section>
+        <div class="lw-center-info" id="lw-center-info">
+            <!-- <dl>
+                <dt class="lw-info-img">
+                    <img onclick="infoimg()" src="../image/icon/member.jpg">
+                    <p class="lw-info-p">
+                        <span>哈哈</span><em>(12345678910)</em>
+                        <br>
+                        <cite>
+                            初入江湖&nbsp;&nbsp;&nbsp;经验值：<em>75</em>
+                        </cite>
+                    </p>
+                </dt>
+                <dd class="lw-money">
+                    <b>
+                        <a href="#">
+                            <em>67</em>
+                            可用积分
+                        </a>
+                    </b>
+                    <b class="lw-two-b">
+                        <a href="#">
+                            <em>
+                            <i>￥</i>0.00
+                            </em>
+                            可用余额
+                        </a>
+                    </b>
+                    <a onclick="centeradd()" class="lw-center-add" href="javascript:;">充 值</a>
+                </dd>
+            </dl> -->
+        </div>
+    <!--导航菜单-->
+    <div class="lw-nav-menu" id="lw-show" style="display: none">
+        <a name="navmenu" onclick="lockurl('./Framesign.html?uid=')" href="javascript:;">
+            <s></s>
+            签到
+            <i></i>
+        </a>
+        <a name="navmenu" onclick="lockurl('./Frameuserbuy.html?uid=')" href="javascript:;">
+            <s></s>
+            参与记录
+            <i></i>
+        </a>
+        <a name="navmenu" onclick="lockurl('./Framewin.html?uid=')" href="javascript:;">
+            <s class="lw-nav-four"></s>
+            中奖记录
+            <i></i>
+        </a>
+        <a name="navmenu" onclick="lockurl('./Frameusertalk.html?uid=')" href="javascript:;">
+            <s class="lw-nav-five"></s>
+            我的晒单
+            <i></i>
+        </a>
+        <a name="navmenu" onclick="lockurl('./Frameconsume.html?uid=')" href="javascript:;">
+            <s class="lw-nav-six"></s>
+            账户明细
+            <i></i>
+        </a>
+        <a name="navmenu" onclick="lockurl('./Frameintegral.html?uid=')" href="javascript:;">
+            <s class="lw-nav-seven"></s>
+            积分明细
+            <i></i>
+        </a>
+        <a name="navmenu" onclick="lockurl('./Framesit.html?uid=')" href="javascript:;">
+            <s></s>
+            收货地址
+            <i></i>
+        </a>
+        <a name="navmenu" href="../html/help/helpm.html?type=1">
+            <s class="lw-nav-nine"></s>
+            帮助中心
+            <i></i>
+        </a>
+        <a class="lw-nav-last" onclick="out_login('./Frameuser.html')"href="#">
+            <s></s>
+            退出登录
+            <i></i>
+        </a>
+        <p class="lw-service">客服QQ:2067456131</p>
+    </div>
+    </section>
+</body>
+<script type="text/javascript">
+    var data=get_uid();
+    //alert(data)
+    //判断登陆
+    var uid='0';
+    $.ajax({
+        type: 'post',
+        url: AJAX_URI+'/users/usercookie',
+        data: {data: data },
+        dateType: 'json',
+        success: function(result) {
+            var json = JSON.parse(result);
+            if(json!='0'){
+                uid=json;
+                user_load(uid)
+                $('#lw-show').css('display','block');
+            }else{
+               window.location.href = './Frameuser.html';
+            }
+            //alert( JSON.stringify( result ) );
+        }
+    });
+    function lockurl(url){
+        window.location.href=url+uid;
+    }
+    function img(uid){
+         window.location.href="./Framenickname.html?uid="+uid;
+    }
+
+    function user_load(uid){
+        $.ajax({
+            type: 'post',
+            url: AJAX_URI+'/users/userinfo',
+            data: { uid: uid },
+            dataType: 'json',
+            success: function(result) {
+                 if(result!='0'){
+                    var html='';
+                    html+='<dl><dt class="lw-info-img"><img onclick="img('+result[0].uid+')" src="http://m.51edb.com/love/uploads/'+result[0].img+'">';
+                    html+='<p class="lw-info-p"> <span>'+result[0].username+'</span><em id="judgemobile" style="display:none;">('+result[0].mobile+')</em><em id="judgeword" onclick="onjudge(\'../html/user/binding.html\')" style="display:none;color:#e60044;">绑定手机免费夺大奖</em>';
+                    html+='<br>';
+                    html+='<cite>'+result[0].lv+'&nbsp;&nbsp;&nbsp;经验值：<em>'+result[0].jingyan+'</em></cite></p>';
+                    html+='</dt><dd class="lw-money"><b>';
+                    html+='<a href="#"><em>'+result[0].score+'</em>可用积分</a></b>';
+                    html+='<b class="lw-two-b"><a href="#"><em><i>￥</i>'+result[0].money+'</em>可用余额</a></b>';
+                    html+='<a class="lw-center-add" href="javascript:gotourl(\'./Framemoney.html\');">充 值</a></dd><dl>';
+                    $("#lw-center-info").append(html);
+                    if (result[0].mobile!='') {
+                        $('#judgemobile').show();
+                    }else{
+                        $('#judgeword').show()
+                    }
+                 }else{
+                    localStorage.removeItem("uid");//清除uid的值
+                    localStorage.removeItem("session_id");
+                    localStorage.removeItem("mi");
+                    window.location.href='./Frameuser.html';
+                 }
+            }
+        });
+    }
+
+    apiready = function(){
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '用户中心'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: '5'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        //下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+    }
+
+    function onjudge(url){
+        window.location.href=url+uid
+    }
+
+    //充值的点击跳转
+    function gotourl(url) {
+        window.location.href=url
+    }
+
+    //退出跳转
+    function out_login(url){
+        localStorage.removeItem("uid");//清除uid的值
+        localStorage.removeItem("session_id");
+        localStorage.removeItem("mi");
+        window.location.href=url;
+    }
+</script>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <title>晒单分享</title>
+    <link rel="stylesheet" type="text/css" href="../css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/deatails.css" />
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <header class="lw-new" id="header" style="position: relative;">
+            <span class="lw-page-title">
+
+            </span>
+            <div class="lw-return">
+                <a href="javascript:;" onclick="javascript:closeWin();">
+                    <s></s>
+                </a>
+            </div>
+        </header>
+        <div id="lw-main" class="flex-con">
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+    var sid;
+    apiready = function() {
+        sid = api.pageParam.sid;
+        $(".lw-page-title").text('晒单分享');
+        showView('../frame/framexq/Frameannouncedetails.html', sid); // 默认加载的页面
+
+        // 监听android后退
+        api.addEventListener({
+            name: "keyback"
+        }, function(ret, err) {
+            closeWin();
+        });
+
+    } // apiready END
+
+    // 加载Frame
+    function showView(url, sid) {
+        var headerPos = $("#header").offset();
+        var mainPos = $("#lw-main").offset();
+        api.openFrame({
+            name: 'edbshareFrame',
+            url: url,
+            pageParam: {
+                sid: sid
+            },
+            bounces: true,
+            rect: {
+                x: 0,
+                y: headerPos.height,
+                w: 'auto',
+                h: 'auto'
+            }
+        });
+    }
+
+function buy(argument) {
+    // body...
+}
+
+//返回
+function closeWin() {
+    api.closeWin();
+}
+</script>

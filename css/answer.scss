@@ -1,0 +1,59 @@
+@charset "utf-8";
+html,body{
+        height: 100%;
+        background-color:#fff;
+        min-width: 320px;
+        font-size: 62.5%;
+        font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
+    }
+
+h1, h2, h3, h4, h5, b{
+    font-weight: normal;
+}
+*{
+        margin: 0;
+        padding: 0;
+    }
+div, ul, li, dl, dt, dd, table, td, input ,span{
+        font-size: .75rem;
+    }
+@import "variable";
+//问题部分所有样式
+.lw-answer{
+    line-height: 22px;
+    dt{
+        font-size: 12px;
+        color: #cccccc;
+        font-weight: normal;
+        border-bottom: 1px solid #cccccc;
+        width: 100%;
+        h3{
+            font-size: 22px;
+            color: #333333;
+            font-weight: bold;
+            padding: 5% 2% 2% 2%;
+            dd{
+                font-size: 12px;
+                color: #cccccc;
+                font-weight: normal;
+                padding: 5px 0 0 0;
+            }
+        }
+        
+    }
+    li{
+        font-size: 1.6rem;
+        color: #666666;
+        line-height: 150%;
+        padding: 4% 2% 20% 2%;
+        text-align: justify;
+        p{
+            img{
+                max-width:100%;
+            }
+            span{
+                font-size:1.6rem;
+            }
+        }
+    }
+}

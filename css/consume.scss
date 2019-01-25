@@ -1,0 +1,159 @@
+@charset "utf-8";
+span{display:inline-block;}
+@import "variable";
+//中间部分最外层部分样式
+.lw-consume-wrap{
+	background: #f4f4f4 none repeat scroll 0 0;
+    padding: 10px 5px;
+}
+//可用余额的样式
+.lw-consume-balance{
+    font-size:1.2rem;
+	display:block;
+	border: 1px solid #DCDCDC;
+    border-radius: 5px;
+    background: #fff;color: #bbb;
+    height: 37px;
+    line-height: 37px;
+    padding-left: 10px;
+    a{
+    	background: #e60044 none repeat scroll 0 0;
+        border: 1px solid #e60044;
+        border-radius: 3px;
+        box-shadow: 0 1px 2px #e7e7e7;
+        color: #fff;
+        display: inline-block;
+        padding: 0 10px;
+        text-align: center;
+        float: right;
+        line-height: 25px;
+        margin: 5px
+    }
+    span{
+    	color: $background;
+    	padding:0 4px;
+    }
+}
+//"消费明细和充值明细"的外层样式
+.lw-consume-accounts{
+	border:1px solid $bordercolor;
+	border-radius:5px;
+	background:#fff;
+	margin-top:10px;
+}
+////"消费明细和充值明细"的内部样式
+.lw-consume-title{
+	border-radius: 5px 5px 0 0;
+    height: 41px;
+    overflow: hidden;
+	li{
+		float: left;
+        height: 41px;
+        overflow: hidden;
+        position: relative;
+        width: 50%;
+        s{
+            background: #ddd none repeat scroll 0 0;
+            width:1px;
+            height:41px;
+            position:absolute;
+            right:0;
+            top:0;
+        }
+        a{
+        	border-bottom: 1px solid #ddd;
+            color: #bbb;
+            display: inline-block;
+            font-size: 1rem;
+            height: 40px;
+            text-align: center;
+            width: 100%;
+            //点击加边框的样式
+            &.lw-consume-click{
+	            background: #fff none repeat scroll 0 0;
+                border-bottom: 2px solid $background;
+                height: 39px;
+                b{
+                	color:$background;
+                }
+            }
+            b{
+            	color: #999;
+                display: block;
+                font-size: 1.4rem;
+                line-height: 22px;
+            }
+        }
+	}
+}
+//"消费金额和消费时间"的样式
+.lw-consume-content{
+	display:block;
+	li{
+		border-top: 1px solid #f4f4f4;
+        color: #999;
+        line-height: 33px;
+        padding: 0 5px 0 10px;
+        &.lw-content-title
+        {
+	        border-top: medium none;
+            color: #ccc;
+            font-size: 1.2rem;
+            line-height: 20px;
+             padding-top: 5px;
+        }
+        .lw-span-one{
+        	width:70%;
+        }
+        .lw-span-two{
+        	width:24%;
+        }
+	}
+}
+//切换到充值明细后下面的样式
+.lw-shift-one{
+	width:45%
+}
+.lw-shift-two{
+	width:24%;
+}
+.lw-shift-three{
+	width:28%;
+}
+//"正在加载"的样式
+.lw-consume-loading{
+	font-size: 1.2rem;
+    box-shadow: 0 1px 1px #ddd inset;
+	clear: both;
+    width: 100%;
+	text-align: center;
+	border-radius: 0 0 5px 5px;
+    height: 30px;
+    padding: 10px 0;
+    line-height: 16px;
+    color: #666;
+    background: none;
+    margin-bottom: 50px;
+    b{
+    	width: 16px;
+        height: 16px;
+        background: url(../image/icon/loading.gif) no-repeat;
+        background-size: 16px auto;
+        display: inline-block;
+        position: relative;
+        top: 4px;
+        margin-right: 7px;
+    }
+}
+//下面空白区域的样式
+.lw-white{
+	display: block;
+    margin-bottom: 60px;
+}
+
+//加载跟多的样式
+.lw-load{
+    text-align: center;
+    padding: 10px;
+    background:#f7f7f7;
+}

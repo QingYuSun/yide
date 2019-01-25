@@ -1,0 +1,203 @@
+@charset "utf-8";
+@import "variable";
+//底部切换栏"用户中心"的样式
+.lw-footer-user{
+    a.hover{
+        color:$background;
+        i{
+            background-position: 0 -54.5px;
+        }
+    }
+}
+//用户中心上面头像以及个人信息
+.lw-center-info{
+	padding: 0 0 15px;
+    background-color: #f7f7f7;
+    dl{
+    	dt{
+    		color:#666;
+    		padding: 15px 10px;
+    	}
+    }
+}
+//头像样式
+.lw-info-img{
+	img{
+		float: left;
+        width: 52px;
+        height: 52px;
+        border-radius: 52px;
+        overflow: hidden;
+	}
+}
+//头像右边文字的样式
+.lw-info-p{
+	margin-left: 60px;
+    font-size: 1.6rem;
+    line-height: 22px;
+    padding-top: 3px;
+    span{
+    	margin-right: 10px;
+        color: #999;
+        font-size:1.6rem;
+    }
+    em{
+        color:#999;
+        word-wrap: break-word;
+        word-break: normal;
+        display: inline-block;
+        font-size: 1.2rem;
+    }
+    cite{
+        display: block;
+        font-size: 1.2rem;
+        color:#999;
+        em{
+            display: inline-block;
+            font-size:1.2rem;
+        }
+    }
+}
+//积分和余额的样式
+.lw-money{
+    display:block;
+    text-align: left;
+    background-color: #fff;
+    padding: 0 10px 0 0;
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
+    overflow:hidden;
+    b{
+        float: left;
+        text-align: center;
+        line-height: 11px;
+        width: 28%;
+        border-right: 1px solid #e6e6e6;
+        &.lw-two-b{
+            width: 42%;
+            border-right: none;
+        }
+        a{
+            padding: 15px 0;
+            display: block;
+            color: #bbb;
+            i{
+                font-style:normal;
+            }
+            em{
+                color:$background;
+                display: block;
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+        }
+    }
+}
+//充值的样式
+.lw-center-add{
+    border-radius: 5px;
+    background:$background;
+    float: right;
+    width: 82px;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    text-align: center;
+    color: #fff;
+    font-size: 1.4rem;
+    margin-top: 15px;
+}
+//导航菜单的样式
+.lw-nav-menu{
+    clear: both;
+    width: 100%;
+    background-color: #f7f7f7;
+    margin-bottom: 48px;
+    a{
+        display: block;
+        height: 48px;
+        line-height: 48px;
+        color: #666;
+        font-size: 1.6rem;
+        padding: 0 10px 0 13px;
+        border-top: 1px solid #dedede;
+        border-bottom: 1px solid #dedede;
+        margin-top: -1px;
+        background-color: #fff;
+        //导航菜单栏退出小图标样式
+        &.lw-nav-last{
+                margin-top: 15px;
+                s{
+                    background-position: 0 -123px;
+                    height: 18px;
+                    top: 15px;
+                }
+        }
+            s{
+                background: url(../image/icon/member-index-icon.png) no-repeat;
+                background-size: 17px auto;
+                display: block;
+                position: relative;
+                top: 16px;
+                float: left;
+                margin-right: 10px;
+                margin-left: 2px;
+                width: 17px;
+                background-position: 0 1px;
+                height: 18px;
+                //导航菜单栏第2个小图标样式
+                &.lw-nav-two{
+                    background-position: 0 -158px;
+                    height: 20px;
+                    top: 14px;
+                }
+                //导航菜单栏第4个小图标样式
+                &.lw-nav-four{
+                    background-position: 0 -24px;
+                    height: 17px;
+                    top: 16px;
+                }
+                //导航菜单栏第5个小图标样式
+                &.lw-nav-five{
+                    background-position: 0 -56px;
+                    height: 17px;
+                    top: 15px;
+                }
+                //导航菜单栏第6个小图标样式
+                &.lw-nav-six{
+                    background-position: 0 -264px;
+                    height: 18px;
+                    top: 15px;
+                }
+                //导航菜单栏第7个小图标样式
+                &.lw-nav-seven{
+                    background-position: 0 -228px;
+                    height: 18px;
+                    top: 15px;
+                }
+                //导航菜单栏第9个小图标样式
+                &.lw-nav-nine{
+                    background-position: 0 -195px;
+                    height: 18px;
+                    top: 15px;
+                }
+            }
+                i{
+                    background: url(../image/icon/m_set.png);
+                    background-size: 20px auto;
+                    display: block;
+                    position: relative;
+                    float: right;
+                    background-position: 0 -70px;
+                    width: 7px;
+                    height: 13px;
+                    top: 18px;
+                }
+    }
+}
+//导航菜单栏下面客服的样式
+.lw-service{
+    color:#bbb;
+    padding: 15px 0;
+    text-align: center;
+}

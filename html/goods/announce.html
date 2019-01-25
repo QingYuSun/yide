@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>往期揭晓</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/beforepublish.css" />
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+</head>
+
+<body>
+    <section>
+        <div class="lw-befoer-publish">
+            <span class="lw-before-head">直达第</span>
+            <span id="lw-orange" class="lw-before-several"><a href="javascript:go();">期
+                <s></s></a>
+            </span>
+            <div class="lw-before-figure">
+                <input id="lw-nonstop-word" type="text" name="" placeholder="请输入数字">
+            </div>
+        </div>
+        <div class="lw-befor-winner">
+            <ul id="lw-data">
+            </ul>
+        </div>
+        <div style="display:none;" id="lw-nodata" class="lw-nodata">
+            <s></s>
+            <p>暂无记录</p>
+        </div>
+        <div style="display:none;" id="lw-loading" class="lw-load">加载中...</div>
+        <div style="display:none;" id="lw-loadover" class="lw-load">没有更多数据了</div>
+    </section>
+</body>
+
+</html>
+<script type="text/javascript">
+$(function(){
+    $("#lw-nonstop-word").on("focus", function(){
+        $("#lw-orange").addClass("lw-orange");
+    }).on("blur", function(){
+        $("#lw-orange").removeClass("lw-orange");
+    });
+});
+
+var page = 1; // 分页页数
+var go_sid;
+apiready = function() {
+    var goodsID = api.pageParam.goodsID; //获取页面传递过来的商品ID
+    loadList(goodsID);
+
+    // 分页监听
+    api.addEventListener({
+        name: 'scrolltobottom',
+         extra:{
+            threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+        }
+    }, function(ret, err){
+        if ($('#lw-loadover').css('display') != 'block') {
+            if ($('#lw-data li').length > 3) {
+                $('#lw-loading').show();
+            }
+        }
+        loadList(goodsID);
+    });
+
+    // 更改顶部标题的请求
+    api.sendEvent({
+        name: 'setGoodsInfoTitle',
+        extra: '往期揭晓'
+    });
+
+    //页面下拉刷新
+    api.setRefreshHeaderInfo({
+        visible: true,
+        bgColor: '#ccc',
+        textColor: '#fff',
+        textDown: '下拉刷新...',
+        textUp: '松开刷新...',
+        showTime: true
+    }, function(ret, err){
+        location.reload();
+        api.refreshHeaderLoadDone();
+    });
+}
+
+function loadList(goodsID) {
+    $.ajax({
+        type: 'GET',
+        url: AJAX_URI+'/join/wangqi',
+        data: {goods_id: goodsID, page: page},
+        dateType: 'json',
+        success: function(result) {
+            if (result != 0) {
+                var json = JSON.parse(result);
+                var html = '';
+                $(json).each(function(index){
+                    go_sid=this.sid;
+                    switch(this.codeState){
+                        case 1:
+                            html += '<li class="lw-before-croci" onclick="openGoods(\'' + this.id + '\')">';
+                            html += '<p>第' + this.qishu + '期</p>';
+                            html += '<div class="lw-before-ing">';
+                            html += '<div class="lw-befor-img">';
+                            html += '<img src="http://m.51edb.com/love/uploads/' + this.thumb + '">';
+                            html += '</div>';
+                            html += '<h4>进行中<s class="lw-dotting"></s></h4>';
+                            html += '</div></li>';
+                        break;
+                        case 2:
+                            html += '<li onclick="openGoods(\'' + this.id + '\')">';
+                            html += '<p>第' + this.qishu + '期</p>';
+                            html += '<div class="lw-pao-title">';
+                            html += '<h4>正在揭晓</h4>';
+                            html += '<div class="lw-pao">';
+                            html += '<ul id="paoma1" class="lw-paoma">';
+                            html += '<li></li>';
+                            html += '</ul>';
+                            html += '<ul id="paoma2"></ul></div>';
+                            html += '<h5>敬请期待</h5>';
+                            html += '</div></li>';
+                        break;
+                        case 3:
+                            html += '<li onclick="openGoods(\'' + this.id + '\',' + this.qishu + ')">';
+                            html += '<p>第' + this.qishu + '期</p>';
+                            html += '<dl>';
+                            html += '<div class="lw-before-photo">';
+                            html += '<dt>';
+                            html += '<img src="http://m.51edb.com/love/uploads/' + this.img + '">';
+                            html += '</dt></div></dl>';
+                            html += '<div class="lw-before-word">';
+                            html += '<dd class="lw-word-name">' + this.username + '</dd>';
+                            html += '<dd class="lw-word">' + this.ip + '</dd>';
+                            html += '<dd class="lw-word">手机号码 ：' + (this.mobile ? this.mobile : " ") + '</dd>';
+                            html += '<dd class="lw-word">幸运号码 : <em>' + this.q_user_code + '</em></dd>';
+                            html += '<dd class="lw-word">参与人次：' + this.gonumber + '</dd>';
+                            html += '<dd class="lw-word-color">揭晓时间：' + this.q_end_time + '</dd>';
+                            html += '</div></li>';
+                        break;
+                    }
+                });
+                $("#lw-data").append(html)
+                page++;
+            }else{
+                $('#lw-loadover').show();
+                $('#lw-loading').hide();
+            }
+            if ($('#lw-data li').length < 3) {
+                $('#lw-loadover').hide();
+                $('#lw-loading').hide();
+            }
+            if ($('#lw-data li').length < 1) {
+                $('#lw-nodata').show();
+            }
+        }
+    });
+}
+
+
+    function openGoods(goodsID) {
+        //alert(goodsID)
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/get_goods_status',
+            data: {goods_id: goodsID},
+            dateType:'json',
+            success: function(result) {
+                switch(result){
+                    case '1': // 详情页
+                        winName = 'edbGoodsDetailWin';
+                        url = '../goods.html';
+                        break;
+                    case '2': // 揭晓页
+                        winName = 'edbGoodsAnnounceWin';
+                        url = '../goods-win.html';
+                        break;
+                    case '3': // 倒计时页
+                        winName = 'edbGoodsTimeWin';
+                        url = '../goods-time.html';
+                        break;
+                }
+                api.openWin({
+                    name: winName,
+                    url: url,
+                    pageParam: {
+                        goodsID: goodsID
+                    },
+                    bounces:false,
+                    hScrollBarEnabled:false
+                });
+            }
+        });
+    }
+    function go() {
+        var qishu = $('#lw-nonstop-word').val();
+
+        alert(qishu);
+        alert(go_sid);
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/get_jump_goodsid',
+            data: {qishu: qishu,sid: go_sid},
+            dateType:'json',
+            success: function(result) {
+                var result = JSON.parse(result);
+                goodsID=result.goods_id;
+                switch(result.status){
+                    case '1': // 详情页
+                        winName = 'edbGoodsDetailWin';
+                        url = '../goods.html';
+                        break;
+                    case '2': // 揭晓页
+                        winName = 'edbGoodsAnnounceWin';
+                        url = '../goods-win.html';
+                        break;
+                    case '3': // 倒计时页
+                        winName = 'edbGoodsTimeWin';
+                        url = '../goods-time.html';
+                        break;
+                }
+                api.openWin({
+                    name: winName,
+                    url: url,
+                    pageParam: {
+                        qishu: qishu,
+                        goodsID: goodsID
+                    },
+                    bounces:false,
+                    hScrollBarEnabled:false
+                });
+            }
+        });
+    }
+</script>

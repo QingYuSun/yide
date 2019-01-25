@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>忘记密码</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/register.css" />
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+    </head>
+<body>
+	<section>
+        <div class="lw-register">
+            <ul>
+                <li>
+                    <input id="forgetphone" class="lw-mover-right" type="text" name="" placeholder="请输入您的手机号码">
+                    <s class="lw-icon-one"></s>
+                </li>
+                <li id="forgetnext" class="lw-next-step">
+                    <a href="javascript:forget();">下一步</a>
+                </li>
+            </ul>          
+        </div>
+        <div id="regalert" class="lw-regalert">
+            <div id="alertreg" class="lw-alertreg"></div>
+        </div>
+	</section>
+</body>
+<script type="text/javascript">
+apiready = function(){
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '忘记密码'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+      }
+
+    function forget(){
+        reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+        if ($('#forgetphone').val() == "") {
+            api.toast({
+                msg: '请输入您的手机号码',
+                duration: 2000,
+                location: 'middle'
+            });
+            return false;
+        }
+        if (!reg.test($('#forgetphone').val())) {
+            api.toast({
+                msg: '请输有效的手机号码',
+                duration: 2000,
+                location: 'middle'
+            });
+            return false;
+        }
+    }
+</script>
+</html>

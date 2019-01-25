@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <title>商品详情商品晒单</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/announcelist.css" />
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+</head>
+
+<body style="background-color: #f7f7f7;">
+    <section>
+        <div class="lw-announce-time" id="lw-announce-time" style="display: none;">
+        </div>
+        <div class="lw-announce-list">
+            <ul id="shaidata">
+            </ul>
+        </div>
+        <div style="display:none;" id="lw-nodata" class="lw-nodata">
+            <s></s>
+            <p>暂无记录</p>
+        </div>
+        <div style="display:none;" id="lw-loading" class="lw-load">加载中...</div>
+        <div style="display:none;" id="lw-loadover" class="lw-load">没有更多数据了</div>
+    </section>
+</body>
+
+</html>
+<script type="text/javascript">
+var page = 1; // 分页页数
+
+apiready = function() {
+    var goodsID = api.pageParam.goodsID; //获取页面传递过来的商品ID
+    loadList(goodsID);
+
+    // 分页监听
+    api.addEventListener({
+        name: 'scrolltobottom',
+         extra:{
+            threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+        }
+    }, function(ret, err){
+        if ($('#lw-loadover').css('display') != 'block') {
+            if ($('#shaidata li').length > 5) {
+            $('#lw-loading').show();
+            }
+        }
+        loadList(goodsID);
+    });
+
+    // 更改顶部标题的请求
+    api.sendEvent({
+        name: 'setGoodsInfoTitle',
+        extra: '商品晒单'
+    });
+
+    //页面下拉刷新
+    api.setRefreshHeaderInfo({
+        visible: true,
+        bgColor: '#ccc',
+        textColor: '#fff',
+        textDown: '下拉刷新...',
+        textUp: '松开刷新...',
+        showTime: true
+    }, function(ret, err){
+        loadList(goodsID);
+        alert(goodsID);
+        //location.reload();
+        api.refreshHeaderLoadDone();
+    });
+}
+
+function loadList(goodsID) {
+    $.ajax({
+        type: 'GET',
+        url: AJAX_URI+'/join/shai',
+        data: {goods_id: goodsID, page: page},
+        dateType: 'json',
+        success: function(result) {
+            if (result != 0) {
+                var json = JSON.parse(result);
+                var shai_num = json.shai_num;
+                var shai_data = json.shai_data;
+                var html = '';
+                $(shai_data).each(function(index){
+                    html+='<li onclick="goto(\''+this.sd_id+'\')">';
+                    html+='<p><img src="http://m.51edb.com/love/uploads/'+this.sd_thumbs+'"></p>';
+                    html+='<dl>';
+                    html+='<dt><a href="javascript:;" onclick="event.stopPropagation(); gotoUrl(\''+this.uid+'\')">'+this.username+'</a></dt>';
+                    html+='<dd class="lw-announce-title">'+this.sd_title+'</dd>';
+                    html+='<dd class="lw-announce-content">'+this.sd_content+'</dd>';
+                    html+='<dd class="lw-announce-date">'+this.sd_time+'</dd>';
+                    html+='</dl></li>';
+                    $("#lw-nodata").hide();
+                });
+                $("#lw-announce-time").show().html('已晒<em>' + shai_num + '</em>次单');
+                $("#shaidata").append(html)
+                page++;
+            }else{
+                $('#lw-loadover').show();
+                $('#lw-loading').hide();
+            }
+            if ($('#shaidata li').length < 5) {
+                $('#lw-loadover').hide();
+                $('#lw-loading').hide();
+            }
+            if ($('#shaidata li').length < 1) {
+                $("#lw-nodata").show();
+            }
+        }
+    });
+}
+
+function gotoUrl(uid) {
+    //window.location.href=url
+    api.openWin({
+        name: 'edbpeopleWin',
+        url: '../people.html',
+        pageParam: {
+            uid: uid
+        },
+        bounces:false,
+        hScrollBarEnabled:false
+    });
+}
+function goto(sid) {
+//window.location.href=url
+    api.openWin({
+        name: 'edbshareWin',
+        url: '../share.html',
+        pageParam: {
+            sid: sid
+        },
+        bounces:false,
+        hScrollBarEnabled:false
+    });
+}
+</script>

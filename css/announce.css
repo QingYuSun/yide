@@ -1,0 +1,170 @@
+html, body {
+  height: 100%;
+  background-color: #fff;
+  min-width: 320px;
+  font-size: 62.5%;
+  font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif; }
+
+h1, h2, h3, h4, h5, b {
+  font-weight: normal; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+div, ul, li, dl, dt, dd, table, td, input, span {
+  font-size: 1.2rem; }
+
+span {
+  display: inline; }
+
+.lw-announce-details {
+  width: 100%;
+  color: #999;
+  background-color: #f4f4f4; }
+
+.lw-anncounce-main {
+  border-left: 1px solid #fff;
+  margin-left: 25px;
+  padding-top: 2px;
+  padding-bottom: 15px; }
+
+.lw-announce-portrait {
+  background: #f4f4f4;
+  padding: 10px 5px 5px 10px;
+  margin-left: 0; }
+  .lw-announce-portrait dl {
+    display: inline-block;
+    line-height: 20px;
+    text-align: center;
+    margin-left: -30px;
+    float: left; }
+    .lw-announce-portrait dl a {
+      display: block;
+      position: relative; }
+      .lw-announce-portrait dl a img {
+        width: 35px;
+        height: 35px;
+        border-radius: 35px;
+        margin: 2px 0 0 1px; }
+      .lw-announce-portrait dl a b {
+        background: url(../image/icon/share-img.png);
+        background-size: 90px auto;
+        background-position: 0 -151px;
+        background-repeat: no-repeat;
+        width: 40px;
+        height: 39px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        overflow: hidden; }
+
+.lw-announce-word {
+  margin-left: 15px;
+  font-size: 1.2rem;
+  position: relative;
+  border: 1px solid #DCDCDC;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 1px 1px 1px #e7e7e7; }
+  .lw-announce-word ul {
+    padding: 10px 10px 0px; }
+    .lw-announce-word ul li {
+      max-height: 82px;
+      overflow: hidden;
+      margin-bottom: 6px;
+      line-height: 18px; }
+      .lw-announce-word ul li img {
+        height: 80px;
+        margin-right: 8px;
+        border: 1px solid #e7e7e7; }
+      .lw-announce-word ul li em {
+        font-size: 1.375rem;
+        white-space: nowrap;
+        color: #2af; }
+      .lw-announce-word ul li span {
+        color: #666;
+        font-size: 1.375rem;
+        word-wrap: break-word; }
+        .lw-announce-word ul li span strong {
+          font-weight: normal;
+          margin: 2px;
+          color: #999; }
+      .lw-announce-word ul li h5 {
+        display: inline-block;
+        font-size: .625rem;
+        margin-left: 3px;
+        color: #bbb;
+        font-weight: normal; }
+
+.lw-like dd {
+  display: inline-block;
+  margin-right: 10px; }
+  .lw-like dd s {
+    background: url(../image/icon/share-img.png);
+    background-repeat: no-repeat;
+    background-size: 90px auto;
+    width: 10px;
+    height: 11px;
+    display: inline-block;
+    background-position: 0 -50px;
+    margin-right: 5px; }
+
+.lw-loading {
+  text-align: center;
+  height: 30px;
+  padding: 10px 0;
+  line-height: 16px;
+  color: #666;
+  background: none;
+  margin-bottom: 50px;
+  font-size: 1.2rem;
+  box-shadow: 0 1px 1px #ddd inset;
+  width: 100%; }
+  .lw-loading s {
+    width: 16px;
+    height: 16px;
+    background: url(../image/icon/loading.gif);
+    background-repeat: no-repeat;
+    background-size: 16px auto;
+    display: inline-block; }
+
+.lw-loading-more {
+  clear: both;
+  width: 100%;
+  background: #f4f4f4;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #999;
+  font-size: 1.2rem;
+  box-shadow: 0 1px 1px #ddd inset;
+  padding: 10px 0; }
+
+.lw-footer-invoice a.hover {
+  color: #e60044; }
+  .lw-footer-invoice a.hover i {
+    background-position: 0 -216px; }
+
+.lw-load {
+  text-align: center;
+  padding: 10px;
+  background: #f7f7f7; }
+
+.lw-nodata {
+  padding: 50px 0;
+  background: #f7f7f7;
+  text-align: center;
+  font-size: 2rem;
+  color: #bbb; }
+  .lw-nodata s {
+    background: url(../image/icon/setIcon.png);
+    background-size: 80px auto;
+    display: block;
+    background-position: 0 -102px;
+    background-repeat: no-repeat;
+    width: 57px;
+    height: 57px;
+    margin: 0 auto; }
+
+/*# sourceMappingURL=announce.css.map */

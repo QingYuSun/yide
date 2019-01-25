@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <title>参与记录 图文详情 等窗口</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/deatails.css" />
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+</head>
+
+<body>
+    <header style="position: fixed;" class="lw-new" id="header">
+        <span class="lw-page-title">
+
+        </span>
+        <div class="lw-return">
+            <a href="javascript:;" onclick="javascript:closeWin();">
+                <s></s>
+            </a>
+        </div>
+    </header>
+    <div id="lw-main" style="height: 100%">
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+apiready = function() {
+    var goodsID = api.pageParam.goodsID;
+    var url = api.pageParam.url;
+    alert(url);
+    showView(url, goodsID); // 默认加载的页面
+
+    // 监听, 更改顶部标题的请求
+    api.addEventListener({
+        name: 'setGoodsInfoTitle'
+    }, function(ret, err) {
+        if (ret) {
+            setGoodsInfoTitle(ret.value);
+        }
+    });
+
+    // 监听android后退
+    api.addEventListener({
+        name: "keyback"
+    }, function(ret, err) {
+        closeWin();
+    });
+
+} // apiready END
+
+// 加载Frame
+function showView(url, goodsID) {
+    var headerPos = $("#header").offset();
+    var mainPos = $("#lw-main").offset();
+    api.openFrame({
+        name: 'edbDetailInfoFrame',
+        url: url,
+        pageParam: {
+            goodsID: goodsID
+        },
+        bounces: false,
+        rect: {
+            x: 0,
+            y: headerPos.height,
+            w: 'auto',
+            h: 'auto',
+        }
+    });
+}
+
+function setGoodsInfoTitle(title) {
+    $(".lw-page-title").text(title);
+}
+
+//返回
+function closeWin() {
+    api.closeWin();
+}
+</script>

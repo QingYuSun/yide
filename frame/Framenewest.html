@@ -1,0 +1,300 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>最新揭晓frame</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commoditystyle.css" />
+    <link rel="stylesheet" type="text/css" href="../css/newest.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+</head>
+<body>
+    <div class="lw-goods">
+        <div>
+            <ul id="lw-goods">
+                <!-- <li class="lw-goods-list lw-goods-border">
+                    <div class="lw-img-ing">正在揭晓</div>
+                    <span class="lw-goods-img">
+                        <img src="../image/92149415431432.jpg">
+                        <div class="lw-img-black">
+                            <h5>第96期</h5>
+                            <s></s>
+                        </div>
+                    </span>
+                    <div class="lw-gain lw-goods-newest">
+                        <h4>
+                            <a href="">Apple iPhone6s 64G</a>
+                        </h4>
+                        <h5>价值：￥7280.00</h5>
+                        <p>
+                            <strong name="strong"></strong>
+                        </p>
+                    </div>
+                </li>
+                <li class="lw-goods-list">
+                    <span class="lw-goods-img">
+                        <img src="../image/92149415431432.jpg">
+                        <div class="lw-img-black">
+                            <h5>第96期</h5>
+                            <s></s>
+                        </div>
+                    </span>
+                    <div class="lw-gain">
+                        <dl>
+                            <dt>
+                                <i>获得者 :</i>
+                                <span>
+                                    <a href="#">12345678910</a>
+                                </span>
+                            </dt>
+                            <dd>
+                                商品价值 : ￥7288.00
+                            </dd>
+                            <dd>
+                                本次参与 :
+                                <em>52</em>
+                                人次
+                            </dd>
+                            <dd>
+                                揭晓时间 : 2016-7-4 16:34:10
+                            </dd>
+                        </dl>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+        <div style="display:none;" id="lw-loading" class="lw-load">加载中...</div>
+        <div style="display:none;" id="lw-loadover" class="lw-load">没有更多数据了</div>
+        <br>
+        <br>
+        <br>
+    </div>
+</body>
+<script type="text/javascript">
+    var page = 1; // 分页页数
+    loadajax();
+
+    apiready = function(){
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '最新揭晓'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: '2'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+
+        // 分页加载
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+            }, function(ret, err){
+                if ($('#lw-loadover').css('display') != 'block') {
+                    if ($('#lw-goods li').length > 5) {
+                        $('#lw-loading').show();
+                    }
+                }
+                loadajax();
+        });
+    }
+
+    function loadajax(){
+        $.ajax({
+            url: AJAX_URI+'/showindex/zxjx',
+            type: 'GET',
+            dateType:'json',
+            data: {page: page},
+            success: function(result) {
+                var json=JSON.parse(result);
+                var html='';
+                $(json).each(function(index){
+                    if(this.q_uid ==null){
+                        var timestamp=new Date().getTime();
+                        //alert(timestamp)
+                        html+='<li onclick="openGoods(\'' + this.id + '\');" class="lw-goods-list lw-goods-border" id="'+this.id+'">';
+                        html+='<div class="lw-img-ing">正在揭晓</div>';
+                        html+='<span class="lw-goods-img">';
+                        html+='<img src="http://m.51edb.com/love/uploads/'+this.thumb+'">';
+                        html+='<div class="lw-img-black">';
+                        html+='<h5>第'+this.qishu+'期</h5>';
+                        html+='<s></s>';
+                        html+='</div></span>';
+                        html+='<div class="lw-gain lw-goods-newest" id="make_'+this.id+'>';
+                        html+='<h4>';
+                        html+='<a href="">'+this.title+'</a>';
+                        html+='</h4>';
+                        html+='<h5>价值：￥'+this.money+'</h5><p>';
+                        html+='<strong name="strong" id="q_'+this.id+'" value="'+this.q_end_time+'"></strong>';
+                        html+='</p></div></li>';
+                        show_end_time(this.id, timestamp);
+                    }else{
+                        html+='<li onclick="openGoods(\'' + this.id + '\');" class="lw-goods-list" id="'+this.id+'">';
+                        html+='<span class="lw-goods-img">';
+                        html+='<img src="http://m.51edb.com/love/uploads/'+this.thumb+'">';
+                        html+='<div class="lw-img-black">';
+                        html+='<h5>第'+this.qishu+'期</h5>';
+                        html+='<s></s></div></span>';
+                        html+='<div class="lw-gain"">';
+                        html+='<dl><dt><i>获得者 :</i><span><a onclick="event.stopPropagation(); gotourl(\''+this.q_uid+'\')" href="javascript:;">'+this.username+'</a></span>';
+                        html+='</dt><dd>商品价值 : ￥'+this.money+'</dd>';
+                        html+='<dd>本次参与 :<em>'+this.gonumber+'</em>人次</dd>';
+                        html+='<dd>揭晓时间 : '+this.q_end_time+'</dd></dl>';
+                        html+='</div></li>';
+                    }
+                });
+                $("#lw-goods").append(html);
+                page++;
+
+                if (html=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+
+                if ($('#lw-goods li').length < 5) {
+                    $('#lw-loadover').hide();
+                    $('#lw-loading').hide();
+                }
+            }
+        });
+    }
+
+        function add0(m) { return m < 10 ? '0'+m : m; }
+        function show_end_time(id, serverTime) {
+            var dateTime = new Date();
+            //var difference = dateTime.getTime() - serverTime; //客户端与服务器时间偏移量
+            var ts = setInterval(function(){
+                var make = $("#make_"+id);
+                var obj = $("#q_"+id);
+                var endTime = new Date(parseInt(obj.attr("value"))* 1000);
+                var nowTime = new Date();
+                // var nMS=endTime.getTime() - nowTime.getTime() + difference;
+                var nMS=endTime.getTime() - nowTime.getTime();
+                var myD=Math.floor(nMS/(1000 * 60 * 60 * 24)); //天
+                var myH=Math.floor(nMS/(1000*60*60)) % 24; //小时
+                var myM=Math.floor(nMS/(1000*60)) % 60; //分钟
+                var myS=Math.floor(nMS/1000) % 60; //秒
+                var myMS=Math.floor(nMS/10) % 100; //拆分秒
+
+                if(myD >= 1 || myH >= 1 || myM > 13){
+                    var str = "请等待开奖...";
+                }else if(myM>=0 && myM<= 13){
+                    var str = "揭晓倒计时 "+add0(myM)+"分"+add0(myS)+"秒"+add0(myMS);
+                }else{
+                    clearInterval(ts);
+                    var str = "揭晓结果载入中...";
+                    $.ajax({
+                        type:'get',
+                        url: AJAX_URI+'/showindex/ajax_zxjx',
+                        data:{
+                            goods_id: id
+                        },
+                        async: false,
+                        beforeSend:function(){
+                            make.html(str);
+                        },
+                        success:function(result){
+                            if (result != 'false') {
+                                json = JSON.parse(result);
+                                var new_html='';
+                                    new_html+='<li onclick="openGoods(\'' + json.id + '\');" class="lw-goods-list" id="'+json.id+'">';
+                                    new_html+='<span class="lw-goods-img">';
+                                    new_html+='<img src="http://m.51edb.com/love/uploads/'+json.thumb+'">';
+                                    new_html+='<div class="lw-img-black">';
+                                    new_html+='<h5>第'+json.qishu+'期</h5>';
+                                    new_html+='<s></s></div></span>';
+                                    new_html+='<div class="lw-gain"">';
+                                    new_html+='<dl><dt><i>获得者 :</i><span><a onclick="event.stopPropagation(); gotourl(\''+json.q_uid+'\')" href="javascript:;">'+json.q_user+'</a></span>';
+                                    new_html+='</dt><dd>商品价值 : ￥'+json.money+'</dd>';
+                                    new_html+='<dd>本次参与 :<em>'+json.gonumber+'</em>人次</dd>';
+                                    new_html+='<dd>揭晓时间 : '+json.q_end_time+'</dd></dl>';
+                                    new_html+='</div></li>';
+                                $("#"+id).replaceWith(new_html);
+
+                                return true;
+                            }else{
+                                obj.html('<a href="javascript:location.reload();">请按此手工刷新</a>');
+                            }
+                        }
+                    });
+                    // location.reload();
+                }
+                obj.html(str);
+            }, 10); //每个0.01秒执行一次
+        }
+
+    function openGoods(goodsID) {
+        event.stopPropagation();
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/get_goods_status',
+            data: {goods_id: goodsID},
+            dateType:'json',
+            success: function(result) {
+                switch(result){
+                    case '1': // 详情页
+                        winName = 'edbGoodsDetailWin';
+                        url = '../html/goods.html';
+                        break;
+                    case '2': // 揭晓页
+                        winName = 'edbGoodsAnnounceWin';
+                        url = '../html/goods-win.html';
+                        break;
+                    case '3': // 倒计时页
+                        winName = 'edbGoodsTimeWin';
+                        url = '../html/goods-time.html';
+                        break;
+                }
+                api.openWin({
+                    name: winName,
+                    url: url,
+                    pageParam: {
+                        goodsID: goodsID
+                    },
+                    bounces:false,
+                    hScrollBarEnabled:false
+                });
+            }
+        });
+    }
+
+function gotourl(uid) {
+    event.stopPropagation();
+    alert(uid);
+    api.openWin({
+        name: 'edbpeopleWin',
+        url: '../html/people.html',
+        pageParam: {
+            uid: uid
+        },
+        bounces:false,
+        hScrollBarEnabled:false
+    });
+}
+</script>
+</html>

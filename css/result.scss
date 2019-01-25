@@ -1,0 +1,140 @@
+@charset "utf-8";
+html,body{
+    height: 100%;
+    background-color:#f7f7f7;
+    min-width: 320px;
+    font-size: 62.5%;
+    font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
+}
+h1, h2, h3, h4, h5, b{
+    font-weight: normal;
+}
+*{
+    margin: 0;
+    padding: 0;
+    }
+div, ul, li, dl, dt, dd, table, td, input ,span{
+    font-size: 1.2rem;
+}
+@import "variable";
+//页脚部分的样式
+#footer{
+	ul{
+		padding:0;
+		li{
+			width:100%;
+			margin:0 10%;
+			a{
+			width:80%;
+			height:35px;
+			background:$background;
+			font-size:1.6rem;
+			color:#fff;
+			line-height:35px;
+			text-align:center;
+			border-radius:3px;
+		    }
+		}
+	}
+}
+//获得者信息最外层div样式
+.lw-result-gainer{
+	padding:15px 0 4px;
+	display:block;
+	background:#fff;
+}
+//获得者信息第二层div样式
+.lw-gainer-information{
+	margin:0 10px;
+	border:1px solid $background;
+	border-radius:5px;
+	background:#fffeee;
+	overflow:hidden;
+	display:block;
+}
+//获得者信息里面图片和所有样式
+.lw-gainer-img{
+	position:relative;
+	display:block;
+	p{
+		padding:16px 0 0 10px;
+		float:left;
+		a{
+			img{
+				display:block;
+				width:60px;
+				height:60px;
+				border-radius:60px;
+			}
+		}
+	}
+	dl{
+		margin-left: 77px;
+        padding-top: 10px;
+        line-height: 18px;
+        color:#999;
+        dt{
+            font-size:1.6rem;
+            a{
+            	color:#2af;
+            }
+        }
+        dd{
+        	i{
+        		font-style:normal;
+        		color:$background;
+        	}
+        }
+	}
+}
+//获得者幸运号码外层样式呢
+.lw-luck{
+	margin: 10px 0 0 0;
+    padding: 8px 10px 8px 10px;
+    background: #e60044;
+    display:block;
+    overflow:auto;
+    zoom:1
+}
+//幸运号码的样式
+.lw-luck-number{
+	float:left;
+	dd{
+		display:block;
+	    color:#fff;
+	    font-size:1.35rem;
+	    i{
+		    font-style:normal;
+	    }
+    }
+}
+//计算详情的样式
+.lw-count{
+	float:right;
+	dd{
+		display:block;
+		color:#fff;
+		font-size:1.35rem;
+		a{
+             color:#fff;
+			text-decoration: underline;
+		}
+	}
+}
+//获得者头像上面小图标样式
+.lw-luck-icon{
+	width:90px;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	color:#fff;
+	background:$background;
+	position:absolute;
+	top:7px;
+	left:-27px;
+	transform:rotate(-45deg);
+    -ms-transform:rotate(-45deg); 	/* IE 9 */
+    -moz-transform:rotate(-45deg); 	/* Firefox */
+    -webkit-transform:rotate(-45deg); /* Safari 和 Chrome */
+    -o-transform:rotate(-45deg);
+}

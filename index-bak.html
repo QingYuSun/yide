@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no"/>
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <link rel="stylesheet" type="text/css" href="./css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <script type="text/javascript" src="./js/api.js"></script>
+<!-- <script type="text/javascript" src="./js/global.js"></script>
+<script type="text/javascript" src="./js/footer.js"></script>
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/jquery.min.js"></script> -->
+</head>
+<body>
+    <div id="wrap">
+        <div class="lw-index-edb" id="heard">一得宝
+        </div>
+        <div id='lw-wrap'></div>
+        <div id="footer">
+            <footer class="aui-nav lw-footer-nav" id="aui-footer">
+                <ul class="aui-bar-tab lw-footer-tab">
+                    <li onclick="icon1();" class="lw-footer-same lw-footer-home">
+                        <a id="conversion1" class="hover1" href="javacript:;">
+                            <i></i>
+                            <p>一得宝</p>
+                        </a>
+                    </li>
+                    <li onclick="icon2();" class="lw-footer-same lw-footer-latest">
+                        <a id="conversion2" href="javacript:;">
+                            <i></i>
+                            <p>最新揭晓</p>
+                        </a>
+                    </li>
+                    <li onclick="icon3();" class="lw-footer-same lw-footer-invoice">
+                        <a id="conversion3" href="javacript:;">
+                            <i></i>
+                            <p>晒单</p>
+                        </a>
+                    </li>
+                    <li onclick="icon4();" class="lw-footer-same lw-footer-shopping">
+                        <a id="conversion4" href="javacript:;">
+                            <i><b>3</b></i>
+                            <p>购物车</p>
+                        </a>
+                    </li>
+                    <li onclick="icon5();" class="lw-footer-same lw-footer-user">
+                        <a id="conversion5" href="javacript:;">
+                            <i></i>
+                            <p>用户中心</p>
+                        </a>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+        var heardheght=$api.dom('#heard').offsetHeight;
+        var footheght=$api.dom('#aui-footer').offsetHeight;
+
+    apiready = function(){
+        var heardheght=$api.dom('#heard').offsetHeight;
+        var footheght=$api.dom('#aui-footer').offsetHeight;
+        var winHeight = api.winHeight-heardheght-footheght;
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameindex.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                heardheght: heardheght,
+                winHeight: winHeight,
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        //晒单里面内容点击
+        api.addEventListener({
+        name: 'onannounce'
+        }, function(ret, err){
+            $api.html($api.byId('heard'),'晒单分享<div class="lw-return" id="lw-return"><a onclick="huiqu3()" href="javascript:;"><s></s></a></div>');
+            $api.removeCls($api.byId("conversion3"),"hover3");
+            api.openFrame({
+            name: 'center',
+            url: './frame/framexq/Frameannouncedetails.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                sid: ret.value.sid,
+                heardheght: heardheght
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //接收监听
+        api.addEventListener({
+            name: 'recird'
+        }, function(ret, err){
+        $api.html($api.byId('recordhead'),'个人中心');
+        api.openWin({
+            name: 'record',
+            url: './html/announce/record.html',
+            pageParam: {
+                    uid: ret.value.uid,
+                    num: 5
+                },
+        });
+        });
+        //个人中心点击头像（接收监听打开更换头像页面）
+        api.addEventListener({
+            name: 'infoimg'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId('heard'),'更换头像<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framenickname.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击充值（接收监听打开充值页面）
+        api.addEventListener({
+            name: 'centeradd'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId('heard'),'充值<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framemoney.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击签到（接收监听打开签到页面）
+        api.addEventListener({
+            name: 'navmenu1'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId('heard'),'签到<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framesign.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击好友邀请（接收监听打开好友邀请页面）
+        api.addEventListener({
+            name: 'navmenu2'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        friending();
+        });
+        //个人中心点击好友邀请中的推广二维码（接收监听打开推广二维码页面）
+        api.addEventListener({
+            name: 'friend1'
+        }, function(ret, err){
+        $api.html($api.byId('heard'),'推广二维码<div class="lw-return" id="lw-return"><a onclick="huiqu7()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framegeneralize.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击好友邀请中的好友邀请记录（接收监听打开好友邀请记录页面）
+        api.addEventListener({
+            name: 'friend2'
+        }, function(ret, err){
+        $api.html($api.byId('heard'),'邀请记录<div class="lw-return" id="lw-return"><a onclick="huiqu7()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framefriendinvite.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击参与记录（接收监听打开参与记录页面）
+        api.addEventListener({
+            name: 'navmenu3'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        userbuying();
+        });
+        //个人中心点击参与记录的幸运号码（接收监听打开幸运号码页面）
+        api.addEventListener({
+            name: 'userbuywrap'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId('heard'),'幸运号码<div class="lw-return" id="lw-return"><a onclick="huiqu8()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framebuydate.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击中奖记录（接收监听打开中奖记录页面）
+        api.addEventListener({
+            name: 'navmenu4'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+            wining();
+        });
+        //个人中心点击中奖记录中的晒单赢积分（接收监听打开晒单赢积分页面）
+        api.addEventListener({
+            name: 'win'
+        }, function(ret, err){
+        $api.html($api.byId('heard'),'晒单赢积分<div class="lw-return" id="lw-return"><a onclick="huiqu9()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framewinintegral.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击我的晒单（接收监听打开我的晒单页面）
+        api.addEventListener({
+            name: 'navmenu5'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        usertalk();
+        });
+        //个人中心点击我的晒单中的我要晒单（接收监听打开我要晒单页面）
+        api.addEventListener({
+            name: 'talkme'
+        }, function(ret, err){
+        $api.html($api.byId('heard'),'晒单赢积分<div class="lw-return" id="lw-return"><a onclick="huiqu10()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framewinintegral.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击账户明细（接收监听打开账户明细页面）
+        api.addEventListener({
+            name: 'navmenu6'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        consume();
+        });
+        //个人中心点击积分明细（接收监听打开积分明细页面）
+        api.addEventListener({
+            name: 'consumeba'
+        }, function(ret, err){
+        $api.html($api.byId('heard'),'充值<div class="lw-return" id="lw-return"><a onclick="huiqu11()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framemoney.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击积分明细（接收监听打开积分明细页面）
+        api.addEventListener({
+            name: 'navmenu7'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId('heard'),'积分明细<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameintegral.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                uid: ret.value.uid
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击收货地址（接收监听打开收货地址页面）
+        api.addEventListener({
+            name: 'navmenu8'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId('heard'),'收货地址<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framesit.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击帮助中心（接收监听打开帮助中心页面）
+        api.addEventListener({
+            name: 'navmenu9'
+        }, function(ret, err){
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId('heard'),'帮助中心<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameproblem.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        });
+        //个人中心点击帮助中心中的每个问题跳转（接收监听打开每个问题跳转页面）
+        api.addEventListener({
+            name: 'helplist'
+        }, function(ret, err){
+        $api.html($api.byId('heard'),'帮助中心<div class="lw-return" id="lw-return"><a onclick="huiqu12()" href="javascript:;"><s></s></a></div>');
+        });
+        //常见问题点击跳转
+        api.addEventListener({
+            name: 'question'
+        }, function(ret, err){
+            $api.removeCls($api.byId("conversion1"),"hover1");
+            $api.html($api.byId('heard'),'常见问题<div class="lw-return" id="lw-return"><a onclick="huiqu13()" href="javascript:;"><s></s></a></div>');
+        });
+        //公告点击跳转
+        api.addEventListener({
+            name: 'gongao'
+        }, function(ret, err){
+            $api.removeCls($api.byId("conversion1"),"hover1");
+            $api.html($api.byId('heard'),'公告<div class="lw-return" id="lw-return"><a onclick="huiqu13()" href="javascript:;"><s></s></a></div>');
+        });
+        //公告点击每个问题跳转跳转
+        api.addEventListener({
+            name: 'gongaoinfo'
+        }, function(ret, err){
+            $api.html($api.byId('heard'),'公告内容<div class="lw-return" id="lw-return"><a onclick="huiqu14()" href="javascript:;"><s></s></a></div>');
+        });
+        //所有商品的点击跳转
+        api.addEventListener({
+            name: 'allshop'
+        }, function(ret, err){
+            $api.removeCls($api.byId("conversion1"),"hover1");
+            $api.html($api.byId('heard'),'所有商品<div class="lw-return" id="lw-return"><a onclick="huiqu13()" href="javascript:;"><s></s></a></div>');
+        });
+    //手机专区的点击跳转
+        api.addEventListener({
+            name: 'mobile'
+        }, function(ret, err){
+            $api.removeCls($api.byId("conversion1"),"hover1");
+            $api.html($api.byId('heard'),'手机专区<div class="lw-return" id="lw-return"><a onclick="huiqu13()" href="javascript:;"><s></s></a></div>');
+        });
+    }
+    //个人中心点击中奖记录跳转打开的frame封装
+    function wining(){
+        var footheght=$api.dom('#aui-footer').offsetHeight;
+        var winHeight = api.winHeight-heardheght-footheght;
+        $api.html($api.byId('heard'),'中奖记录<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framewin.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+    }
+//个人中心点击账户明细跳转打开的frame封装
+function consume(){
+    var footheght=$api.dom('#aui-footer').offsetHeight;
+    var winHeight = api.winHeight-heardheght-footheght;
+    $api.html($api.byId('heard'),'账户明细<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameconsume.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+    }
+//个人中心点击我的晒单跳转打开的frame封装
+function usertalk(){
+    var footheght=$api.dom('#aui-footer').offsetHeight;
+    var winHeight = api.winHeight-heardheght-footheght;
+    $api.html($api.byId('heard'),'我的晒单<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameusertalk.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+//个人中心点击参与记录跳转打开的frame封装
+function userbuying(){
+    var footheght=$api.dom('#aui-footer').offsetHeight;
+    var winHeight = api.winHeight-heardheght-footheght;
+    $api.html($api.byId('heard'),'参与记录<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameuserbuy.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+//个人中心点击好友邀请跳转的封装
+function friending(){
+    var footheght=$api.dom('#aui-footer').offsetHeight;
+    var winHeight = api.winHeight-heardheght-footheght;
+    $api.html($api.byId('heard'),'好友邀请<div class="lw-return" id="lw-return"><a onclick="huiqu6()" href="javascript:;"><s></s></a></div>');
+    api.openFrame({
+        name: 'center',
+        url: './frame/Framefriend.html',
+        rect: {
+            x: 0,
+            y: heardheght,
+            w: 'auto',
+            h: winHeight,
+        },
+        pageParam: {
+        },
+        bounces: true,
+        bgColor: 'rgba(0,0,0,0)',
+        vScrollBarEnabled: true,
+        hScrollBarEnabled: true
+    });
+    }
+function icon1(){
+    if ($api.hasCls($api.byId("conversion1"),"hover1")) {
+    }else{
+        $api.addCls($api.byId("conversion1"),"hover1");
+        $api.removeCls($api.byId("conversion2"),"hover2");
+        $api.removeCls($api.byId("conversion3"),"hover3");
+        $api.removeCls($api.byId("conversion4"),"hover4");
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId("heard"),'一得宝');
+    }
+    var winHeight = api.winHeight-heardheght-footheght;
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameindex.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+function icon2(){
+    if ($api.hasCls($api.byId("conversion2"),"hover2")) {
+    }else{
+        $api.addCls($api.byId("conversion2"),"hover2");
+        $api.removeCls($api.byId("conversion1"),"hover1");
+        $api.removeCls($api.byId("conversion3"),"hover3");
+        $api.removeCls($api.byId("conversion4"),"hover4");
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId("heard"),'最新揭晓');
+    }
+    var winHeight = api.winHeight-heardheght-footheght;
+        api.openFrame({
+            name: 'center',
+            url: './frame/Framenewest.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+function icon3(){
+    if ($api.hasCls($api.byId("conversion3"),"hover3")) {
+    }else{
+        $api.addCls($api.byId("conversion3"),"hover3");
+        $api.removeCls($api.byId("conversion1"),"hover1");
+        $api.removeCls($api.byId("conversion2"),"hover2");
+        $api.removeCls($api.byId("conversion4"),"hover4");
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId("heard"),'晒单');
+    }
+    var winHeight = api.winHeight-heardheght-footheght;
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameannounce.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+function icon4(){
+    if ($api.hasCls($api.byId("conversion4"),"hover4")) {
+    }else{
+        $api.addCls($api.byId("conversion4"),"hover4");
+        $api.removeCls($api.byId("conversion1"),"hover1");
+        $api.removeCls($api.byId("conversion3"),"hover3");
+        $api.removeCls($api.byId("conversion2"),"hover2");
+        $api.removeCls($api.byId("conversion5"),"hover5");
+        $api.html($api.byId("heard"),'购物车');
+    }
+    var winHeight = api.winHeight-heardheght-footheght;
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameshoppingcart.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+function icon5(){
+    if ($api.hasCls($api.byId("conversion5"),"hover5")) {
+    }else{
+        $api.addCls($api.byId("conversion5"),"hover5");
+        $api.removeCls($api.byId("conversion1"),"hover1");
+        $api.removeCls($api.byId("conversion3"),"hover3");
+        $api.removeCls($api.byId("conversion4"),"hover4");
+        $api.removeCls($api.byId("conversion2"),"hover2");
+        $api.html($api.byId("heard"),'用户中心');
+    }
+    var winHeight = api.winHeight-heardheght-footheght;
+    api.ajax({
+        url: 'http://jl.haodbao.com/index.php/users/usercookie',
+            method: 'post',
+            returnAll:false,
+            dateType:'json',
+        },function(ret, err){
+        if (ret) {
+            for(var i in ret){
+                if(ret[i]!=0){
+                        api.openFrame({
+                        name: 'center',
+                        url: './frame/Framecenter.html',
+                        rect: {
+                            x: 0,
+                            y: heardheght,
+                            w: 'auto',
+                            h: winHeight,
+                        },
+                        pageParam: {
+                            uid: ret[i],
+                        },
+                        bounces: true,
+                        bgColor: 'rgba(0,0,0,0)',
+                        vScrollBarEnabled: true,
+                        hScrollBarEnabled: true
+                    });
+                }else{
+                    api.openFrame({
+                        name: 'center',
+                        url: './frame/Frameuser.html',
+                        rect: {
+                            x: 0,
+                            y: heardheght,
+                            w: 'auto',
+                            h: winHeight,
+                        },
+                        pageParam: {
+                            h: winHeight,
+                            y: heardheght
+                        },
+                        bounces: true,
+                        bgColor: 'rgba(0,0,0,0)',
+                        vScrollBarEnabled: true,
+                        hScrollBarEnabled: true
+                    });
+                }
+            }
+            //alert( JSON.stringify( ret ) );
+        } else {
+            alert( JSON.stringify( err ) );
+        }
+    });
+
+        api.closeFrameGroup({
+        name:'shoppingcart'
+        });
+}
+function huiqu3(){
+    icon3();
+}
+function huiqu6(){
+    icon5();
+}
+function huiqu7(){
+    friending();
+}
+function huiqu8(){
+    userbuying();
+}
+function huiqu9(){
+    wining();
+}
+function huiqu10(){
+    usertalk();
+}
+function huiqu11(){
+    consume();
+}
+function huiqu12(){
+var footheght=$api.dom('#aui-footer').offsetHeight;
+        var winHeight = api.winHeight-heardheght-footheght;
+    $api.html($api.byId('heard'),'帮助中心<div class="lw-return" id="lw-return"><a onclick="huiqu13()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameproblem.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                page: 0,
+                heardheght: heardheght,
+                winHeight: winHeight,
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+function huiqu13(){
+    icon1();
+}
+function huiqu14(){
+var footheght=$api.dom('#aui-footer').offsetHeight;
+        var winHeight = api.winHeight-heardheght-footheght;
+    $api.html($api.byId('heard'),'公告<div class="lw-return" id="lw-return"><a onclick="huiqu13()" href="javascript:;"><s></s></a></div>');
+        api.openFrame({
+            name: 'center',
+            url: './frame/Frameproblem.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                page: 1,
+                heardheght: heardheght,
+                winHeight: winHeight,
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+</script>

@@ -1,0 +1,13 @@
+@charset "utf-8";
+//10元区左上角10元小图片
+.lw-ten-img{
+	z-index:2;
+    background:url(/image/icon/mix-icon.png) ;
+    width:30px;
+    height:35px;
+    position:absolute;
+    background-position: -70px -85px;
+    display: inline-block;
+    vertical-align: middle;
+    background-size: 300px 300px;
+}

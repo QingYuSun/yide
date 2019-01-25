@@ -1,0 +1,437 @@
+@charset "utf-8";
+html,body{
+    height: 100%;
+    background-color:#f7f7f7;
+    min-width: 320px;
+    font-size: 62.5%;
+    font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
+    }
+
+h1, h2, h3, h4, h5, b{
+    font-weight: normal;
+}
+h2{
+    display: block;
+    font-size: 1.5em;
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+div, ul, li, dl, dt, dd, table, td, input ,span{
+    font-size: 1.2rem;
+    }
+@import "variable";
+//轮播图的最外层div
+.lw-deatails-warp{
+    clear: both;
+    width: 100%;
+    border-bottom: 1px solid $bordercolor;
+    padding: 20px 0 0;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    background-color: white;
+}
+//轮播图图片外层div
+.lw-deatails-carousel{
+    width: 100%;
+    height: 230px;
+    margin: 2px auto 3px;
+    position: relative;
+    overflow: hidden;
+}
+//轮播图图片div
+.lw-deatails-img{
+    overflow: hidden;
+    position: relative;
+    ul{
+        margin: 0;
+        height: 200px;
+        width: 700%;
+        transition: 0s;
+        transform: translate3d(-1143px, 0px, 0px);
+        display: block;
+        li{
+            width: 300px;
+            float: left;
+            display: block;
+            height: 200px;
+            margin: 0;
+            img{
+                width: 200px;
+                height: 200px;
+                margin: 0 5px;
+                background: #fff;
+            }
+        }
+    }
+}
+//轮播图下面的红色小圆点
+.lw-deatails-dot{
+    width: 100%;
+    height: 6px;
+    text-align: center;
+    display: block;
+    dd{
+        width:6px;
+        height:6px;
+        display:inline-block;
+        background:#bbb;
+        border-radius:3px;
+        margin:0 3px;
+
+    }
+}
+//轮播图下面的商品信息
+.lw-deatails-info{
+    margin-bottom:10px;
+    padding:10px 15px;
+    border-top:1px solid $bordercolor;
+    border-bottom:1px solid $bordercolor;
+    background:#fff;
+    h2{
+        display:block;
+        font-size: 16px;
+        line-height: 20px;
+        word-break: break-all;
+        font-weight:400;
+        margin:0;
+        span{
+            color:$background;
+            font-weight:500;
+            font-size: 16px;
+            word-break: break-word;
+            display:inline;
+        }
+    }
+}
+//商品的价值样式
+.lw-deatails-value{
+    display:block;
+    padding: 8px 0 1px;
+}
+//颜色样式
+.lw-gary6{
+    color: #666;
+}
+//颜色样式
+.lw-gary9{
+    color: #999;
+}
+.lw-deatails-margin{
+    margin-top:5px;
+}
+//红色进度条
+.lw-deatails-p{
+    width:100%;
+    height:7px;
+    background:#e7e7e7;
+    border-radius:3px;
+    overflow:hidden;
+    position:relative;
+    span{
+        background:$background;
+        border-radius:3px;
+        height:100%;
+        display:block;
+    }
+}
+//红色进度条下面参与信息的包裹样式
+.lw-deatails-progress{
+    ul{
+        li{
+            float:left;
+            color:#ccc;
+            margin:0;
+            padding:0;
+            font-family: ËÎÌå;
+            em{
+                display:block;
+                font-family: arial;
+                height: 14px;
+                padding: 2px 0 0 0;
+                font-style: normal;
+            }
+        }
+    }
+}
+//红色进度条下面第一个li样式
+.lw-deatails-one{
+    text-align:left;
+    width:30%;
+    em{
+        color:$background;
+    }
+}
+//红色进度条下面第二个li样式
+.lw-deatails-two{
+    width:40%;
+    text-align:center;
+    em{
+        color:#999;
+    }
+}
+//红色进度条下面第三个li样式
+.lw-deatails-three{
+    width:30%;
+    text-align:right;
+    em{
+        color:#2af;
+    }
+}
+//您没有参与本期物品的样式
+.lw-deatails-no{
+    border-top: 1px solid $bordercolor;
+    border-bottom: 1px solid $bordercolor;
+    margin-bottom: 10px;
+    span{
+        background: #fff;
+        color: #666;
+        padding: 6px 10px 6px 15px;
+        font-size: 14px;
+        margin-left: auto;
+        margin-right: auto;
+        display:block;
+        text-align:center;
+    }
+}
+//参与的幸运号码样式
+.lw-deatails-yes{
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
+    margin-bottom: 10px;
+    background:#fff;
+    padding:10px 15px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    table{
+        border-collapse:collapse;
+        width:98%;
+        tbody{
+            tr{
+                td{
+                    color: #666;
+                    font-size: 1.2rem;
+                    b{
+                        margin-right:6px;
+                    }
+                }
+            }
+        }
+    }
+}
+//参与了几人次的样式
+.lw-yes-word{
+    font-size:1.4rem;
+    em{
+        color:$background;
+    }
+}
+//右浮动样式
+.lw-fr{
+    float:right;
+}
+//下面参与记录等等的外层包含div和里面所有样式的样式
+.lw-deatails-include{
+    width:100%;
+    font-size:1.6rem;
+    border-bottom:1px solid $bordercolor;
+    a{
+        display:block;
+        background:#fff;
+        padding:0 10px;
+        height:42px;
+        line-height:42px;
+        color:#666;
+        border-top:1px solid $bordercolor;
+        em{
+            font-size:1rem;
+            color:#bbb;
+        }
+        s{
+            background: url(../image/icon/set.png);
+            background-size: 35px auto;
+            width: 7px;
+            height: 13px;
+            display: block;
+            background-position: 0 -182px;
+            position: relative;
+            top: 15px;
+        }
+    }
+}
+.lw-deatails-padding{
+    padding-bottom:20px;
+}
+
+//底部样式
+#footer{
+    width: 100%;
+    background: #fff;
+    padding: 6px 0;
+    position: absolute;
+    ul{
+        padding: 0 10px 0 36px;
+        li{
+            float:left;
+            width:50%;
+        }
+    }
+}
+//底部立即参与的样式
+.lw-footer-participation{
+    display: block;
+    margin-left: 15px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 16px;
+    background: $background;
+}
+//底部加入购物车的样式
+.lw-footer-join{
+    display: block;
+    margin-left: 15px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 16px;
+    background: #2af;
+}
+//底部购物车的小图标样式
+.lw-footer-cart{
+    float:right;
+    background:url(../image/icon/set.png);
+    background-size: 35px auto;
+    width: 26px;
+    height: 23px;
+    background-position: 0 -47px;
+    margin-right: 20px;
+    margin-top: 8px;
+    position: relative;
+    b{
+        display: block;
+        min-width: 16px;
+        height: 16px;
+        line-height: 16px;
+        background: #e60044;
+        color: #fff;
+        padding: 1px;
+        border-radius: 16px;
+        position: absolute;
+        top: -7px;
+        right: -10px;
+        font-family: Arial;
+        text-align: center;
+    }
+}
+
+// 底部 XXX期正在进行中
+.lw-footer-doing{
+    display: block;
+    width: 80%;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 16px;
+    background: $background;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+//查看全部弹出层
+.lw-layer{
+    position:absolute;
+    top:20%;
+    left:15%;
+    right:15%;
+    text-align:center;
+    width:70%;
+    height: 50%;
+    z-index:100;
+    border: 6px solid rgba(0,0,0,.3);
+    border-radius: 5px;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    -webkit-background-clip: content;
+    box-shadow: 1px 1px 50px rgba(0,0,0,.3);
+    border-radius: 2px;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+}
+//幸运号码外层
+.lw-layer-head{
+    padding: 0 80px 0 20px;
+    height: 15%;
+    line-height: 42px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: #F8F8F8;
+    border-radius: 2px 2px 0 0;
+
+}
+//隐藏遮罩层
+.lw-mask{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right:0px;
+    bottom:0px;
+    background-color: #000;
+    -moz-opacity: 0.3;
+    opacity:.30;
+    filter: alpha(opacity=30);
+    z-index:99;
+}
+//幸运号码
+.lw-number{
+    width: 100%;
+    height: 85%;
+    overflow-y:auto;
+    table{
+        width:96%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+//关闭按钮
+.lw-close{
+    background: url(../image/icon/icon.png) no-repeat;
+    position: relative;
+    width: 30px;
+    height: 40px;
+    font-size: 12px;
+    background-position: 15px -41px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+}
+//关闭按钮外层
+.lw-close-warp{
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 0;
+    line-height: initial;
+}

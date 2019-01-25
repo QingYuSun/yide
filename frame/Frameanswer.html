@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>常见问题的内容和公告内容显示Frame</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/answer.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/dep/api.js"></script>
+</head>
+<body>
+    <!-- <header class="lw-new">
+        <div class="lw-return">
+            <a href="javascript:;" onclick="javascript:history.back(-1);">
+                <s></s>
+            </a>
+        </div>
+    </header> -->
+    <section>
+    <!-- 内页顶部 -->
+        <div class="lw-answer" >
+             <dt id="lw-answer">
+              <!--  <h3>新手引导指南
+                <dd>2016-03-18 19:19:23</dd>
+                </h3>-->
+            </dt>
+            <li id="lw-answer-li">
+               <!-- <p>
+                    参与一得宝总共5步：
+                    <br>
+                </p>
+                <p>（第一步）登陆一得宝，到一得宝首页挑选商品</p>
+                <p>（第二步）对选中的商品点击"加入购物车"或"立即参与"按钮</p>
+                <p>
+                    <img src="/image/88134491698891.jpg">
+                </p>
+                <p>（第三步）在购物车界面修改参与人次，点击"结算"按钮</p>
+                <p>
+                    <img src="/image/57900764698979.jpg">
+                </p>
+                <p>（第四步）选择支付方式后点击"确认支付"按钮</p>
+                <p>
+                    <img src="/image/98542076699033.jpg">
+                </p>
+                <p>（第五步）支付成功，直接点击或在个人中心查看参与记录，等待满员后系统开奖</p>
+                <p>
+                    <img src="/image/16652451699111.jpg">
+                </p>
+                <p>
+                    <span style="color: rgb(255, 0, 0);">现金消费后，系统将自动赠送消费金额的1%充值到您的积分中，比如您消费了100元，赠送100积分，100积分可抵1元直接消费。</span>
+                </p>
+                <p>预祝各位亲旗开得中、每夺必中！！</p>
+                <p>
+                    <a href="#">
+                        <img src="/image/89278688699208.jpg">
+                    </a>
+                </p>-->
+
+            </li>
+        </div>
+    </section>
+</body>
+</html>
+<script type="text/javascript">
+    apiready = function(){
+        //这里的代码有冗余
+        var pagenum = api.pageParam.page; // pagenum :1代表公告  0代表常见问题
+        var id = api.pageParam.id;
+        if(pagenum==1){
+            api.ajax({
+                url: AJAX_URI+'/showindex/gonggaoinfo',
+                method: 'get',
+                cache:false,
+                dateType:'json',
+                returenAll:false,
+                data: {
+                        values: {id: id},
+                    }
+                },function(ret, err){
+                if (ret) {
+                    var html='';
+                    var lihtml='';
+                    for(var j in ret){
+                        html+='<h3>'+ret[j].title+' <dd>'+ret[j].posttime+'</dd></h3>';
+                        for(var i in ret[j].content){
+                            //alert(ret.content[i]);
+                            lihtml+=''+ret[j].content[i]+'';
+                        }
+                    }
+                    $api.append($api.byId('lw-answer'),html);
+                    $api.append($api.byId('lw-answer-li'),lihtml);
+                } else {
+                    alert( JSON.stringify( err ) );
+                }
+            });
+        }else{
+            api.ajax({
+                url: AJAX_URI+'/showindex/info',
+                method: 'get',
+                cache:false,
+                dateType:'json',
+                returenAll:false,
+                data: {
+                        values: {id: id},
+                    }
+                },function(ret, err){
+                if (ret) {
+                    var html='';
+                    var lihtml='';
+                    for(var j in ret){
+                        html+='<h3>'+ret[j].title+' <dd>'+ret[j].posttime+'</dd></h3>';
+                        for(var i in ret[j].content){
+                            //alert(ret.content[i]);
+                            lihtml+=''+ret[j].content[i]+'';
+                        }
+                    }
+                    $api.append($api.byId('lw-answer'),html);
+                    $api.append($api.byId('lw-answer-li'),lihtml);
+                } else {
+                    alert( JSON.stringify( err ) );
+                }
+            });
+        }
+
+    }
+</script>

@@ -1,0 +1,143 @@
+@charset "utf-8";
+html,body{
+    height: 100%;
+    background-color:#fff;
+    min-width: 320px;
+    font-size: 62.5%;
+    font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
+}
+h1, h2, h3, h4, h5, b{
+    font-weight: normal;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+section{
+    margin-bottom:48px;
+}
+div, ul, li, dl, dt, dd, table, td, input ,span{
+    font-size: 1.2rem;
+}
+@import "variable";
+.lw-goods{
+	background-color:#f7f7f7;
+}
+//切换栏改变样式
+.lw-footer-latest{
+	a.hover{
+		color:$background;
+		i{
+			background-position: 0px -162px;
+		}
+	}
+}
+//主体部分每个li的样式
+.lw-goods-list{
+	position:relative;
+	overflow:hidden;
+}
+//主体部分正在揭晓的红色边框样式
+.lw-goods-border{
+	border:2px solid $background;
+	border-top: 0 none;
+    overflow: hidden;
+    position: relative;
+}
+//主体部分正在揭晓的文字部分的样式
+.lw-goods-newest{
+	h4{
+        max-height: 35px;
+        overflow: hidden;
+        color: #666;
+        line-height: 18px;
+        display: block;
+        font-size: 1.4rem;
+		a{
+            color:#2af;
+		}
+	}
+	h5{
+	    line-height: 25px;
+        display: block;
+        font-weight: normal;
+        font-size:1.2rem;
+	}
+    p{
+        padding: 0 12px 0 9px;
+        height: 23px;
+        line-height: 23px;
+        background: #e60044;
+        border-radius: 3px;
+        color: #fff;
+        border: 1px solid #e60044;
+        display: inline-block;
+    }
+	
+}
+//正在揭晓商品左上角红色正在揭晓的图标样式
+.lw-img-ing{
+	background: $background;
+    color: #fff;
+    font-size: 12px;
+    width: 90px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    -webkit-transform: rotate(-45deg);
+    position: absolute;
+    left: -27px;
+    top: 7px;
+    z-index:3;
+}
+//商品相面显示第几期
+.lw-img-black{
+	position:absolute;
+	width:100%;
+	height:19px;
+    bottom:0;
+    left:0;
+    text-align:center;
+    line-height:19px;
+    background-color:#000;
+    opacity:0.3;
+    h5{
+    	position: relative;
+        color: #fff;
+        font-size:.75rem;
+    }
+}
+//获得者信息
+.lw-gain{
+	margin-left: 87px;
+    color: #999;
+    line-height: 18px;
+    position: relative;
+	dt{
+		font-size:1.5625rem;
+		color:#666;
+		height:19px;
+		overflow:hidden;
+		line-height:18px;
+		i{
+		    font-style:normal;			
+		}
+		span{
+			a{
+				font-size:1.5625rem;
+				color:#2af;
+			}
+		}
+	}
+	dd{
+		em{
+			color:$background;
+		}
+	}
+}
+//加载跟多的样式
+.lw-load{
+	text-align: center;
+	padding: 10px;
+	background:#f7f7f7;
+}

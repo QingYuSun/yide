@@ -1,0 +1,116 @@
+html, body {
+  height: 100%;
+  background-color: #fff;
+  min-width: 320px;
+  font-size: 62.5%;
+  font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif; }
+
+h1, h2, h3, h4, h5, b {
+  font-weight: normal; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+section {
+  margin-bottom: 48px; }
+
+div, ul, li, dl, dt, dd, table, td, input, span {
+  font-size: 1.2rem; }
+
+.lw-goods {
+  background-color: #f7f7f7; }
+
+.lw-footer-latest a.hover {
+  color: #e60044; }
+  .lw-footer-latest a.hover i {
+    background-position: 0px -162px; }
+
+.lw-goods-list {
+  position: relative;
+  overflow: hidden; }
+
+.lw-goods-border {
+  border: 2px solid #e60044;
+  border-top: 0 none;
+  overflow: hidden;
+  position: relative; }
+
+.lw-goods-newest h4 {
+  max-height: 35px;
+  overflow: hidden;
+  color: #666;
+  line-height: 18px;
+  display: block;
+  font-size: 1.4rem; }
+  .lw-goods-newest h4 a {
+    color: #2af; }
+.lw-goods-newest h5 {
+  line-height: 25px;
+  display: block;
+  font-weight: normal;
+  font-size: 1.2rem; }
+.lw-goods-newest p {
+  padding: 0 12px 0 9px;
+  height: 23px;
+  line-height: 23px;
+  background: #e60044;
+  border-radius: 3px;
+  color: #fff;
+  border: 1px solid #e60044;
+  display: inline-block; }
+
+.lw-img-ing {
+  background: #e60044;
+  color: #fff;
+  font-size: 12px;
+  width: 90px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  -webkit-transform: rotate(-45deg);
+  position: absolute;
+  left: -27px;
+  top: 7px;
+  z-index: 3; }
+
+.lw-img-black {
+  position: absolute;
+  width: 100%;
+  height: 19px;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  line-height: 19px;
+  background-color: #000;
+  opacity: 0.3; }
+  .lw-img-black h5 {
+    position: relative;
+    color: #fff;
+    font-size: .75rem; }
+
+.lw-gain {
+  margin-left: 87px;
+  color: #999;
+  line-height: 18px;
+  position: relative; }
+  .lw-gain dt {
+    font-size: 1.5625rem;
+    color: #666;
+    height: 19px;
+    overflow: hidden;
+    line-height: 18px; }
+    .lw-gain dt i {
+      font-style: normal; }
+    .lw-gain dt span a {
+      font-size: 1.5625rem;
+      color: #2af; }
+  .lw-gain dd em {
+    color: #e60044; }
+
+.lw-load {
+  text-align: center;
+  padding: 10px;
+  background: #f7f7f7; }
+
+/*# sourceMappingURL=newest.css.map */

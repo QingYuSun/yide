@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>好友邀请</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/friend.css" />
+    </head>
+<body>
+	<section>
+        <div class="lw-friend-wrap">
+            <div class="lw-friend-img">
+                <img src="../image/inv-ad1.jpg">
+            </div>
+            <div class="lw-friend-share">
+                <a href="#">分享朋友赚积分</a>
+                <a href="#">分享朋友圈赚积分</a>
+                <a href="#">收藏</a>
+            </div>
+        </div>
+        <div class="lw-friend-play">
+            <span>已邀请好友:
+                <b>1</b>位
+            </span>
+        </div>
+        <div class="lw-friend-invite">
+            <a onclick="friend1()" href="javascript:;">推广二维码
+                <s></s>
+            </a>
+            <a onclick="friend2()" href="javascript:;">好友邀请记录<s></s></a>  
+        </div>
+	</section>
+</body>
+<script type="text/javascript">
+function friend1(){
+    api.sendEvent({
+        name: 'friend1',
+        extra: {
+        }
+    });
+}
+function friend2(){
+    api.sendEvent({
+        name: 'friend2',
+        extra: {
+        }
+    });
+}
+</script>
+</html>

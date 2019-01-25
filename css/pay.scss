@@ -1,0 +1,123 @@
+@charset "utf-8";
+
+@import "variable";
+
+//支付页面中商品名称和几人次的样式
+.lw-pay-wrap{
+    margin-top:10px;
+    display:block;
+    ul{
+        li{
+            line-height:20px;
+            border-bottom:1px dotted #cbcbcb;
+            max-height:20px;
+            padding:10px 10px;
+            overflow:hidden;
+            position:relative;
+            a{
+                color:#666;
+                line-height:20px;
+                height:20px;
+                margin-right:18%;
+                display:inline-block;
+                width:80%;
+                overflow:hidden;
+            }
+            span{
+                position:absolute;
+                right:10px;
+                top:10px;
+                color:#999;
+                em{
+                    color:$background;
+                    font-family: Arial;
+                }
+            }
+        }
+    }
+}
+
+//合计多少签到样式
+.lw-pay-p{
+    line-height:33px;
+    text-align:right;
+    padding-right:10px;
+    color:#999;
+    span{
+        color:$background;
+        font-size:1.6rem;
+        font-weight:bold;
+        font-family: Arial;
+    }
+}
+
+//合计多少钱下面虚线的样式
+.lw-pay-img{
+    background:url(/image/icon/setIcon.png);
+    background-size:80px auto;
+    background-repeat:repeat-x;
+    background-position:0 0;
+    background-color:#f4f4f4;
+    height:4px;
+}
+
+//选择付款方式的外层样式
+.lw-pay-style{
+    display:block;
+    padding:10px;
+}
+
+//选择支付方式的样式
+.lw-pay-choice{
+    display:block;
+    margin-top:10px;
+    border:1px solid #dcdcdc;
+    border-radius:5px;
+    overflow:hidden;
+    ul{
+        li{
+            display: block;
+            line-height: 41px;
+            border-top:1px solid #cbcbcb;
+            padding:0 0 0 10px;
+            overflow:hidden;
+            margin:-1px;
+            color:#666;
+            span{
+                display: inline-block;
+            }
+            em{
+                color:$background;
+                font-family: Arial;
+            }
+        }
+    }
+}
+
+//确认支付的样式
+.lw-pay-affirm{
+    margin-top:10px;
+    a{
+        display: block;
+        width:100%;
+        height:43px;
+        border-radius:5px;
+        background:$background;
+        line-height:43px;
+        text-align:center;
+        color:#fff;
+        font-size:1.8rem;
+    }
+}
+
+#choice{
+    b{
+        padding:0 2px;
+        font-size:1.4rem;
+        color:block;
+        font-weight:700;
+    }
+    a{
+        color:$background;
+    }
+}

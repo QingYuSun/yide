@@ -1,0 +1,117 @@
+@charset "UTF-8";
+html, body {
+  height: 100%;
+  background-color: #f7f7f7;
+  min-width: 320px;
+  font-size: 62.5%;
+  font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif; }
+
+h1, h2, h3, h4, h5, b {
+  font-weight: normal; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+div, ul, li, dl, dt, dd, table, td, input, span {
+  font-size: 1.2rem; }
+
+#footer ul {
+  padding: 0; }
+  #footer ul li {
+    width: 100%;
+    margin: 0 10%; }
+    #footer ul li a {
+      width: 80%;
+      height: 35px;
+      background: #e60044;
+      font-size: 1.6rem;
+      color: #fff;
+      line-height: 35px;
+      text-align: center;
+      border-radius: 3px; }
+
+.lw-result-gainer {
+  padding: 15px 0 4px;
+  display: block;
+  background: #fff; }
+
+.lw-gainer-information {
+  margin: 0 10px;
+  border: 1px solid #e60044;
+  border-radius: 5px;
+  background: #fffeee;
+  overflow: hidden;
+  display: block; }
+
+.lw-gainer-img {
+  position: relative;
+  display: block; }
+  .lw-gainer-img p {
+    padding: 16px 0 0 10px;
+    float: left; }
+    .lw-gainer-img p a img {
+      display: block;
+      width: 60px;
+      height: 60px;
+      border-radius: 60px; }
+  .lw-gainer-img dl {
+    margin-left: 77px;
+    padding-top: 10px;
+    line-height: 18px;
+    color: #999; }
+    .lw-gainer-img dl dt {
+      font-size: 1.6rem; }
+      .lw-gainer-img dl dt a {
+        color: #2af; }
+    .lw-gainer-img dl dd i {
+      font-style: normal;
+      color: #e60044; }
+
+.lw-luck {
+  margin: 10px 0 0 0;
+  padding: 8px 10px 8px 10px;
+  background: #e60044;
+  display: block;
+  overflow: auto;
+  zoom: 1; }
+
+.lw-luck-number {
+  float: left; }
+  .lw-luck-number dd {
+    display: block;
+    color: #fff;
+    font-size: 1.35rem; }
+    .lw-luck-number dd i {
+      font-style: normal; }
+
+.lw-count {
+  float: right; }
+  .lw-count dd {
+    display: block;
+    color: #fff;
+    font-size: 1.35rem; }
+    .lw-count dd a {
+      color: #fff;
+      text-decoration: underline; }
+
+.lw-luck-icon {
+  width: 90px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #fff;
+  background: #e60044;
+  position: absolute;
+  top: 7px;
+  left: -27px;
+  transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  /* IE 9 */
+  -moz-transform: rotate(-45deg);
+  /* Firefox */
+  -webkit-transform: rotate(-45deg);
+  /* Safari 和 Chrome */
+  -o-transform: rotate(-45deg); }
+
+/*# sourceMappingURL=result.css.map */

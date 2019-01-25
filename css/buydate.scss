@@ -1,0 +1,138 @@
+@charset "utf-8";
+
+//哈哈哈哈
+@import "variable";
+//中间文字部分样式
+.lw-buydate-wrap{
+	margin-bottom:49px;
+	background:#f4f4f4;
+	ul{
+		li{
+			padding:15px 10px;
+			dl{
+				margin-left: 90px;
+                line-height: 18px;
+                dt{
+                	display: block;
+                    margin-bottom: 3px;
+                    font-size: 1.2rem；;
+                    line-height: 18px;
+                    a{
+                    	display:block;
+                    	color:#666;
+                    	max-height: 18px;
+                        overflow: hidden;
+                    }
+                }
+                dd{
+                	color:#999;
+                	a{
+                		color:#2af;
+                	}
+                	em{
+                		margin:0 3px;
+                	}
+                }
+			}
+		}
+	}
+}
+//中间商品图片样式
+.lw-buydate-img{
+	float: left;
+    width: 80px;
+    height: 80px;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    i{
+        display: block;
+        font-style:normal;
+        width: 80px;
+        height: 16px;
+        line-height: 16px;
+        color: #fff;
+         position: absolute;
+        left: -1px;
+        bottom: -1px;
+        text-align: center;
+        filter: alpha(opacity=30);
+        -moz-opacity: 0.3;
+        -khtml-opacity: 0.3;
+        opacity: 0.3;
+        border-radius: 0 0 2px 2px;
+        background:#000;
+    }
+	a{
+		display:block;
+		img{
+			left: -50%;
+            margin-top: -2px;
+            position: static;
+            top: -50%;
+            vertical-align: middle;
+            width: 100%;
+		}
+	}
+}
+//图片下面文字样式
+.lw-buydate-word{
+	display:block;
+	position: relative;
+	background: #f4f4f4 none repeat scroll 0 0;
+	padding:0 5px;
+	padding-bottom:10px;
+	s{
+		transform: rotate(45deg);
+		-webkit-transform: rotate(45deg);
+		font-size: 0;
+        line-height: 0;
+		border: solid #BBB;
+		background: #fff none repeat scroll 0 0;
+        border-color: #dcdcdc;
+        border-width: 1px 0 0 1px;
+        height: 8px;
+        left: 40px;
+        position: absolute;
+        top: -5px;
+        width: 8px;
+	}
+	article{
+		border: 1px solid #DCDCDC;
+        border-radius: 5px;
+		background:#fff;
+		dl{
+			dt{
+				display: block;
+                font-size: 1.4rem;
+				color: #999;
+                line-height: 30px;
+                padding-top: 5px;
+                text-indent: 10px;
+                em{
+                	color:$background;
+                }
+			}
+			dd{
+				border-top: 1px dotted #cbcbcb;
+                color: #666;
+                cursor: pointer;
+                line-height: 22px;
+                padding: 5px 0;
+                width:96%;
+                margin-left:auto;
+                margin-right:auto;
+				p{
+					margin:0 10px;
+					color:#999;
+				}
+                b{
+                    width: 25%;
+                    text-align: center;
+                    display: inline-block;
+                }
+			}
+		}
+	}
+}

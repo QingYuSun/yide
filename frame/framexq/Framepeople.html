@@ -1,0 +1,464 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>个人中心</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/people.css" />
+    <script type="text/javascript" src="../../js/dep/api.js"></script>
+    <script type="text/javascript" src="../../js/global.js"></script>
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+</head>
+<body>
+    <section>
+        <div id="lw-people-wrap" class="lw-people-wrap">
+            <div class="lw-people">
+                <ul id="lw-people">
+                    <!-- <li class="lw-people-img">
+                        <img src="../../image/icon/member.jpg">
+                    </li>
+                    <li class="lw-people-phone">
+                        <p>130****8435</p>
+                        <br>
+                        130****8435
+                        <br>
+                        <span>
+                            <s></s>
+                            名动四方
+                        </span>
+                    </li> -->
+                </ul>
+            </div>
+            <div  class="lw-people-shift">
+                <span onclick="onred(1,'lw-red-one')" id="lw-red-one" class="lw-people-border">
+                    <a id="lw-wordone" href="#" >参与记录</a>
+                </span>
+                <span onclick="onred(2,'lw-red-two')" id="lw-red-two"><a id="lw-wordtwo" href="#">获得的商品</a></span>
+                <span onclick="onred(3,'lw-red-three')" id="lw-red-three"><a id="lw-wordthree" href="#">晒单</a></span>
+            </div>
+<!--参与记录-->
+            <div id="lw-shift-one" class="lw-shift-one">
+            <!-- <ul>
+                    <li class="lw-one-img">
+                        <img src="../../image/92149415431432.jpg">
+                    </li>
+                    <li class="lw-one-word">
+                        (第59期)魅族 魅蓝3 全网通4G手机
+                        <div class="lw-shift-ing">
+                            <p class="lw-jindup">
+                            <span class="lw-pgbar" style="width:80%;">
+                                <span class="lw-pging"></span>
+                            </span>
+                            </p>
+                            <ul class="lw-bar">
+                                <li class="lw-bar1">
+                                    <em>57</em>
+                                    已参与
+                                </li>
+                                <li class="lw-bar2">
+                                    <em>65</em>
+                                    总需人次
+                                </li>
+                                <li class="lw-bar3">
+                                    <em>8</em>
+                                    剩余
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <ul >
+                    <li class="lw-one-img">
+                        <img src="../../image/92149415431432.jpg">
+                    </li>
+                    <li class="lw-one-word">
+                        (第59期)魅族 魅蓝3 全网通4G手机
+                        <p>价值：￥888.00</p>
+                        <span>
+                            获得者：<a href="#">138****6258</a>
+                            <br>
+                            幸运号码：<em>10000789</em>
+                        </span>
+                    </li>
+                </ul> -->
+            </div>
+<!--获得商品-->
+            <div id="lw-shift-two" class="lw-shift-one" style="display:none">
+               <!--  <ul>
+                   <li class="lw-one-img">
+                       <img src="../../image/92149415431432.jpg">
+                   </li>
+                   <li class="lw-one-word">
+                       (第59期)魅族 魅蓝3 全网通4G手机
+                       <p>价值：￥888.00</p>
+                       <span>
+                           幸运号码：<em>10000789</em>
+                           <br>
+                           揭晓时间：2016-07-05 10:04:10
+                       </span>
+                   </li>
+               </ul> -->
+            </div>
+<!--晒单-->
+            <div id="lw-shift-three" class="lw-people-announce" style="display:none">
+                <!-- ul>
+
+                    <li>
+                        <a href="#">
+                            <h3>
+                                <b>坚持就会中</b>
+                                <em>07月08日 14:27</em>
+                            </h3>
+                            <p>收到信息那一刻，心情很激动，收到货 ，心情更激动，现在每天在一得宝夺宝都成习惯了！不过我是理性玩家，哈哈，希望好运继续伴随。</p>
+                            <dl>
+                                <img src="/image/1601159838.jpg">
+                            </dl>
+                        </a>
+                    </li>
+                </ul>
+                            </div> -->
+        </div>
+        <div style="display:none;" id="lw-nodata" class="lw-nodata">
+            <s></s>
+            <p>暂无记录</p>
+        </div>
+        <div style="display:none;" id="lw-loading" class="lw-load">加载中...</div>
+        <div style="display:none;" id="lw-loadover" class="lw-load">没有更多数据了</div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript">
+        var page = 1; // 分页页数
+        var zjpage = 1; // 分页页数
+        var sdpage = 1; // 分页页数
+        var uid = getUrlParam('uid');
+        var cydata=1;
+        var zjdata=1;
+        var sddata=1;
+         //uid = api.pageParam.uid;
+        Loading(1);
+        //var uid = 549;
+        ajaxcy(uid);
+        ajaxzj(uid);
+        ajaxsd(uid);
+        yhajax(uid);
+    apiready = function(){
+
+        //下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+
+        // 分页加载
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+        }, function(ret, err){
+            if ($('#lw-shift-one').css("display") == "block") {
+                if ($('#lw-loadover').css('display') != 'block') {
+                    if ($('#lw-shift-one ul').length > 4) {
+                        $('#lw-loading').show();
+                    }
+                }
+                ajaxcy(uid);
+                }
+            if ($('#lw-shift-two').css("display") == "block") {
+                if ($('#lw-loadover').css('display') != 'block') {
+                    if ($('#lw-shift-two ul').length > 3) {
+                        $('#lw-loading').show();
+                    }
+                }
+                ajaxzj(uid);
+                }
+            if ($('#lw-shift-three').css("display") == "block") {
+                if ($('#lw-loadover').css('display') != 'block') {
+                    if ($('#lw-shift-three ul').length > 3) {
+                        $('#lw-loading').show();
+                    }
+                }
+                ajaxsd(uid);
+                }
+        });
+    }
+    //判断是否有数据
+    function Loading(i,id){
+        if (i==2) {
+            $('#'+id).hide();
+            $('#lw-nodata').show();
+        }else{
+            $('#'+id).show();
+            $('#lw-nodata').hide();
+        }
+    }
+    //用户
+    function yhajax(){
+        $.ajax({
+            type: 'GET',
+            url: 'http://jl.haodbao.com/index.php/Peoplecenter/get_user',
+            dateType:'json',
+            data: { uid: uid},
+            success: function(result) {
+                var json=JSON.parse(result);
+                var userhtml='';
+                userhtml+='<li class="lw-people-img">';
+                userhtml+='<img src="http://m.51edb.com/love/uploads/'+json.img+'">';
+                userhtml+='</li>';
+                userhtml+='<li class="lw-people-phone" id="lw-people-phone">';
+                userhtml+='<p>'+json.username+'</p><br>'+(json.mobile ? json.mobile : " ") +'<br>';
+                userhtml+='<span>';
+                userhtml+='<s></s>'+json.jingyan+'';
+                userhtml+='</span>';
+                userhtml+='</li>';
+                $("#lw-people").html(userhtml);
+            }
+        });
+    }
+
+    //参与纪录
+    function ajaxcy(uid){
+        $.ajax({
+            type: 'GET',
+            url: 'http://jl.haodbao.com/index.php/Peoplecenter/get_canyu',
+            dateType:'json',
+            data: { uid: uid,page: page},
+            success: function(result) {
+                var json=JSON.parse(result);
+                var canyuhtml='';
+                if (json==0 && page==1) {
+                        cydata=json;
+                        Loading(2,'lw-shift-one');
+                    }else{
+                        $(json).each(function(index){
+                            if(this.shenyurenshu==0){
+                                canyuhtml+='<ul onclick="openGoods(\'' + this.id + '\')">';
+                                canyuhtml+='<li class="lw-one-img">';
+                                canyuhtml+='<img src="http://m.51edb.com/love/uploads/'+this.thumb+'"">';
+                                canyuhtml+='</li>';
+                                canyuhtml+='<li class="lw-one-word">';
+                                canyuhtml+='(第'+this.qishu+'期)'+this.title+'';
+                                canyuhtml+='<p>价值：￥'+this.money+'</p>';
+                                canyuhtml+='<span>';
+                                canyuhtml+='获得者：<a onclick="event.stopPropagation(); gotourl(\'./Framepeople.html?uid='+this.q_uid+'\')" href="javascript:;">'+this.q_user+'</a><br>';
+                                canyuhtml+='幸运号码：<em>'+this.q_user_code+'</em>';
+                                canyuhtml+='</span>';
+                                canyuhtml+='</li></ul></div>';
+                            }else{
+                                canyuhtml+='<div><ul onclick="openGoods(\'' + this.id + '\')">';
+                                canyuhtml+='<li class="lw-one-img">';
+                                canyuhtml+='<img src="http://m.51edb.com/love/uploads/'+this.thumb+'"></li>';
+                                canyuhtml+='<li class="lw-one-word">(第'+this.qishu+'期)'+this.title+'';
+                                canyuhtml+='<div class="lw-shift-ing"><p class="lw-jindup"><span class="lw-pgbar" style="width:80%;"><span class="lw-pging"></span></span></p>';
+                                canyuhtml+='<ul class="lw-bar">';
+                                canyuhtml+='<li class="lw-bar1"><em>'+this.canyurenshu+'</em>已参与</li><li class="lw-bar2"><em>'+this.zongrenshu+'</em>总需人次</li>';
+                                canyuhtml+='<li class="lw-bar3"><em>'+this.shenyurenshu+'</em>剩余';
+                                canyuhtml+='</li></ul></div></li></ul>';
+                            }
+                        });
+                }
+                $("#lw-shift-one").append(canyuhtml);
+                page++;
+
+                if (canyuhtml=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+
+                if ($('#lw-shift-one ul').length < 4) {
+                    $('#lw-loadover').hide();
+                    $('#lw-loading').hide();
+                }
+            }
+           
+        });
+    }
+
+    //中奖
+    function ajaxzj(uid){
+        $.ajax({
+            type: 'GET',
+            url: 'http://jl.haodbao.com/index.php/Peoplecenter/get_zhongjiang',
+            dateType:'json',
+            data: { uid: uid,page: zjpage},
+            success: function(result) {
+                var json=JSON.parse(result);
+                var html='';
+                if (json==0 && zjpage==1) {
+                    zjdata=json;
+                    }else{
+                $(json).each(function(index){
+                    html+='<ul onclick="openGoods(\'' + this.id + '\')">';
+                    html+='<li class="lw-one-img"><img src="http://m.51edb.com/love/uploads/'+this.thumb+'"></li>';
+                    html+='<li class="lw-one-word">(第'+this.qishu+'期)'+this.title+' <p>价值：￥'+this.money+'</p>';
+                    html+='<span>幸运号码：<em>'+this.q_user_code+'</em><br>揭晓时间：'+this.q_end_time+'</span>';
+                    html+='</li> </ul>';
+                });
+            }
+                $("#lw-shift-two").append(html);
+                zjpage++;
+                if (html=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+
+                if ($('#lw-shift-two ul').length < 3) {
+                    $('#lw-loadover').hide();
+                    $('#lw-loading').hide();
+                }
+            }
+        });
+    }
+
+    //晒单
+    function ajaxsd(uid){
+        $.ajax({
+            type: 'GET',
+            url: 'http://jl.haodbao.com/index.php/Peoplecenter/get_gerenshai',
+            dateType:'json',
+            data: { uid: uid,page: sdpage},
+            success: function(result) {
+                var json=JSON.parse(result);
+                var html='';
+                if (json==0 && sdpage==1) {
+                    sddata=json;
+                    }else{
+                $(json).each(function(index){
+                    html+='<ul onclick="event.stopPropagation(); gotowin(\''+this.sd_id+'\')"><li><a href="#"><h3><b>'+this.sd_title+'</b><em>07月08日 14:27</em></h3>';
+                    html+='<p>'+this.sd_content+'</p>';
+                    html+='<dl><img src="http://m.51edb.com/love/uploads/'+this.sd_thumbs+'"></dl>';
+                    html+='</a></li></ul>';
+                });
+            }
+                $("#lw-shift-three").append(html);
+                sdpage++;
+
+                if (html=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+
+                if ($('#lw-shift-three ul').length < 3) {
+                    $('#lw-loadover').hide();
+                    $('#lw-loading').hide();
+                }
+            }
+        });
+    }
+    //切换栏的参与记录点击
+    function onred(i,id){
+        $('#lw-loadover').hide();
+        $('#lw-loading').hide();
+        $("#lw-red-one").removeClass('lw-people-border');
+        $("#lw-red-two").removeClass('lw-people-border');
+        $("#lw-red-three").removeClass('lw-people-border');
+        $("#"+id).addClass("lw-people-border");
+        
+        $("#lw-shift-one").hide();
+        $("#lw-shift-three").hide();
+        $("#lw-shift-two").hide();
+        
+        if (i==1) {
+            if (cydata==0) {
+                $("#lw-shift-one").hide();
+                $("#lw-nodata").show();
+                $("#lw-shift-two").hide();
+                $("#lw-shift-three").hide();
+            }else{
+                $("#lw-shift-one").show();
+                $("#lw-nodata").hide();
+                $("#lw-shift-two").hide();
+                $("#lw-shift-three").hide();
+            }
+        }
+        if (i==2) {
+            if (zjdata==0) {
+                $("#lw-shift-two").hide();
+                $("#lw-nodata").show();
+                $("#lw-shift-one").hide();
+                $("#lw-shift-three").hide();
+            }else{
+                $("#lw-shift-two").show();
+                $("#lw-nodata").hide();
+                $("#lw-shift-one").hide();
+                $("#lw-shift-three").hide();
+            }
+        }
+        if (i==3) {
+            if (sddata==0) {
+                $("#lw-shift-three").hide();
+                $("#lw-nodata").show();
+                $("#lw-shift-one").hide();
+                $("#lw-shift-ywo").hide();
+            }else{
+                $("#lw-shift-three").show();
+                $("#lw-nodata").hide();
+                $("#lw-shift-one").hide();
+                $("#lw-shift-two").hide();
+            }
+        }
+    }
+
+    function openGoods(goodsID) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://192.168.1.180/index.php/showindex/get_goods_status',
+            data: {goods_id: goodsID},
+            dateType:'json',
+            success: function(result) {
+                switch(result){
+                    case '1': // 详情页
+                        winName = 'edbGoodsDetailWin';
+                        url = '../../html/goods.html';
+                        break;
+                    case '2': // 揭晓页
+                        winName = 'edbGoodsAnnounceWin';
+                        url = '../../html/goods-win.html';
+                        break;
+                    case '3': // 倒计时页
+                        winName = 'edbGoodsTimeWin';
+                        url = '../../html/goods-time.html';
+                        break;
+                }
+                api.openWin({
+                    name: winName,
+                    url: url,
+                    pageParam: {
+                        goodsID: goodsID
+                    },
+                    bounces:false,
+                    hScrollBarEnabled:false
+                });
+            }
+        });
+    }
+
+    //晒单内容的点击跳转
+    function gotourl(url) {
+        window.location.href=url
+    }
+
+    function gotowin(sid) {
+        api.openWin({
+            name: 'edbshareWin',
+            url: '../../html/share.html',
+            pageParam: {
+                sid: sid
+            },
+            bounces:false,
+            hScrollBarEnabled:false
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,511 @@
+@charset "utf-8";
+html,body{
+    height: 100%;
+    background-color:#fff;
+    min-width: 320px;
+    font-size: 62.5%;
+    font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
+}
+h1, h2, h3, h4, h5, b{
+    font-weight: normal;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+div, ul, li, dl, dt, dd, table, td, input ,span{
+    font-size: 1.2rem;
+}
+@import "variable";
+
+//返回按键样式
+.lw-return{
+    display:block;
+    position:absolute;
+    top:21px;
+    left:3px;
+    a{
+        display:block;
+        height: 33px;
+        line-height: 33px;
+        padding-left: 15px;
+        display: inline-block;
+        position: relative;
+        s{
+            position:absolute;
+            top:25%;
+            display:block;
+            height:10px;
+            width:10px;
+            border:solid #fff;
+            border-width:3px 0 0 3px;
+            background:$background;
+            transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+        }
+    }
+}
+//头部标题栏"一得宝"
+.lw-index-edb{
+    background:$background;
+    text-align:center;
+    padding-top:15px;
+    height:42px;
+    line-height:42px;
+    color:#fff;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index: 10;
+
+    #lw-page-title{
+        font-size: 1.6rem;
+    }
+}
+//轮播图
+.Carousel{
+    width:100%;
+}
+//导航栏
+.nav{
+    margin:0 5px;
+    ul{
+        li{
+            width:25%;
+            float:left;
+            padding:10px 0;
+            text-align:center;
+            img{
+                width:40px;
+                height:40px;
+            }
+            span{
+                display:block;
+                color:#535353;
+                text-align:center;
+            }
+        }
+    }
+}
+//主体
+#main{
+    position:relative;
+}
+.roll{
+    ul{
+        li{
+            a{
+                color:#666;
+            }
+        }
+    }
+}
+  //主体部分导航栏
+    #main-nav{
+    width: 100%;
+    height: 44px;
+    position: relative;
+    border-top: 1px solid $bordercolor;
+    border-bottom: 1px solid $bordercolor;
+    margin-top: 10px;
+    }
+//向上字体滚动栏
+.roll{
+    height: 25px;
+    line-height: 25px;
+    overflow: hidden;
+    background-color: #F8F8F8;
+    border: 1px solid $bordercolor;
+    box-sizing:border-box;
+    ul{
+        list-style-type: none;
+        margin: 0px;
+        li{
+            height: 25px;
+            padding-left: 10px;
+            list-style-type: none;
+            margin: 0px;
+            overflow: hidden;
+        }
+    }
+}
+//主体部分第一部分导航栏
+.main-nav-one{
+    ul{
+        li.red{
+            span{
+                border-color:$background;
+                color:$background;
+            }
+        }
+    }
+}
+.main-nav-one{
+    width: 76%;
+    height: 44px;
+    float: left;
+    padding-left: 6px;
+    box-sizing: border-box;
+    ul{
+        width:100%;
+        display:block;
+        li{
+            &:first-child{
+                width:31%;
+            }
+            width:23%;
+            float:left;
+            height: 44px;
+            text-align: center;
+            a{
+                display: block;
+                font-size: 1.2rem;
+                span{
+                    display: inline-block;
+                    height: 30px;
+                    line-height: 30px;
+                    border-bottom: 2px solid transparent;
+                    color: #999;
+                    margin-top: 6px;
+                    font-size:1.2rem;
+                }
+            }
+        }
+    }
+}
+//主体部分分类导航栏
+.main-nav-last{
+    width: 24%;
+    height: 44px;
+    line-height: 42px;
+    box-sizing: border-box;
+    border-left: 1px solid $bordercolor;
+    font-size: 1.3rem;
+    text-align: center;
+    color: #999;
+    float: left;
+    position: relative;
+    span{
+        width: 13px;
+        height: 12px;
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+        overflow: hidden;
+        font-size:1.275rem;
+        i{
+            &:first-child{
+                margin-top:0;
+            }
+            display: block;
+            width: 13px;
+            height: 2px;
+            background-color: #bbb;
+            margin-top:3px;
+        }
+    }
+}
+//分类隐藏部分
+.lw-catalog-hidden{
+    position: absolute;
+    top: 45px;
+    right: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 4;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.19);
+    ul{
+        li{
+            border-bottom: 1px solid $bordercolor;
+            height: 44px;
+            line-height: 42px;
+            box-sizing: border-box;
+            width: 33.3%;
+            border-right: 1px solid $bordercolor;
+            float: left;
+            a{
+                display: block;
+                color: #999;
+                font-size: 1.3rem;
+                padding: 0 15px;
+                text-align: center;
+                -webkit-tap-highlight-color: rgba(0,0,0,.2);
+            }
+        }
+    }
+}
+
+//主体部分样式
+.goods{
+    width:100%;
+}
+//主体商品列表a标签
+.lw-goods-a{
+        a{
+            width:100%;
+            height:100px;
+        }
+    }
+//主体商品列表图片标签
+.lw-goods-img{
+        display: block;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+}
+.lw-goods-list{
+    padding: 10px 10px 2px 10px;
+    float: left;
+    box-sizing: border-box;
+    width: 50%;
+    border-right: 1px solid $bordercolor;
+    border-bottom: 1px solid $bordercolor;
+    height: 216px;
+    position: relative;
+    overflow: hidden;}
+//主体商品名称
+.lw-goods-name{
+    height: 18px;
+    line-height: 18px;
+    font-size: 1.2rem;
+    color: #666;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+//主体商品价值
+.lw-goods-value{
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-family: arial;
+    color: #999;
+    line-height: 16px;
+}
+//商品剩余百分比
+.lw-progress{
+    margin-top: 3px;
+    p{
+        height: 6px;
+        background: #e7e7e7;
+        position: relative;
+        border-radius: 3px;
+        overflow: hidden;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+        span{
+            display: block;
+            height: 100%;
+            border-radius: 3px;
+            background: $background;
+        }
+    }
+}
+//商品图标立即参与
+.participate{
+    padding-right: 40px;
+    position: relative;
+    height: 30px;
+    width: 100px;
+    margin: 1px auto 0;
+    a{
+        position: relative;
+        left: 10px;
+        top: -1px;
+        display: block;
+        width: 80px;
+        height: 28px;
+        line-height: 28px;
+        text-align: center;
+        border: 1px solid $background;
+        color: $background;
+        border-radius: 16px;
+    }
+}
+//商品购物车
+.shopping{
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    top: -3px;
+    right: 0;
+    a{
+        display: block;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background-color: $background;
+        position: relative;
+        top: 3px;
+        left: 3px;
+        s{
+            width: 17px;
+            height: 22px;
+            display: block;
+            margin: 0 auto;
+            position: relative;
+            top: 5px;
+            left: -1px;
+            background: url(../image/icon/set.png);
+            background-size: 35px auto;
+            background-position: 0 -6px;
+        }
+    }
+}
+//底部切换栏
+.lw-footer-nav{
+    border-top:1px solid #ddd;
+    
+    //底部切换栏标签
+    .lw-footer-tab{
+        background:#f7f7f7;
+    }
+}
+//底部切换栏第一个的颜色和图片
+.lw-footer-same a.hover1{
+    color:$background;
+    i{
+        background-position: 0px -105px;
+    }
+}
+.lw-footer-same a.hover2{
+    color:$background;
+    i{
+        background-position: 0px -162px;
+    }
+}
+.lw-footer-same a.hover3{
+    color:$background;
+    i{
+        background-position: 0px -216px;
+    }
+}
+.lw-footer-same a.hover4{
+    color:$background;
+    i{
+        background-position: 0px 2px;
+    }
+}
+.lw-footer-same a.hover5{
+    color:$background;
+    i{
+        background-position: 0px -54.5px;
+    }
+}
+//底部切换栏一样的样式
+.lw-footer-same{
+    a{
+        display: block;
+        height: 44px;
+        padding-top: 4px;
+        text-align: center;
+        color: #888;
+        i{
+            display: block;
+            background: url(../image/icon/footer.png) no-repeat;
+            background-size: 27px auto;
+            margin: 0 auto;
+        }
+    }
+}
+//底部切换栏首页图标样式
+.lw-footer-home{
+    a{
+        i{
+            width: 24px;
+            height: 24px;
+            background-position: 0 -133px;
+        }
+    }
+}
+//底部切换栏最新揭晓样式
+.lw-footer-latest{
+    a{
+        i{
+            width: 27px;
+            height: 23px;
+            background-position: 0px -189px;
+            position: relative;
+            top: 1px;
+            margin-bottom: 1px;
+        }
+    }
+}
+//底部切换栏晒单样式
+.lw-footer-invoice{
+    a{
+        i{
+            width: 26px;
+            height: 22px;
+            background-position: 0 -241px;
+            position: relative;
+            top: 2px;
+            margin-bottom: 2px;
+        }
+    }
+}
+//底部切换栏购物车样式
+.lw-footer-shopping{
+    a{
+        i{
+            width: 26px;
+            height: 24px;
+            background-position: 0 -26px;
+            position: relative;
+            top: 0px;
+            margin-bottom: 0px;
+        }
+    }
+}
+//底部切换栏用户中心样式
+.lw-footer-user{
+    a{
+        i{
+            width: 28px;
+            height: 24px;
+            background-position: 0px -80px;
+            position: relative;
+            top: 1px;
+            margin-bottom: 0px;
+        }
+    }
+}
+
+//点击效果css
+.lw-indexhidden{
+    display:none;
+}
+//点击效果css
+.lw-body-over{
+    overflow:hidden;
+}
+#conversion4{
+    i{font-style:normal;
+        b{
+    display: block;
+    background: #e60044;
+    padding: 1px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 16px;
+    color: #fff;
+    position: absolute;
+    top: -4px;
+    right: -8px;
+    font-family: Arial;
+    text-align: center;
+    font-size: 10px;
+    overflow: hidden;
+    }
+    }
+}
+
+//加载跟多的样式
+.lw-load{
+    text-align: center;
+    padding: 10px;
+    background:#f7f7f7;
+}
+/*scss*/

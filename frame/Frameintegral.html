@@ -1,0 +1,289 @@
+ <!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>积分明细</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/consume.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/consume.js"></script>
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    </head>
+<body>
+    <section class="lw-consume-wrap">
+        <article class="lw-consume-balance" id="lw-headrdate">
+            <!-- 现有<span>38</span>积分 -->
+        </article>
+        <article class="lw-consume-accounts">
+            <ul class="lw-consume-title" id="lw-headrdate2">
+                <div id="lw-syheadrdate"></div>
+                <!-- <li>
+                    <a id="consumeclick1" onclick="integraluse()" class="lw-consume-click" href="javascript:;">
+                        <b>积分使用明细</b>
+                        (使用总积分：￥2000)
+                    </a>
+                    <s></s>
+                </li> -->
+                <div id="lw-hdheadrdate"></div>
+                <!-- <li>
+                    <a id="consumeclick2" onclick="integralgain()" href="javascript:;">
+                        <b>积分获得明细</b>
+                        (获得总积分：￥20038)
+                    </a>
+                </li> -->
+            </ul>
+            <ul id="contentuse" class="lw-consume-content">
+                <!-- <li class="lw-content-title">
+                    <span class="lw-span-one">消费时间</span>
+                    <span class="lw-span-two">消费信息</span>
+                </li>
+                <li>
+                    <span class="lw-span-one">2016-07-09 13:44:50</span>
+                    <span class="lw-span-two">-100积分</span>
+                </li>
+                <li>
+                    <span class="lw-span-one">2016-07-09 13:44:50</span>
+                    <span class="lw-span-two">-100积分</span>
+                </li> -->
+            </ul>
+            <ul id="contentgain" class="lw-consume-content">
+                <!-- <li class="lw-content-title">
+                    <span class="lw-shift-one">获得时间</span>
+                    <span class="lw-shift-two">积分数</span>
+                    <span class="lw-shift-three">渠道</span>
+                </li>
+                <li>
+                    <span class="lw-shift-one">2016-07-09 13:44:50</span>
+                    <span class="lw-shift-two">+20</span>
+                    <span class="lw-shift-three">签到转盘</span>
+                </li>
+                <li>
+                    <span class="lw-shift-one">2016-07-09 13:44:50</span>
+                    <span class="lw-shift-two">+20</span>
+                    <span class="lw-shift-three">签到转盘</span>
+                </li>
+                <li>
+                    <span class="lw-shift-one">2016-07-09 13:44:50</span>
+                    <span class="lw-shift-two">+20</span>
+                    <span class="lw-shift-three">签到转盘</span>
+                </li>
+                <li>
+                    <span class="lw-shift-one">2016-07-09 13:44:50</span>
+                    <span class="lw-shift-two">+20</span>
+                    <span class="lw-shift-three">签到转盘</span>
+                </li>
+                <li>
+                    <span class="lw-shift-one">2016-07-09 13:44:50</span>
+                    <span class="lw-shift-two">+20</span>
+                    <span class="lw-shift-three">签到转盘</span>
+                </li>
+                <li>
+                    <span class="lw-shift-one">2016-07-09 13:44:50</span>
+                    <span class="lw-shift-two">+20</span>
+                    <span class="lw-shift-three">签到转盘</span>
+                </li>
+                <li>
+                    <span class="lw-shift-one">2016-07-09 13:44:50</span>
+                    <span class="lw-shift-two">+20</span>
+                    <span class="lw-shift-three">签到转盘</span>
+                </li>
+                <li>
+                    <span class="lw-shift-one">2016-07-09 13:44:50</span>
+                    <span class="lw-shift-two">+20</span>
+                    <span class="lw-shift-three">签到转盘</span>
+                </li>
+                <li>
+                    <span class="lw-shift-one">2016-07-09 13:44:50</span>
+                    <span class="lw-shift-two">+20</span>
+                    <span class="lw-shift-three">签到转盘</span>
+                </li> -->
+            </ul>
+            <div style="display:none;" id="lw-loading" class="lw-consume-loading">
+                <b></b>
+                正在加载
+            </div>
+            <div style="display:none;" id="lw-loadover" class="lw-load">没有更多数据了</div>
+            <div class="lw-white"></div>
+        </article>
+    </section>
+</body>
+<script type="text/javascript">
+    var page = 1; // 分页页数
+    var jfxfpage = 1; // 分页页数
+    var uid=getUrlParam('uid');
+    ajaxjfxf(uid,true);// 积分消费
+    ajaxhd(uid,true);// 积分获得
+
+    apiready = function() {
+        $('#contentuse').show();
+        $('#contentgain').hide();
+
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '积分明细'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+
+        //页面下拉刷新
+        api.setRefreshHeaderInfo({
+        visible: true,
+        bgColor: '#ccc',
+        textColor: '#fff',
+        textDown: '下拉刷新...',
+        textUp: '松开刷新...',
+        showTime: true
+        }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+
+        // 分页监听
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+        }, function(ret, err){
+            if ($('#contentuse').css("display") == "block") {
+                if ($('#lw-loadover').css('display') != 'block') {
+                    if ($('#contentuse li').length > 10) {
+                        $('#lw-loading').show();
+                    }
+                }
+                
+                ajaxjfxf(uid,false);
+            }else{
+                if ($('#lw-loadover').css('display') != 'block') {
+                    if ($('#contentgain li').length > 10) {
+                        $('#lw-loading').show();
+                    }
+                }
+                ajaxhd(uid,false);
+            }
+            /*if ($('#contentgain').show()) {
+
+            }*/
+        });
+    }
+
+    // 积分获得
+    function ajaxhd(uid,isReload){
+        $.ajax({
+            type: 'post',
+            url: AJAX_URI+'/users/jfhd', // 积分获得
+            data: { uid: uid ,page: page},
+            dataType: 'json',
+            success: function(result) {
+                //alert(result[0].id)
+                var html='';
+                var header='';
+                var header2='';
+                if (isReload) {
+                    //现有积分
+                    header+='现有<span>'+result[0].countscore+'</span>积分';
+                    $("#lw-headrdate").append(header);
+                    //头部
+                    header2+='<li><a id="consumeclick2" onclick="integralgain()" href="javascript:;"><b>积分获得明细</b>(获得总积分：￥'+result[0].hd+')</a></li>';
+                    $("#lw-hdheadrdate").append(header2);
+                    //内容
+                    html+='<li class="lw-content-title"><span class="lw-shift-one">获得时间</span><span class="lw-shift-two">积分数</span><span class="lw-shift-three">渠道</span></li>';
+                }
+                $(result).each(function(index){
+                    html+='<li>';
+                    html+='<span class="lw-shift-one">'+this.time+'</span>';
+                    html+='<span class="lw-shift-two">+'+this.money+'</span>';
+                    html+='<span class="lw-shift-three">'+this.content+'</span></li>';
+                });
+
+                $("#contentgain").append(html);
+                page++;
+
+                if (html=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+
+                if ($('#contentgain li').length < 10) {
+                    $('#lw-loadover').hide();
+                    $('#lw-loading').hide();
+                }
+            }
+        });
+    }
+
+
+    //积分消费
+    function ajaxjfxf(uid,isReload){
+        $.ajax({
+            type: 'post',
+            url: AJAX_URI+'/users/jfxf', // 积分消费
+            data: { uid: uid ,page: jfxfpage},
+            dataType: 'json',
+            success: function(result) {
+                //alert(result[0].id)
+                var html='';
+                var header='';
+                if (isReload) {
+                    //头部
+                    header+='<li> <a id="consumeclick1" onclick="integraluse()" class="lw-consume-click" href="javascript:;"><b>积分使用明细</b>(使用总积分：￥'+result[0].xf+')</a><s></s></li>';
+                    $("#lw-syheadrdate").append(header);
+                    //内容
+                    html+='<li class="lw-content-title"><span class="lw-span-one">消费时间</span><span class="lw-span-two">消费信息</span></li>';
+                }
+                $(result).each(function(index){
+                    html+='<li><span class="lw-span-one">'+this.time+'</span><span class="lw-span-two">-'+this.money+'积分</span></li>';
+                });
+                $("#contentuse").append(html);
+                jfxfpage++;
+
+                if (html=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+
+                if ($('#contentuse li').length < 10) {
+                    $('#lw-loadover').hide();
+                    $('#lw-loading').hide();
+                }
+            }
+        });
+    }
+
+    //消费明细点击效果
+    function integraluse(){
+        $('#lw-loading').hide();
+        $('#lw-loadover').hide();
+        $('#consumeclick1').addClass('lw-consume-click');
+        $('#consumeclick2').removeClass('lw-consume-click');
+        $('#contentuse').show();
+        $('#contentgain').hide();
+    }
+
+    //充值明细点击效果
+    function integralgain(){
+        $('#lw-loading').hide();
+        $('#lw-loadover').hide();
+        $('#consumeclick2').addClass('lw-consume-click')
+        $('#consumeclick1').removeClass('lw-consume-click')
+        $('#contentuse').hide();
+        $('#contentgain').show();
+    }
+</script>
+</html>

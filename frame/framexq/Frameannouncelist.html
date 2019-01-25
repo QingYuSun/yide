@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>商品详情商品晒单</title>
+    <script type="text/javascript" src="../../js/api.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/announcelist.css" />
+</head>
+<body>
+    <section>
+        <div class="lw-announce-time" id="lw-announce-time">
+        </div>
+        <div class="lw-announce-list">
+            <ul id="shaidate">
+            </ul>
+        </div>
+        <div id="lw-nodata" class="lw-nodata">
+            <s></s>
+            <p>暂无记录</p>
+        </div>
+    </section>
+</body>
+</html>
+<script type="text/javascript">
+ apiready = function(){
+    var shopid = api.pageParam.shopid;//获取上一个页面传递过来的商品ID
+
+    var pageSize=6; // 页容量
+    var totalData=0;  //定义一个变量存储第一次加载返回来的总记录数
+    var totalPages=0;  // 定义一个变量存储第一次加载返回来的总页数
+    localStorage.setItem("currentPage", 1); // 默认设置为第一页
+    // 默认第一次打开页面就加载数据
+    ajax(1,true); // 第一次加载
+        //下拉刷新
+    api.setRefreshHeaderInfo({
+        visible: true,
+        bgColor: '#ccc',
+        textColor: '#fff',
+        textDown: '下拉刷新...',
+        textUp: '松开刷新...',
+        showTime: true
+    }, function(ret, err){
+        location.reload();
+        ajax(1,true); // 第一次加载
+        api.refreshHeaderLoadDone();
+    });
+
+        // 分页加载
+    api.addEventListener({
+        name: 'scrolltobottom',
+        extra:{
+            threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+        }
+        }, function(ret, err){
+            //$api.setStorage类似于设置COOKIE  $api.setStorage('key',value) $api.getStorage 类似于获取COOKIE
+            var _page=parseInt(localStorage.getItem("currentPage"));
+            if(_page+1<=totalPages){
+                ajax(_page+1,false);
+                localStorage.setItem("currentPage", _page+1); // 页码+1
+            }
+            else{
+            }
+        });
+    function ajax(currentPage,isReload){
+        api.ajax({
+            url: 'http://jl.haodbao.com/index.php/Join/shai',
+            method: 'get',
+            returnAll:false,
+            dateType:'json',
+            data: {
+                values: {
+                    shopid: shopid,
+                    pagesize: pageSize,
+                    page: currentPage
+                },
+            }
+        },function(ret, err){
+            if (ret) {
+                    totalData=ret.totalCount;
+                    totalPages=ret.totalPages;
+                if(isReload){
+                        localStorage.setItem("currentPage", 1);        // 重新设置为1
+                }
+                //添加商品的晒单次数
+                var shaicishu="";
+                var html="";
+                if(ret[0].count!=0){
+                shaicishu+='已晒<em>'+ret[0].count+'</em>次单';
+                $api.append($api.byId('lw-announce-time'),shaicishu);
+                    for(var i in ret){
+                        if(i!='totalCount' && i!='totalPages'){
+                            html+='<li onclick="shaidan('+ret[i].sd_id+')">';
+                            html+='<p><img src="http://m.51edb.com/love/uploads/'+ret[i].sd_thumbs+'"></p>';
+                            html+='<dl>';
+                            html+='<dt><a href="javascript:;" onclick="event.stopPropagation(); geren('+ret[i].uid+')">'+ret[i].username+'</a></dt>';
+                            html+='<dd class="lw-announce-title">'+ret[i].sd_title+'</dd>';
+                            html+='<dd class="lw-announce-content">'+ret[i].sd_content+'</dd>';
+                            html+='<dd class="lw-announce-date">'+ret[i].sd_time+'</dd>';
+                            html+='</dl></li>';
+                            $api.css($api.byId('lw-nodata'),'display:none;')
+                        }
+                    }
+                }
+                $api.append($api.byId('shaidate'),html);
+            } else {
+                alert( JSON.stringify( err ) );
+            }
+        });
+    }
+ }
+     //晒单跳转
+    function shaidan(sid){
+    api.sendEvent({
+    name: 'details2',
+    extra: {
+        sid: sid,
+    }
+});
+    }
+ //个人主页跳转
+function geren(uid){
+    api.sendEvent({
+    name: 'recird',
+    extra: {
+        uid: uid
+}
+});
+}
+</script>

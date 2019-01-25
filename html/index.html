@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <title>一得宝</title>
+    <link rel="stylesheet" type="text/css" href="../css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <div class="lw-index-edb" id="header" style="position: relative;">
+            <span id="lw-page-title">一得宝</span>
+            <div class="lw-return" id="lw-return"><a href="javascript:historyBack();"><s></s></a></div>
+        </div>
+        <div id="lw-wrap" class="flex-con"></div>
+        <div id="footer" class="lw-footer-nav aui-nav" style="position: relative;">
+            <footer id="aui-footer">
+                <ul class="aui-bar-tab lw-footer-tab">
+                    <li class="lw-footer-same lw-footer-home">
+                        <a href="javascript:showView('./home.html');" id="conversion1"><i></i>一得宝</a>
+                    </li>
+                    <li class="lw-footer-same lw-footer-latest">
+                        <a href="javascript:showView('../frame/Framenewest.html');" id="conversion2"><i></i>最新揭晓</a>
+                    </li>
+                    <li class="lw-footer-same lw-footer-invoice">
+                        <a href="javascript:showView('../frame/Frameannounce.html');" id="conversion3"><i></i>晒单</a>
+                    </li>
+                    <li class="lw-footer-same lw-footer-shopping">
+                        <a href="javascript:showView('../frame/Frameshoppingcart.html');" id="conversion4"><i></i>购物车</a>
+                    </li>
+                    <li class="lw-footer-same lw-footer-user">
+                        <a href="javascript:showView('../frame/Framecenter.html');" id="conversion5"><i></i>用户中心</a>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    </div>
+    <script type="text/javascript">
+    apiready = function() {
+        showView('./home.html'); // 默认加载的页面
+
+        // 监听其他页面是否有frame加载请求
+        api.addEventListener({
+            name: 'mainFrameLoad'
+        }, function(ret, err) {
+            if (ret) {
+                var retVal = JSON.parse(JSON.stringify(ret.value));
+                showView(retVal.url);
+            }
+        });
+
+        // 监听, 更改顶部标题的请求
+        api.addEventListener({
+            name: 'setHomeTitle'
+        }, function(ret, err) {
+            if (ret) {
+                setHomeTitle(ret.value);
+            }
+        });
+
+        // 监听，激活底部按钮
+        api.addEventListener({
+            name: "activeFooter"
+        }, function(ret, err) {
+            if (ret) {
+                activeFooter(ret.value);
+            }
+        });
+
+        // 监听android后退
+        api.addEventListener({
+            name: "keyback"
+        }, function(ret, err) {
+            historyBack();
+        });
+
+        // 监听，隐藏后退按钮
+        api.addEventListener({
+            name: "hideBackButton"
+        }, function(ret, err){
+            hideBackButton();
+        });
+
+        // 监听，显示后退按钮
+        api.addEventListener({
+            name: "showBackButton"
+        }, function(ret, err){
+            showBackButton();
+        });
+
+        // 监听，底部导航中的购物车显示数量
+        api.addEventListener({
+            name: "addNumToBottomCart"
+        }, function(ret, err) {
+            addNumToBottomCart(ret.value);
+        });
+
+        // 监听，减少底部导航中的购物车显示数量
+        api.addEventListener({
+            name: "decNumFromBottomCart"
+        }, function(ret, err) {
+            decNumFromBottomCart(ret.value);
+        });
+
+    } // apiready END
+
+    // 加载Frame
+    function showView(url) {
+        var headerPos = $("#header").offset();
+        var mainPos = $("#lw-wrap").offset();
+        api.openFrame({
+            name: 'edbMainFrame',
+            url: url,
+            bounces: true,
+            rect: {
+                x: 0,
+                y: headerPos.height,
+                w: 'auto',
+                h: mainPos.height
+            }
+        });
+    }
+
+    // 更改顶部标题
+    function setHomeTitle(title) {
+        $("#lw-page-title").text(title);
+    }
+
+    // 激活底部导航按钮
+    function activeFooter(activeIndex) {
+        var eFootList = $("#footer li a");
+        console.log(eFootList);
+        for (var i = 0, len = eFootList.length; i < len; i++) {
+            x = i + 1;
+            $(eFootList[i]).removeClass('hover' + x);
+        }
+        // 数组索引从0开始
+        $(eFootList[activeIndex - 1]).addClass('hover' + activeIndex);
+    }
+
+    // 隐藏后退按钮
+    function hideBackButton() {
+        $("#lw-return").hide();
+    }
+
+    // 显示后退按钮
+    function showBackButton() {
+        $("#lw-return").show();
+    }
+
+    // 底部导航中的购物车显示数量
+    function addNumToBottomCart(number) {
+        var cartSelector = $("#conversion4 i");
+        $("#conversion4 i").html('<b>' + number + '</b>');
+    }
+
+    // 减少底部导航中的购物车显示数量
+    function decNumFromBottomCart(number) {
+        var currentNum = $("#conversion4 i b").text();
+        var newNum = currentNum - number;
+        if (newNum <= 0) { // 如购物车中的个数为0个，则删除右上角的数字标记
+            $("#conversion4 i").html('');
+        } else {
+            $api.text(cartSelector, newNum);
+            $("#conversion4 i b").text(newNum);
+        }
+    }
+
+    // 后退
+    function historyBack() {
+        api.historyBack({
+            frameName: 'edbMainFrame'
+        }, function(ret, err) {
+            if (ret.status) {
+                var edbWinName = api.winName;
+                if (edbWinName == 'root') {
+                    api.closeWidget();
+                }
+            }
+        });
+    }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,208 @@
+@charset "utf-8";
+html,body{
+    height: 100%;
+    background-color:#fff;
+    min-width: 320px;
+    font-size: 62.5%;
+    font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
+}
+
+h1, h2, h3, h4, h5, b{
+    font-weight: normal;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+section{
+    margin-bottom:48px;
+}
+div, ul, li, dl, dt, dd, table, td, input ,span{
+    font-size:1.2rem;
+}
+@import "variable";
+//底部外层样式
+.lw-count-footer{
+    clear:both;
+    width:100%;  
+    background:#fff;
+    border-top:1px solid $bordercolor;
+    padding:6px 0;
+    position:fixed;
+    bottom:0;
+    z-index:20;
+    display:block;
+    a{
+        display:block;
+    }
+}
+//底部中间红色"正在进行中"的样式
+.lw-count-ing{
+    padding:0 53px 0 36px;
+    margin:0 12% 0 8%;
+    dl{
+        overflow:visible;
+        dd{
+            width:100%;
+            float:left;
+            a{
+                display: block;
+                margin-left: 15px;
+                margin-right:15px;
+                height: 35px;
+                line-height: 35px;
+                text-align: center;
+                color: #fff;
+                border-radius: 3px;
+                font-size: 1.6rem;
+                z-index: 2;
+                background: #e60044;
+                width: inherit;
+            }
+        }
+    }
+}
+//底部小图标样式
+.lw-icon{
+    background: url(/image/icon/set.png);
+    background-size: 35px auto;
+}
+//底部小图标左边星星的样式
+.lw-count-xingxing{
+    display: block;
+    width: 22px;
+    height: 22px;
+    margin: 6px 0 0 14px;
+    background-position:0 -236px;
+    float:left;
+}
+//底部小图标右边购物车的样式
+.lw-count-cart{
+    float:right;
+    i{
+    width: 26px;
+    height: 23px;
+    display: block;
+    background-position: 0 -47px;
+    margin-right: 20px;
+    margin-top: 8px;
+    position: relative;
+    
+    }
+    
+}
+//中间部分最外层样式
+.lw-count-wrap{
+    margin-bottom: 48px;
+}
+//中间部分内层样式
+.lw-count-list{
+    width: 100%;
+    overflow: hidden;
+    background: #fff;
+    line-height: 20px;
+    ul{
+        li{
+            clear: both;
+            padding: 10px;
+            border-bottom: 1px solid $bordercolor;
+            &.lw-count-result{
+                border-bottom:0;
+            }
+        }
+    }
+}
+//中间部分最上面红色部分样式
+.lw-count-red{
+    clear: both;
+    padding: 10px;
+    border-bottom: 1px solid $bordercolor;
+    dl{
+        background-color: #e60044;
+        display: block;
+        padding: 5px 5px;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        font-size: 1.4rem;
+        color: white;
+    }
+}
+//"数值A"的样式
+.lw-a-one{
+    font-size:1.4rem;
+    color:#444;
+}
+//"数值A"下面文字样式
+.lw-a-two{
+    color:#666;
+}
+//"数值A"中第三行文字样式
+.lw-span{
+    color: #e60044;
+    font-weight: bold;
+    float:left;
+}
+//"数值A"中"展开"的样式
+.lw-a-span{
+    color: #0E689A;
+    float:right;
+}
+//"数值B"中第三行文字样式
+.lw-b-span{
+    color: orange;
+}
+//"数值B"中"开奖查询"的样式
+.lw-span-two{
+    padding-left:6px;
+    color: #0E689A;
+}
+//"计算结果"的样式
+.lw-count-result{
+    dl{
+        dt{ 
+            font-size: 1.4rem;
+            color: black
+
+        }
+    } 
+}
+//"计算结果"中"幸运号码"的样式
+.lw-result{
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color:gray;
+    em{
+        color: orange;
+    }
+}
+//"计算结果"中下面文字部分样式
+.lw-result-word{
+    padding-top: 20px;
+    color: #666;
+}
+.lw-count-unfold{
+    background-color: #f1f1f1;
+    dl{
+        color:#444;
+        border:1px solid $bordercolor;
+        padding:4px 0 4px 10px; 
+    }  
+}
+//"展开"的时间部分样式
+.lw-unfold-time{
+    width:72%;
+    display:inline-block;
+    font-size:1rem;
+    strong{
+        color:$background;
+    }
+}
+//"展开"部分的获奖者名字样式
+.lw-unfold-word{
+    margin-left:4px;
+}
+.hidden{
+    display:none;
+}

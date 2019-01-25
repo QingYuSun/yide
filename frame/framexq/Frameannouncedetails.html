@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>商品分享</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/announcedetails.css" />
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../../js/global.js"></script>
+
+</head>
+<body>
+    <div id="shaidandate">
+    </div>
+</body>
+<script type="text/javascript">
+    apiready = function(){
+
+        sid = api.pageParam.sid;
+        // 更改顶部标题的请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '晒单分享'
+        });
+
+        // 更改顶部标题的请求
+        api.sendEvent({
+            name: 'setGoodsInfoTitle',
+            extra: '晒单分享'
+        });
+        
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+
+    $.ajax({
+        type: 'GET',
+        url: AJAX_URI+'/showindex/shaidan',
+        data: { sid: sid},
+        dateType: 'json',
+        success: function(result) {
+            var json=JSON.parse(result);
+            html+='<a href="#">';
+            var html="";
+            html+='<section onclick="openGoods(\''+json.id+'\')" class="lw-andes-wrap">';
+            html+='<a style="float:left;" onclick="event.stopPropagation(); gotowin(\''+json.q_uid+'\')" href="javascript:;"><img src="http://m.51edb.com/love/uploads/'+json.img+'"></a>';
+            html+='<div class="lw-andes-word">';
+            html+='<p>'+json.shopname+'<br>第'+json.shopqishu+'期幸运获得者：<a class="lw-andes-blue" onclick="event.stopPropagation(); gotowin(\''+json.q_uid+'\')" href="javascript:;">'+json.username+'</a></p>';
+            html+='<p>幸运号码：<em class="lw-andes-orange">'+json.huode+'</em></p>';
+            html+='<p>本期参与：<em class="lw-andes-orange">'+json.gonumber+'</em>人次</p>';
+            html+='<p>揭晓时间：<em>'+json.q_end_time+'</em></p>';
+            html+='</div>';
+            html+='</section>';
+            html+='<section class="lw-andes-title"><b></b>';
+            html+='<article><h2>'+json.sd_title+'</h2><em>'+json.sd_time+'</em>';
+            html+='<p class="lw-title-word">'+json.sd_content+'</p>';
+            for (var i in json.photolist) {
+                html+='<p><img src="http://m.51edb.com/love/uploads/'+json.photolist[i]+'"></p>';
+            }
+            html+='</article>';
+            html+=' <div class="lw-andes-envy">';
+            html+='<a id="envy" onclick="xianmu()" class="" href="javascript:;">';
+            html+='<s></s>羡慕嫉妒恨(<em id="lw-number">'+json.sd_zhan+'</em>)';
+            html+='</a></div>';
+            html+='</section>';
+            $("#shaidandate").html(html);
+
+            //是否点赞过
+            var xianmu=localStorage.getItem("xianmu");
+            if(xianmu==sid){
+                $('#envy').css("background-color","#bbb");
+                $('#envy').removeAttr('onclick');
+            }
+        }
+    });
+}
+
+    //羡慕嫉妒恨点击
+    function xianmu(){
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/xianmu',
+            data: { sid: sid},
+            dateType: 'json',
+            success: function(result) {
+                $('#envy').css("background-color","#bbb");
+                var b = $('#lw-number').html();
+                var i = new Number(b);
+                $('#lw-number').html(i+1);
+                $('#envy').removeAttr('onclick');
+                localStorage.setItem("xianmu", sid);
+            }
+        });
+
+    }
+
+    function openGoods(goodsID) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://192.168.1.180/index.php/showindex/get_goods_status',
+            data: {goods_id: goodsID},
+            dateType:'json',
+            success: function(result) {
+                switch(result){
+                    case '1': // 详情页
+                        winName = 'edbGoodsDetailWin';
+                        url = '../../html/goods.html';
+                        break;
+                    case '2': // 揭晓页
+                        winName = 'edbGoodsAnnounceWin';
+                        url = '../../html/goods-win.html';
+                        break;
+                    case '3': // 倒计时页
+                        winName = 'edbGoodsTimeWin';
+                        url = '../../html/goods-time.html';
+                        break;
+                }
+                api.openWin({
+                    name: winName,
+                    url: url,
+                    pageParam: {
+                        goodsID: goodsID
+                    },
+                    bounces:false,
+                    hScrollBarEnabled:false
+                });
+            }
+        });
+    }
+
+    //充值点击跳转
+    function gotourl(url) {
+        window.location.href=url
+    }
+
+    function gotowin(uid) {
+        api.openWin({
+            name: 'edbpeopleWin',
+            url: '../../html/people.html',
+            pageParam: {
+                uid: uid
+            },
+            bounces:false,
+            hScrollBarEnabled:false
+        });
+    }
+</script>
+</html>

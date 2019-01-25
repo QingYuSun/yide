@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <title>商品详情</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/deatails.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/hwSlider/hwslider.css" />
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../../js/hwSlider/zepto.hwSlider.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#hwslider").hwSlider({
+                width: 600, //初始宽度
+                height: 333, //初始高度
+                start: 1, //初始滑动位置，从第几个开始滑动
+                interval: 3000, //间隔时间，单位ms
+                autoPlay: true, //是否自动滑动
+                dotShow: false, //是否显示圆点导航
+                arrShow: false, //是否显示左右方向箭头导航
+                touch: true //是否支持触摸滑动
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="hwslider" class="hwslider" style="padding-bottom: 20px;">
+        <ul id="jSlider">
+        </ul>
+    </div>
+    <div id="lw-data"></div>
+    <div class="lw-deatails-include">
+        <a href="javascript:openGoodsInfo('./goods/record.html');">
+            参与记录
+            <s class="lw-fr"></s>
+        </a>
+        <a href="javascript:openGoodsInfo('./goods/info.html');">
+            图文详情
+            <em>( 建议WIFI下使用 )</em>
+            <s class="lw-fr"></s>
+        </a>
+        <a href="javascript:openGoodsInfo('./goods/shai.html');">
+            商品晒单
+            <s class="lw-fr"></s>
+        </a>
+        <a href="javascript:openGoodsInfo('./goods/announce.html');">
+            往期揭晓
+            <s class="lw-fr"></s>
+        </a>
+    </div>
+    <div class="lw-deatails-padding"></div>
+    <div style="display:none;" id="lw-mask" class="lw-mask"></div>
+    <div style="display:none;" id="layer" class="lw-layer">
+        <div class="lw-layer-head">幸运号码</div>
+        <div id="lw-number" class="lw-number">
+        </div>
+        <span class="lw-close-warp">
+            <a class="lw-close" onclick="Viewall(0)" href="javascript:;"></a>
+        </span>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+    var goodsID;
+    apiready = function() {
+        goodsID = api.pageParam.goodsID;
+
+        // 加载商品图片
+        $.ajax({
+            type: 'GET',
+            url:  AJAX_URI+'/join/roll_pic',
+            data: {goods_id: goodsID},
+            dateType: 'json',
+            success: function(result) {
+                var json = JSON.parse(result);
+                var html = '';
+                var classname = '';
+                $(json).each(function(index) {
+                    if (index == 0) {
+                        classname = "active";
+                    }
+                    html += '<li class="'+classname+'" style="background-color: #fff;"><img src="http://m.51edb.com/love/uploads/'+this+'" style="width:60%"></li>';
+                });
+                $("#jSlider").html(html);
+            }
+        });
+        var uid=0;
+        if(localStorage.getItem("uid")){
+            uid=localStorage.getItem("uid");
+        }
+
+        //数据加载
+        $.ajax({
+            type: 'POST',
+            url: AJAX_URI+'/join/item',
+            data: {goods_id: goodsID,uid: uid},//测试数据 data: {goods_id: 21468,uid: 64},
+            dateType: 'json',
+            success: function(result) {
+                var json = JSON.parse(result);
+                var html = '';
+                html += '<div class="lw-deatails-info">';
+                html += '<h2 class="lw-gary6">(第' + json.qishu + '期) ' + json.title + '<span>' + (json.title1 ? json.title1 : " ") + '</span></h2>';
+                html += '<div class="lw-deatails-value lw-gary9"> 价值 : ￥' + json.money + '</div>';
+                html += '<div class="lw-deatails-margin">';
+                html += '<div>';
+                var j = parseInt(json.canyurenshu * 100) / json.zongrenshu;
+                html += '<p class="lw-deatails-p"><span style="width:' + parseInt(j) + '%;"></span></p>';
+                html += '<div class="lw-deatails-progress">';
+                html += '<ul>';
+                html += '<li class="lw-deatails-one"><em>' + json.canyurenshu + '</em> 已参与</li>';
+                html += '<li class="lw-deatails-two"><em>' + json.zongrenshu + '</em>总需人数</li>';
+                html += '<li class="lw-deatails-three"><em>' + json.shenyurenshu + '</em>剩余</li>';
+                html += '</ul></div></div></div></div>';
+                 /*进行中的商品 登陆用户购买了此商品才能看到自己购买的夺宝号*/
+                if(json.is_buy==0){
+                    html += '<div class="lw-deatails-no"><span>您没有参与本期商品</span></div>';
+                }else{
+                    html += '<div class="lw-deatails-yes">';
+                    html += '<p class="lw-yes-word">您参与了：<em>' + json.gonumber + '</em>人次</span><br></p>';
+                    html += '<table>';
+                    html += '<tbody>';
+                    html += '<tr>';
+                    html += '<td>幸运号码：</td>';
+                    for (var i = 0; i < ((json.goucode.length<6) ? json.goucode.length : 6); i++) {
+                        html += '<td><b>'+json.goucode[i]+'</b></td>';
+                        if(i==2){
+                            html += '</tr><tr>';
+                        }
+                    }
+                        html += '<td>';
+                        if(json.goucode.length>6){
+                            html += '<b><a onclick="Viewall(1)" href="javascript:;">查看全部</a>';
+                        }
+
+                    var lahtml = '';
+                    lahtml +='<table>';
+                    lahtml +='<tbody>';
+                    lahtml+="<tr>";
+                    for (var i = 0; i < json.goucode.length; i++) {
+                        lahtml+='<td >' +json.goucode[i]+'</td>';
+                        if ((i+1)%4==0) {
+                            lahtml+="</tr><tr>";
+                        }
+                    }
+                    lahtml+="</tr>";
+                    lahtml +='</tbody>';
+                    lahtml +='</table>';
+                    $("#lw-number").append(lahtml);
+                }
+                    html+='</td>';
+                    html += '</tr></tbody></table></div>';
+                    $("#lw-data").html(html);
+            }
+        });
+
+        //页面下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err) {
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+    }
+
+    function Viewall(i){
+        if (i==1) {
+            $('#lw-mask').show();
+            $('#layer').show();
+        }else{
+            $('#lw-mask').hide();
+            $('#layer').hide();
+        }
+    }
+    //商品详情的参与记录等4项
+    function openGoodsInfo(url) {
+        alert(url);
+        api.openWin({
+            name: 'edbGoodsInfoWin',
+            url: '../goodsinfo.html',
+            pageParam: {
+                goodsID: goodsID,
+                url: url,
+            },
+            bounces:false,
+            hScrollBarEnabled:false
+        });
+    }
+</script>

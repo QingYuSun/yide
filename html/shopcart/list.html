@@ -1,0 +1,335 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <title>购物车</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/shoppingcart.css" />
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../../js/global.js"></script>
+    </head>
+<body>
+    <section id="lw-shoppingcart" style="display:none;">
+        <div class="lw-shopping-cart">
+            <s></s>
+                您还未添加商品
+            <div class="lw-no-participation">
+                <a href="../home.html">立即参与</a>
+            </div>
+        </div>
+    </section>
+    <section id="lw-shoppinghidden" class="lw-shopping-hidden">
+    </section>
+    <div class="aui-dialog aui-hidden" id="dialog">
+        <div class="aui-dialog-header">删除确认</div>
+        <div class="aui-dialog-body aui-text-left">
+            你确定要删除这款商品吗?
+        </div>
+        <div class="aui-dialog-footer">
+            <div class="aui-dialog-btn aui-text-danger" tapmode onclick="dialog_cancel()">取消</div>
+            <div class="aui-dialog-btn aui-text-info" tapmode onclick="dialog_confirm()">确定</div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        apiready = function(){
+            // 发送更改顶部导航标题的监听请求
+            api.sendEvent({
+                name: 'setHomeTitle',
+                extra: '购物车'
+            });
+
+            // 激活底部按钮
+            api.sendEvent({
+                name: 'activeFooter',
+                extra: '4'
+            });
+
+            // 显示后退按钮
+            api.sendEvent({
+                name: 'showBackButton'
+            });
+
+            //页面下拉刷新
+            api.setRefreshHeaderInfo({
+                visible: true,
+                bgColor: '#ccc',
+                textColor: '#fff',
+                textDown: '下拉刷新...',
+                textUp: '松开刷新...',
+                showTime: true
+            }, function(ret, err){
+                location.reload();
+                api.refreshHeaderLoadDone();
+            });
+        }
+
+        // 数据加载
+        var shopcart = sessionStorage.getItem("shopcart");
+        if (!shopcart) { // 没有购物车数据, 为NULL
+            $("#lw-shoppingcart").css("display", "block");
+            $("#lw-shoppinghidden").css("display", "none");
+        }else{
+            var items = JSON.parse(shopcart);
+            var total_price = 0;
+            var html = '<div class="lw-hidden-wrap">'
+            html+='<ul>'
+            for (var i in items){
+                total_price += items[i].price * items[i].qty;
+                html+='<li id="gid_'+items[i].goodsID+'">'
+                html+='<a class="lw-hidden-img" href="">'
+                html+='<img src="'+items[i].thumb+'">'
+                html+='</a>'
+                html+='<div class="lw-hidden-word">'
+                html+='<p class="lw-p-one">'
+                html+='<a class="lw-gray6" href="#">'+items[i].title+'</a>'
+                html+='</p>'
+                html+='<ins class="lw-gray9 lw-hideen-ins">剩余'
+                html+='<em name="ins">'+items[i].shenyurenshu+'</em>人次'
+                html+='</ins>'
+                html+='<p class="lw-gray9 lw-p-two">参与'
+                html+='<em name="oneem">'+items[i].qty+'</em>人次/'
+                html+='<em name="twoem" class="lw-two-em">￥'+intToFloat(items[i].qty, 2)+'</em>'
+                html+='</p>'
+                html+='<p class="lw-p-three" data-qty="'+items[i].qty+'" data-price="'+items[i].price+'" data-goodsID="'+items[i].goodsID+'">'
+                html+='<a class="lw-fr lw-hidden-del" href="javascript:;" onclick="javascript:dialog_show('+items[i].goodsID+');"></a>'
+                html+='<a name="minus" onclick="onminus(this)" class="lw-fl lw-hidden-minus" href="javascript:;">-</a>'
+                html+='<input name="inputvalue" class="lw-fl lw-hidden-input" type="text" value="'+items[i].qty+'" onblur="inputvalue(this)">'
+                html+='<a name="plus" onclick="onplus(this)" class="lw-fl lw-hidden-plus" href="javascript:;">+</a>'
+                html+='<div onclick="surplus(this)" name="surplus" class="lw-hidden-surplus">包尾</div>'
+                html+='</p>'
+                html+='</div>'
+                html+='</li>'
+            }
+
+            html+='</ul>'
+            html+='</div>'
+            html+='<div class="lw-gray9 lw-close-account">'
+            html+='<p>共<span id="total_items">'+items.length+'</span>件商品 总计:'
+            html+='<span id="total_price">'+total_price+'</span>元'
+            html+='</p>'
+            html+='<a href="./pay.html">结算</a>'
+            html+='</div>';
+
+            $("#lw-shoppinghidden").html(html);
+        }
+
+        /*var x = document.getElementsByName("inputvalue");
+        var a = document.getElementsByName("oneem");
+        var b = document.getElementsByName("twoem");
+        var ins = document.getElementsByName("ins");
+        var m = document.getElementsByName('minus');
+        var p = document.getElementsByName('plus');
+        var sur = document.getElementsByName('surplus');*/
+
+        //输入框失去焦点
+        /*function inputgo(){
+            for(var i = 0; i < x.length; i++){
+                var s = Number(ins[i].innerHTML);
+                x[i].value=a[i].innerHTML;
+                if (1 < x[i].value&&x[i].value < s) {
+                    m[i].style.background='#fff';
+                    p[i].style.background='#fff';
+                }
+            }
+        }*/
+
+        //减号效果
+        function onminus(obj){
+            var item = $(obj).parent();
+            var domBuy = item.parent().children().children('[name=oneem]'); // 参与人次
+            var domBuyPrice = item.parent().children().children('[name=twoem]'); // 参与人次的价格
+            var domInput = item.children('[name=inputvalue]'); // 输入框
+            var qty = tmp = item.attr("data-qty"); // 数量
+            var price = item.attr("data-price"); // 单价
+            var goodsID = item.attr("data-goodsID"); // 商品ID
+
+            qty--;
+            tmp--;
+            if (qty < 1) {
+                qty = 1;
+                // $(obj).css("background", "#f7f7f7");
+            }
+            /*if (qty > 1) {
+                $(obj).css("background", "#fff");
+            }*/
+            domInput.val(qty);
+            domBuy.text(qty); // 更新参与人次
+            domBuyPrice.html('￥'+intToFloat(parseInt(qty * price), 2)); // 更新参与人次的价格
+            item.attr("data-qty", qty); // 更新参与人次
+            updateItems(goodsID, qty); // 保存到session
+
+            if (tmp > 0) {
+                var total_price = $("#total_price").text(); // 当前总价
+                total_price = total_price - 1 * price;
+                if (total_price < 1) {
+                    total_price = 1;
+                }
+                $("#total_price").text(total_price);
+            }
+        }
+
+        //加号效果
+        function onplus(obj){
+            var item = $(obj).parent();
+            var domBuy = item.parent().children().children('[name=oneem]'); // 参与人次
+            var domBuyPrice = item.parent().children().children('[name=twoem]'); // 参与人次的价格
+            var domInput = item.children('[name=inputvalue]'); // 输入框
+            var qty = tmp = item.attr("data-qty"); // 数量
+            var price = item.attr("data-price"); // 单价
+            var senyu = item.parent().children().children('[name=ins]').text(); // 剩余人次
+            var goodsID = item.attr("data-goodsID"); // 商品ID
+
+            qty++;
+            tmp++;
+            if (qty >= senyu) {
+                qty = senyu;
+                // $(obj).css("background", "#f7f7f7");
+            }
+            /*if (qty < senyu) {
+                $(obj).css("background", "#fff");
+            }*/
+            domInput.val(qty);
+            domBuy.text(qty); // 更新参与人次
+            domBuyPrice.html('￥'+intToFloat(parseInt(qty * price), 2)); // 更新参与人次的价格
+            item.attr("data-qty", qty); // 更新参与人次
+            updateItems(goodsID, qty); // 保存到session
+
+            if (tmp <= senyu) {
+                var total_price = $("#total_price").text(); // 当前总价
+                total_price = parseInt(total_price) + 1 * price;
+                $("#total_price").text(total_price);
+            }
+        }
+
+        //包尾效果
+        function surplus(obj){
+            var item = $(obj).parent();
+            var domBuy = item.children().children('[name=oneem]'); // 参与人次
+            var domBuyPrice = item.children().children('[name=twoem]'); // 参与人次的价格
+            var domInput = item.children().children('[name=inputvalue]'); // 输入框
+            var qty = item.children('.lw-p-three').attr("data-qty"); // 数量
+            var price = item.children('.lw-p-three').attr("data-price"); // 单价
+            var senyu = item.children().children('[name=ins]').text(); // 剩余人次
+            var goodsID = item.children('.lw-p-three').attr("data-goodsID"); // 商品ID
+
+            domInput.val(senyu);
+            domBuy.text(senyu); // 更新参与人次
+            domBuyPrice.html('￥'+intToFloat(parseInt(senyu * price), 2)); // 更新参与人次的价格
+            item.children('.lw-p-three').attr("data-qty", senyu); // 更新参与人次
+            updateItems(goodsID, senyu); // 保存到session
+
+            var total_price = $("#total_price").text(); // 当前总价
+            total_price = parseInt(total_price) + (senyu - qty) * price;
+            $("#total_price").text(total_price);
+        }
+
+        //输入框效果
+        function inputvalue(obj){
+            var item = $(obj).parent();
+            var domBuy = item.parent().children().children('[name=oneem]'); // 参与人次
+            var domBuyPrice = item.parent().children().children('[name=twoem]'); // 参与人次的价格
+            var domInput = item.children('[name=inputvalue]'); // 输入框
+            var qty = old = item.attr("data-qty"); // 数量
+            var price = item.attr("data-price"); // 单价
+            var senyu = item.parent().children().children('[name=ins]').text(); // 剩余人次
+            var goodsID = item.attr("data-goodsID"); // 商品ID
+
+            if (isNaN(domInput.val())) {
+                api.toast({
+                    msg: '请输入数字',
+                    duration: 2000,
+                    location: 'middle'
+                });
+                domInput.val(qty);
+                return false;
+            }
+            var currentNum = parseInt(domInput.val());
+            if (currentNum > parseInt(senyu) || currentNum <= 0) {
+                api.toast({
+                    msg: '最多'+senyu+'人次',
+                    duration: 2000,
+                    location: 'middle'
+                });
+                domInput.val(senyu);
+            }
+            qty = domInput.val();
+            domBuy.text(qty); // 更新参与人次
+            domBuyPrice.html('￥'+intToFloat(parseInt(qty * price), 2)); // 更新参与人次的价格
+            item.attr("data-qty", qty); // 更新参与人次
+            updateItems(goodsID, qty); // 保存到session
+
+            var total_price = $("#total_price").text(); // 当前总价
+            if (old > qty) { // 减少了
+                total_price = parseInt(total_price) - (old - qty) * price;
+            }else{
+                total_price = parseInt(total_price) + (qty - old) * price;
+            }
+            $("#total_price").text(total_price);
+        }
+
+        // 删除
+        function delItem(goodsID) {
+            var gidList = sessionStorage.getItem("gidList");
+            gidList = JSON.parse(gidList);
+            for (i in items){
+                if (items[i].goodsID == goodsID) {
+                    var qty = items[i].qty;
+                    var price = items[i].price;
+                    var total_items = $("#total_items").text();
+                    var total_price = $("#total_price").text();
+                    items.splice(i, 1); // 删除商品
+                    gidList.splice(i, 1); // 删除商品ID
+                    $("#gid_"+goodsID).remove();
+                    total_items--;
+                    total_price = total_price - qty * price;
+                    $("#total_items").text(total_items);
+                    $("#total_price").text(total_price);
+                }
+            }
+            shopcart = JSON.stringify(items);
+            gidList = JSON.stringify(gidList);
+            sessionStorage.setItem("shopcart", shopcart);
+            sessionStorage.setItem("gidList", gidList);
+
+            if (items.length == 0) {
+                $("#lw-shoppingcart").css("display", "block");
+                $("#lw-shoppinghidden").css("display", "none");
+            }
+        }
+
+        // 更新购买数量
+        function updateItems(goodsID, qty) {
+            for (i in items){
+                if (items[i].goodsID == goodsID) {
+                    items[i].qty = parseInt(qty);
+                }
+            }
+            shopcart = JSON.stringify(items);
+            sessionStorage.setItem("shopcart", shopcart);
+        }
+
+        var delGoodsID;
+        function dialog_show(goodsID){
+            $("body").append('<div class="aui-mask"></div>');
+            $("#dialog").removeClass("aui-hidden");
+            delGoodsID = goodsID;
+        }
+
+        function dialog_cancel(){
+            $(".aui-mask").remove();
+            $("#dialog").addClass("aui-hidden");
+        }
+
+        function dialog_confirm(){
+            $(".aui-mask").remove();
+            $("#dialog").addClass("aui-hidden");
+            delItem(delGoodsID);
+        }
+    </script>
+</body>
+</html>

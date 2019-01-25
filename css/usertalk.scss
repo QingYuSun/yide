@@ -1,0 +1,158 @@
+@charset "utf-8";
+
+@import "variable";
+//中间部分外层样式
+.lw-usertalk-wrap{
+	border-bottom: 1px solid #D0D0D0;
+	width:100%;
+	display: box;
+    display: -webkit-box;
+    display: -moz-box;
+}
+//"已晒单"的样式
+.lw-user-talk{
+	-webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    height:33px;
+    line-height:33px;
+    text-align:center;
+    position:relative;
+    a{
+    	display:block;
+    	color:#999;
+    	margin:0 5px;
+    	&.lw-talk-red{
+	        border-bottom:2px solid $background;
+	        color:$background;
+	        margin:0 5px;
+	        height: 32px;
+            line-height: 33px;
+            display: block;
+        }
+    }
+    b{
+    	width:1px;
+    	height:15px;
+    	position:absolute;
+    	top:10px;
+    	right:0;
+    	overflow:hidden;
+    	background:#ddd;
+    }
+}
+//"未晒单"的样式
+.lw-user-no{
+	-webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    height:33px;
+    line-height:33px;
+    text-align:center;
+    position:relative;
+    a{
+    	display:block;
+    	color:#999;
+    	margin:0 5px;
+    }
+}
+//已晒单和未晒单下面外层样式
+.lw-talk-record{
+	display:block;
+	min-height:90px;
+	background: #f4f4f4 none repeat scroll 0 0;
+    box-shadow: 0 1px 1px #e8e8e8 inset;
+    overflow: hidden;
+    padding: 0;
+    ul{
+    	margin-top:-1px;
+    }
+}
+//暂无记录的样式
+.lw-talk-color{
+	display:block;
+	color: #bbb;
+	text-align: center;
+    font-size: 2rem;
+    padding: 50px 0;
+    background: #f7f7f7;
+    s{
+    	display: block;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+    	background-size: 80px auto;
+        margin-bottom: 20px
+    }
+}
+//未晒单商品的样式
+.lw-talk-yes{
+	border-top: 1px solid #fff;
+    min-height: 82px;
+    padding: 10px;
+    position: relative;
+    border-bottom: medium none;
+}
+//未晒单商品图片的样式
+.lw-talk-img{
+	background: #fff none repeat scroll 0 0;
+    box-shadow: 0 1px 1px #ededed;
+    height: 80px;
+    line-height: 80px;
+    margin-top: 3px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 80px;
+    float:left;
+    img{
+    	left: -50%;
+        margin-top: -2px;
+        position: static;
+        top: -50%;
+        vertical-align: middle;
+        width: 80px;
+    }
+}
+//未晒单商品文字样式
+.lw-talk-word{
+	color:#bbb;
+	margin-left:90px;
+	p{
+		margin-top:-3px;
+		margin-bottom: 3px;
+        margin-right: 15px;
+        &.lw-talk-p{
+        	margin-top:3px;
+        	font-size: 1.4rem;
+            line-height: 20px;
+            max-height: 38px;
+            overflow: hidden;
+            a{
+            	color:#666;
+            }
+        }
+	}
+}
+//"我要晒单"的样式
+.lw-talk-me{
+	float:right;
+	a{
+		background:$background;
+		border-radius:5px;
+		color:#fff;
+		padding:5px;
+	}
+    b{
+        background: #bbb;
+        color: #fff;
+        padding: 5px;
+        border-radius: 5px;
+    }
+}
+//加载跟多的样式
+.lw-load{
+    text-align: center;
+    padding: 10px;
+    background:#f7f7f7;
+}

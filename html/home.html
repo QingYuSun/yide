@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link rel="stylesheet" type="text/css" href="../css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <link href="../js/FlexSlider/flexslider.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../js/FlexSlider/jquery.flexslider-min.js"></script>
+    <script type="text/javascript">
+    $(function(){
+        var width = $(document.body).width();
+        var c_scale = 600 / width;
+        var height = 281 / c_scale;
+        $(".flexslider").height(height);
+        $('.flexslider').flexslider({
+            animation: "slide",
+            controlNav: true,
+            directionNav: false
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div id="header">
+        <div id="flexslider" class="flexslider">
+            <ul class="slides">
+                 <li><a href="#"><img src="../image/kk.jpg" alt="1" width="100%"></a></li>
+                 <li><a href="#"><img src="../image/23260489146841.jpg" alt="2" width="100%"></a></li>
+                 <li><a href="#"><img src="../image/86213614146754.jpg" alt="2" width="100%"></a></li>
+            </ul>
+        </div>
+        <div id="nav" class="nav">
+            <ul>
+                <li>
+                    <a href="./goods/list.html?cateid=0" class="nav-a">
+                        <img class="nav-img" src="../image/icon/nav-pro.png">
+                        <span class="nav-span">所有商品</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./goods/list.html?cateid=30" class="nav-a">
+                        <img class="nav-img" src="../image/icon/nav-mobile.png">
+                        <span class="nav-span">手机专区</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./help/helpm.html?type=1" class="nav-a">
+                        <img class="nav-img" src="../image/icon/nav-ques.png">
+                        <span class="nav-span">常见问题</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./help/helpm.html?type=2" class="nav-a">
+                        <img class="nav-img" src="../image/icon/nav-notice.png">
+                        <span class="nav-span">公告</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="main">
+        <div id="roll" class="roll">
+            <ul id="lw-roll-one">
+            </ul>
+            <ul id="lw-roll-two"></ul>
+        </div>
+        <div id="main-nav">
+            <div id="main-nav-one" class="main-nav-one">
+                <ul>
+                    <li id="lw-cutreveal" onclick="javascript:switch4Tab('lw-cutreveal', 'lw-reveal');" class="red">
+                        <a href="javascript:;">
+                            <span>即将揭晓</span>
+                        </a>
+                    </li>
+                    <li id="lw-cutnewest" onclick="javascript:switch4Tab('lw-cutnewest', 'lw-newest');">
+                        <a href="javascript:;">
+                            <span>最新</span>
+                        </a>
+                    </li>
+                    <li id="lw-cutfire" onclick="javascript:switch4Tab('lw-cutfire', 'lw-fire');">
+                        <a href="javascript:;">
+                            <span>最火</span>
+                        </a>
+                    </li>
+                    <li id="lw-cutvalue" onclick="javascript:switch4Tab('lw-cutvalue', 'lw-value',1);">
+                        <a href="javascript:;">
+                            <span>价值</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="main-nav-last" class="main-nav-last" onclick="showCatalogMenu()">
+                <span>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </span> 分类
+            </div>
+            <div id="catalogMenu" class="lw-catalog-hidden lw-indexhidden">
+                <ul>
+                    <li><a href="./goods/list.html?cateid=0">全部分类</a></li>
+                    <li><a href="./goods/list.html?cateid=30">手机平板</a></li>
+                    <li><a href="./goods/list.html?cateid=41">电脑数码</a></li>
+                    <li><a href="./goods/list.html?cateid=44">黄金珠宝</a></li>
+                    <li><a href="./goods/list.html?cateid=47">家用电器</a></li>
+                    <li><a href="./goods/list.html?cateid=51">生活用品</a></li>
+                    <li><a href="./goods/list.html?cateid=54">虚拟充值</a></li>
+                    <li><a href="./goods/list.html?cateid=101">美食天地</a></li>
+                    <li><a href="./goods/list.html?cateid=108">户外运动</a></li>
+                    <li><a href="./goods/list.html?cateid=116">玩具礼品</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="goods" class="goods">
+            <!-- 即将揭晓的 -->
+            <div style="margin-bottom:0;" class="aui-content" id="lw-reveal"></div>
+            <!-- 最新 -->
+            <div style="margin-bottom:0;" class="aui-content lw-indexhidden" id="lw-newest"></div>
+            <!-- 最火 -->
+            <div style="margin-bottom:0;" class="aui-content lw-indexhidden" id="lw-fire"></div>
+            <!-- 价值 价值最高-->
+            <div style="margin-bottom:0;" class="aui-content lw-indexhidden" id="lw-value"></div>
+            <!-- 价值 价值最低-->
+            <div style="margin-bottom:0;" class="aui-content lw-indexhidden" id="lw-value-low"></div>
+        </div>
+    </div>
+    <div style="display:none;" id="lw-loading" class="lw-load">加载中...</div>
+    <div style="display:none;" id="lw-loadover" class="lw-load">没有更多数据了</div>
+    <script type="text/javascript">
+    var jxpage = 1;
+    var zxpage = 1;
+    var zhpage = 1;
+    var jzgpage = 1;
+    var jzdpage = 1;
+    jxajax();
+    zxajax();
+    zhajax();
+    jzgajax();
+    jzdajax();
+    apiready = function() {
+        // 更改顶部标题的请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '一得宝'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: '1'
+        });
+
+        // 隐藏后退按钮
+        api.sendEvent({
+            name: 'hideBackButton'
+        });
+
+        //页面下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+    
+
+        // 分页加载
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+            }, function(ret, err){
+                if ($('#lw-reveal').css('display') == 'block') {
+                    if ($('#lw-loadover').css('display') != 'block') {
+                        $('#lw-loading').show();
+                    }
+                    jxajax();
+                }
+                if ($('#lw-newest').css('display') == 'block') {
+                    if ($('#lw-loadover').css('display') != 'block') {
+                        $('#lw-loading').show();
+                    }
+                    zxajax();
+                }
+                if ($('#lw-fire').css('display') == 'block') {
+                    if ($('#lw-loadover').css('display') != 'block') {
+                        $('#lw-loading').show();
+                    }
+                    zhajax();
+                }
+                if ($('#lw-value').css('display') == 'block') {
+                    if ($('#lw-loadover').css('display') != 'block') {
+                        $('#lw-loading').show();
+                    }
+                    jzgajax();
+                }
+                if ($('#lw-value-low').css('display') == 'block') {
+                    if ($('#lw-loadover').css('display') != 'block') {
+                        $('#lw-loading').show();
+                    }
+                    jzdajax();
+                }
+        });
+    }
+
+
+    //轮播图加载
+    $.ajax({
+        type: 'GET',
+        url: AJAX_URI+'/showindex/pic_roll',
+        dataType: 'json',
+        success: function(result) {
+            var html='';
+            $(result).each(function(key,val){
+                if(key==0){
+                    html+='<li class="active"><a href="#"><img src="http://m.51edb.com/love/uploads/'+this.img+'" alt="1" width="100%"></a></li>';
+                }else{
+                    html+='<li><a href="#"><img src="http://m.51edb.com/love/uploads/'+this.img+'" alt="2" width="100%"></a></li>';
+                }
+            });
+
+            $("#lw-picroll").append(html);
+        }
+    });
+
+    // 即将揭晓
+    function jxajax(){
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/jx',
+            dataType: 'json',
+            data: {page: jxpage},
+            success: function(result) {
+                var html = xunhuan(result);
+                if (result=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+                jxpage++;
+                $("#lw-reveal").append(html);
+            }
+        });
+    }
+    
+
+    // 最新
+    function zxajax(){
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/zx',
+            dataType: 'json',
+            data: {page: zxpage},
+            success: function(result) {
+                var html = xunhuan(result);
+                if (result=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+                zxpage++;
+                $("#lw-newest").append(html);
+            }
+        });
+    }
+    
+
+    // 最火
+    function zhajax(){
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/zh',
+            dataType: 'json',
+            data: {page: zhpage},
+            success: function(result) {
+                var html = xunhuan(result);
+                if (result=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+                zhpage++;
+                $("#lw-fire").append(html);
+            }
+        });
+    }
+    
+
+    // 价值 价值最高
+    function jzgajax(){
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/jz',
+            dataType: 'json',
+            data: {page: jzgpage},
+            success: function(result) {
+                var html = xunhuan(result);
+                if (result=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+                jzgpage++;
+                $("#lw-value").append(html);
+            }
+        });
+    }
+    
+
+    // 价值 价值最低
+    function jzdajax(){
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/jz_low',
+            dataType: 'json',
+            data: {page: jzdpage},
+            success: function(result) {
+                var html = xunhuan(result);
+                if (result=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+                jzdpage++;
+                $("#lw-value-low").append(html);
+            }
+        });
+    }
+    
+
+    // 中奖前20名
+    $.ajax({
+        type: 'GET',
+        url: AJAX_URI+'/showindex/roll',
+        dateType:'json',
+        success: function(result) {
+            var json = JSON.parse(result);
+            var html = '';
+            $(json).each(function(index){
+                html += '<li><a href="javascript:openGoods(\'' + this.id + '\');">恭喜<b style="color:#e60044;"> '+this.username+' </b>获得 <b style="color:#000;">'+this.title+'</b></a></li>';
+            });
+            $("#lw-roll-one").html(html)
+            $("#lw-roll-two").html(html)
+        }
+    });
+
+    // 首页前20名滚动效果
+    var roll = document.getElementById("roll");
+    var roll_one = document.getElementById("lw-roll-one");
+    var roll_two = document.getElementById("lw-roll-two");
+    var speed = 15; //滚动速度
+    var rows = 25; //每行高度
+    var stim = 200; //停留时间倍数 * speed
+    var stop = 0; //初始化值，不管
+    roll_two.innerHTML = roll_one.innerHTML;
+
+    function marquee() {
+        if (roll.scrollTop % rows == 0 && stop <= stim) {
+            stop++;
+            return;
+        }
+        stop = 0;
+        if (roll_two.offsetTop - roll.scrollTop <= 0)
+            roll.scrollTop -= roll_one.offsetHeight
+        else {
+            roll.scrollTop++
+        }
+    }
+    var MyMar = setInterval(marquee, speed);
+
+    function xunhuan(ret) {
+        var html = "";
+        html += '<ul class="aui-list-view aui-grid-view" id="goos_info">';
+        $(ret).each(function(index){
+            html += '<li class="aui-list-view-cell aui-img aui-col-xs-6 lw-goods-list lw-goods-a">';
+            html += '<a href="javascript:openGoods(\'' + this.id + '\');" id=' + this.id + '><img class="aui-img-object lw-goods-img" src="http://m.51edb.com/love/uploads/' + this.thumb + '"></a>';
+            html += '<p class="lw-goods-name">' + this.title + '</p>';
+            html += '<ins class="lw-goods-value">价值:' + this.money + '</ins>';
+            html += '<div class="lw-progress">';
+            //首页百分比参数
+            var j = parseInt(this.canyurenshu * 100) / this.zongrenshu;
+            html += '<p><span style="width:' + parseInt(j) + '%"></span></p></div>';
+            html += '<div class="lw-goods-value">剩余';
+            html += '<b style="color:#e60044;">' + (parseInt(100 - j) == 0 ? 1 : parseInt(100 - j)) + '%</b></div>';
+            html += '<div class="participate">';
+            html += '<a href="javascript:;" onclick="javascript:buy_now(\'' + this.id + '\')" id="gid_'+this.id+'" data-thumb="http://m.51edb.com/love/uploads/'+this.thumb+'" data-title="(第'+this.qishu+'期)'+this.title+'" data-shenyurenshu="'+this.shenyurenshu+'" data-price="'+this.yunjiage+'">立即参与</a>';
+            html += '<div class="shopping">';
+            html += '<a href="javascript:;">';
+            html += '<s></s></a></div></div></li>';
+        });
+        html += '</ul>';
+        return html;
+
+    }
+
+    // "即将揭晓" "最新" "最火" "价值" 的点击效果
+    function switch4Tab(id, content,i) {
+        $('#lw-loadover').hide();
+        $('#lw-loading').hide();
+        $("#catalogMenu").addClass("lw-indexhidden");
+        $("#lw-cutreveal").removeClass("red");
+        $("#lw-cutnewest").removeClass("red");
+        $("#lw-cutfire").removeClass("red");
+        $("#lw-cutvalue").removeClass("red");
+        $("#"+id).addClass("red");
+
+        $("#lw-reveal").addClass("lw-indexhidden");
+        $("#lw-newest").addClass("lw-indexhidden");
+        $("#lw-fire").addClass("lw-indexhidden");
+        $("#lw-value").addClass("lw-indexhidden");
+        $("#lw-value-low").addClass("lw-indexhidden");
+        $("#"+content).removeClass("lw-indexhidden");
+        if (i==1) {
+            if ($("#lw-value").css('display') == 'block') {
+                $("#lw-value").hide();
+                $("#lw-value-low").show();
+            }else{
+                $("#lw-value").show();
+                $("#lw-value-low").hide();
+            }
+        }else{
+            $("#lw-value").hide();
+            $("#lw-value-low").hide();
+        }
+    }
+
+    function showCatalogMenu() {
+        if ($("#catalogMenu").hasClass("lw-indexhidden")) {
+            $("#catalogMenu").removeClass("lw-indexhidden");
+        }else{
+            $("#catalogMenu").addClass("lw-indexhidden");
+        }
+    }
+
+    // 跳转详情页 或 揭晓结果页 或 正在倒计时页
+    function openGoods(goodsID) {
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/get_goods_status',
+            data: {goods_id: goodsID},
+            dateType:'json',
+            success: function(result) {
+                switch(result){
+                    case '1': // 详情页
+                        winName = 'edbGoodsDetailWin';
+                        url = './goods.html';
+                        break;
+                    case '2': // 揭晓页
+                        winName = 'edbGoodsAnnounceWin';
+                        url = './goods-win.html';
+                        break;
+                    case '3': // 倒计时页
+                        winName = 'edbGoodsTimeWin';
+                        url = './goods-time.html';
+                        break;
+                }
+                api.openWin({
+                    name: winName,
+                    url: url,
+                    pageParam: {
+                        goodsID: goodsID
+                    },
+                    bounces:false,
+                    hScrollBarEnabled:false
+                });
+            }
+        });
+    }
+
+    // 立即购买
+    function buy_now(goodsID) {
+        var gid = $("#gid_"+goodsID);
+        var thumb = gid.attr("data-thumb");
+        var title = gid.attr("data-title");
+        var shenyurenshu = gid.attr("data-shenyurenshu");
+        var price = gid.attr("data-price");
+
+        var shopcart = sessionStorage.getItem("shopcart");
+        var gidList = sessionStorage.getItem("gidList"); // 目前购物车里的商品ID, 用于避免商品重复添加
+        if (!shopcart) { // 没有购物车数据, 为NULL
+            var items = [];
+            gidList = [];
+        }else{
+            var items = JSON.parse(shopcart);
+            gidList = JSON.parse(gidList);
+            gidList = $.map(gidList, function(el) { return el }); // 对象转换成数组
+        }
+
+        if(gidList.indexOf(goodsID) < 0){ // 购物车里没有此商品
+            items.push({
+                'goodsID': goodsID,
+                'qty': 5,
+                'thumb': thumb,
+                'title': title,
+                'shenyurenshu': shenyurenshu,
+                'price': price
+            });
+            shopcart = JSON.stringify(items);
+
+            gidList.push(goodsID);
+            gidList = JSON.stringify(gidList);
+
+            sessionStorage.setItem("shopcart", shopcart);
+            sessionStorage.setItem("gidList", gidList);
+        }
+        window.location.href="./shopcart/list.html";
+    }
+    </script>
+</body>
+</html>

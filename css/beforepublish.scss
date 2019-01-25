@@ -1,0 +1,296 @@
+@charset "utf-8";
+html,body{
+        height: 100%;
+        background-color:#fff;
+        min-width: 320px;
+        font-size: 62.5%;
+        font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
+    }
+
+h1, h2, h3, h4, h5, b{
+    font-weight: normal;
+}
+*{
+        margin: 0;
+        padding: 0;
+    }
+div, ul, li, dl, dt, dd, table, td, input ,span{
+        font-size: 1.2rem;
+    }
+@import "variable";
+section{
+     padding-top:10px;
+}
+//上面查找第几期外层div样式
+.lw-befoer-publish{
+    width: 220px;
+    height: 29px;
+    font-size: 1.4rem;
+    margin: 0 auto 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    color:#999;
+
+}
+//"直达第"的样式
+.lw-before-head{
+    width:60px;
+    text-align:center;
+    line-height:28px;
+    float:left;
+    font-size:1.4rem;
+    color:#999;
+
+}
+
+//"期"的样式
+.lw-before-several{
+    width:60px;
+    text-align:center;
+    line-height:28px;
+    float:right;
+    font-size:1.4rem;
+    color:#999;
+    &.lw-orange{
+        a{
+            s{
+                background-position:0 -371px;
+            }
+        }
+    }
+    a{
+        display: inline-block;
+        color: #999;
+        width:60px;
+        text-align:center;
+        line-height:28px;
+
+        s{
+        background:url(../image/icon/set.png);
+        background-size:35px auto;
+        display: inline-block;
+        width: 16px;
+        height: 17px;
+        background-position: 0 -285px;
+        position: relative;
+        top: 3px;
+        left: 5px;
+
+    }
+    }
+}
+//输入第几期iuput的样式
+.lw-before-figure{
+    width:100px;
+    margin:0 60px;
+    input{
+        display: block;
+        width: 100px;
+        height: 29px;
+        line-height: 20px;
+        padding: 3px 8px;
+        background:#fff;
+        -webkit-box-sizing: border-box;
+        color: #bbb;
+        border-left: 1px solid $bordercolor;
+        border-right: 1px solid $bordercolor;
+        text-align: center;
+        color: rgb(187, 187, 187);
+        font-size: 1rem;
+        outline:none;
+    }
+    input:focus{
+        border:1px solid #ff6600;
+    }
+}
+
+//第几期获奖者的样式
+.lw-befor-winner{
+    // margin-bottom:46px;
+    ul{
+        li{
+            height:154px;
+            padding-bottom:6px;
+            p{
+                display:block;
+                font-style:normal;
+                font-size:1.8rem;
+                color:#fff;
+                height:26px;
+                background:#f77c86;
+                border-radius:5px 5px 0 0;
+                line-height:26px;
+                text-align:center;
+                margin:0 3px;
+            }
+        }
+    }
+}
+//改变正在揭晓的背景颜色的样式
+.lw-before-croci{
+    background:#fffbe0;
+}
+//正在揭晓外层和文字样式
+.lw-before-ing{
+    padding: 19px 10px 0;
+    h4{
+        text-align: center;
+        font-size: 1.6rem;
+        margin-bottom: 6px;
+        color:$background;
+    }
+}
+//正在揭晓的图片样式
+.lw-befor-img{
+    width: 63px;
+    height: 63px;
+    border: 1px solid #fff4d6;
+    padding: 5px;
+    background: #fff;
+    margin: 0 auto;
+    img{
+        display: block;
+        width: 63px;
+    }
+
+}
+//已经揭晓的头像样式
+.lw-before-photo{
+    padding:8% 4% 0 4%;
+    width:14%;
+    float:left;
+    dt{
+        padding:4% 7% 0 0;
+        img{
+            display:block;
+            width:57px;
+            height:57px;
+            border-radius:74px;
+            margin:0 auto;
+        }
+    }
+}
+//已经揭晓的文字部分外层样式
+.lw-before-word{
+    width:65%;
+    float:left;
+    padding:3%;
+    text-align:left;
+    color:#999;
+}
+//已经揭晓的统一文字和em样式
+.lw-word{
+    font-size:0.875rem;
+    line-height:17px;
+    // width:190px;
+    em{
+        font-style:normal;
+        color:$background;
+    }
+}
+.lw-pao-title{
+    padding:19px 10px 0;
+    h4{
+        text-align:center;
+        color:$background;
+    }
+}
+.lw-pao{
+        height: 8px;
+    overflow: hidden;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);
+    background: #f7f7f7;
+    margin-top: 15px;
+    .lw-paoma{
+            display: block;
+    width: 100%;
+    height: 100%;
+    li{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: -webkit-linear-gradient(-45deg,#ffd27a 0,#ffd27a 25%,#ffa800 25%,#ffa800 50%,#ffd27a 50%,#ffd27a 75%,#ffa800 75%,#ffa800);
+    -webkit-animation: loading-pging 0.5s linear infinite;
+    -moz-animation: loading-pging 0.5s linear infinite;
+    -ms-animation: loading-pging 0.5s linear infinite;
+    animation: loading-pging 0.5s linear infinite;
+    -webkit-background-size: 20px 20px;
+    -moz-background-size: 20px 20px;
+    -ms-background-size: 20px 20px;
+    background-size: 20px 20px;
+
+    }
+}
+}
+@keyframes loading-pging {
+    0%{background-position:0 0; }
+    100%{background-position:20px 0;}  /* 2个点 */
+}
+@-webkit-keyframes loading-pging {
+    0%{background-position:0 0; }
+    100%{background-position:20px 0;}  /* 2个点 */
+}
+@-moz-keyframes loading-pging {
+    0%{background-position:0 0; }
+    100%{background-position:20px 0;}  /* 2个点 */
+}
+@-ms-keyframes loading-pging {
+    0%{background-position:0 0; }
+    100%{background-position:20px 0;}  /* 2个点 */
+}
+//揭晓人名字的样式
+.lw-word-name{
+    height:17px;
+    line-height:17px;
+    overflow: hidden;
+    word-break: break-all;
+    color: #2af;
+}
+//揭晓时间的样式
+.lw-word-color{
+    color:#bbb;
+    font-size:0.875rem;
+    line-height:17px;
+    // width:190px;
+}
+.lw-dotting {
+    display: inline-block; min-width: 2px; min-height: 2px;
+    box-shadow: 2px 0 currentColor, 6px 0 currentColor, 10px 0 currentColor; /* for IE9+, ..., 3个点 */
+    -webkit-animation: dot 4s infinite step-start both;
+    -moz-animation: dot 4s infinite step-start both;
+    -ms-animation: dot 4s infinite step-start both;
+    animation: dot 4s infinite step-start both; /* for IE10+, ... */
+    *zoom: expression(this.innerHTML = '...'); /*  for IE7. 若无需兼容IE7, 此行删除 */
+}
+.lw-dotting:before { content: '...'; } /* for IE8. 若无需兼容IE8, 此行以及下一行删除*/
+.lw-dotting::before { content: ''; } /* for IE9+ 覆盖 IE8 */
+:root .lw-dotting { margin-right: 8px; } /* for IE9+,FF,CH,OP,SF 占据空间*/
+
+@keyframes dot {
+    25% { box-shadow: none; }                                  /* 0个点 */
+    50% { box-shadow: 2px 0 currentColor; }                    /* 1个点 */
+    75% { box-shadow: 2px 0 currentColor, 6px 0 currentColor;  /* 2个点 */ }
+}
+@-webkit-keyframes dot {
+    25% { box-shadow: none; }                                  /* 0个点 */
+    50% { box-shadow: 2px 0 currentColor; }                    /* 1个点 */
+    75% { box-shadow: 2px 0 currentColor, 6px 0 currentColor;  /* 2个点 */ }
+}
+@-moz-keyframes dot {
+    25% { box-shadow: none; }                                  /* 0个点 */
+    50% { box-shadow: 2px 0 currentColor; }                    /* 1个点 */
+    75% { box-shadow: 2px 0 currentColor, 6px 0 currentColor;  /* 2个点 */ }
+}
+@-ms-keyframes dot {
+    25% { box-shadow: none; }                                  /* 0个点 */
+    50% { box-shadow: 2px 0 currentColor; }                    /* 1个点 */
+    75% { box-shadow: 2px 0 currentColor, 6px 0 currentColor;  /* 2个点 */ }
+}
+//加载跟多的样式
+.lw-load{
+    text-align: center;
+    padding: 10px;
+    display: none;
+    background:#f7f7f7;
+}

@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>中奖记录</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/win.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    </head>
+<body>
+	<section>
+        <div class="lw-win-wrap">
+            <ul id="lw-date">
+                <!-- <li>
+                    <cite class="lw-win-img">
+                        <a onclick="wingoods()" href="javascript:;">
+                            <img src="../image/92149415431432.jpg">
+                        </a>
+                    </cite>
+                    <dl>
+                        <dt>
+                            <a onclick="wingoods()" href="javascript:;">(第112期)Apple&nbsp;iPad&nbsp;Air&nbsp;平板电脑&nbsp;16G&nbsp;轻轻地改变一切</a>
+                        </dt>
+                        <dd>
+                            幸运号码：<em>10001605</em>
+                        </dd>
+                        <dd>
+                            揭晓时间：<em>2016-07-11 11:44:10</em>
+                        </dd>
+                        <dd>
+                            订单编号：<em>A14677778554428142</em>
+                        </dd>
+                        <dd>
+                            <a onclick="win()" class="lw-win-integral" style="background-color: gray" href="javascript:;">确认收货</a>
+                        </dd>
+                    </dl>
+                </li> -->
+            </ul>
+        </div>
+        <div style="display:none;" id="lw-nodata" class="lw-nodata">
+            <s></s>
+            <p>暂无记录</p>
+        </div>
+        <div style="display:none;" id="lw-loading" class="lw-load">加载中...</div>
+        <div style="display:none;" id="lw-loadover" class="lw-load">没有更多数据了</div>
+	</section>
+</body>
+<script type="text/javascript">
+    var page = 1; // 分页页数
+    var uid=getUrlParam('uid');
+    alert(uid)
+    loadajax(uid);
+
+    apiready = function() {
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '中奖记录'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+
+        //页面下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+
+        // 分页监听
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+        }, function(ret, err){
+            if ($('#lw-loadover').css('display') != 'block') {
+                if ($('#lw-date li').length > 5) {
+                    $('#lw-loading').show();
+                }
+            }
+
+            loadajax(uid);
+        });
+    }
+
+    function loadajax(uid){
+        $.ajax({
+            type: 'post',
+            url: AJAX_URI+'/users/get_win',
+            data: { uid: uid ,page: page},
+            dataType: 'json',
+            success: function(result) {
+                //alert(result[0].id)
+                var html='';
+                $(result).each(function(index){
+                    html+='<li><cite class="lw-win-img">';
+                    html+='<a onclick="openGoods(\''+this.id+'\')" href="javascript:;"><img src="http://m.51edb.com/love/uploads/'+this.thumb+'"></a></cite>';
+                    html+='<dl><dt><a onclick="openGoods(\''+this.id+'\')" href="javascript:;">(第'+this.qishu+'期)'+this.title+'</a></dt>';
+                    html+='<dd>幸运号码：<em>'+this.q_user_code+'</em></dd>';
+                    html+='<dd>揭晓时间：<em>'+this.q_end_time+'</em></dd>';
+                    html+='<dd>订单编号：<em>'+this.code+'</em></dd>';
+                    html+='<dd>';
+                    //未确认收货地址
+                    if(this.status==0){
+                        html+='<a class="lw-win-integral" href="../html/win/affirmsign.html?uid='+this.q_uid+'&goods_id='+this.id+'">确认收货地址</a>';
+                    }
+
+                    //已提交地址 未发货
+                    if(this.status==1){
+                        html+='<a class="lw-win-integral" style="background-color: #ccc" href="../html/win/signsure.html?uid='+this.q_uid+'&goods_id='+this.id+'">待发货</a>';
+                    }
+
+                    //已付款，已发货，未完成，已提交地址(已发货，未完成的)
+                    if(this.status==2){
+                        // 在已发货的情况行下判断 卡类的情况  1是话费 3是京东卡 其他都是实物
+                        if(this.leixing==1){
+                            html+='<a class="lw-win-integral" style="background-color: #ccc" href="#">话费已充值到账</a>';
+                            html+='<a class="lw-win-integral" href="#" onclick="ok('+this.q_uid+','+this.id+')">确认收货</a>';
+                        }else if(this.leixing==3){
+                            html+='<a class="lw-win-integral" style="background-color: #ccc" href="../html/win/done.html?uid='+this.q_uid+'&goods_id='+this.id+'">订单已完成</a>';
+                            html+='<a class="lw-win-integral" href="javascript:;">查看京东卡密</a>';
+                        }else{
+                            html+='<a class="lw-win-integral" onclick="ok('+this.q_uid+','+this.id+')" href="javascript:;">确认收货</a>';
+                        }
+                    }
+
+                    //判断已完成的商品是否已经晒过单 this.shaidan: 0未晒单 1已晒单
+                    if(this.status==3){
+                        if(this.leixing!=3 && this.leixing!=1){
+                            if(this.shaidan==0){
+                                html+='<a class="lw-win-integral" href="./Framewinintegral.html?uid='+this.q_uid+'&goodsID='+this.id+'">晒单赢积分</a>';
+                            }else if(this.shaidan==1){
+                                html+='<a class="lw-win-integral" style="background-color: #ccc" href="../html/win/done.html?uid='+this.q_uid+'&goods_id='+this.id+'">订单已完成</a>';
+                            }
+                        }else{
+                             html+='<a class="lw-win-integral" style="background-color: #ccc" href="../html/win/done.html?uid='+this.q_uid+'&goods_id='+this.id+'">订单已完成</a>';
+                        }
+                    }
+
+                    // 已作废的订单
+                    if(this.status==5){
+                        html+='<a class="lw-win-integral" style="background-color: #ccc" href="javascript:;">超时未确认，订单已取消</a>';
+                    }
+                    html+='</dd>';
+                    html+='</dl></li>';
+                });
+                alert(html)
+                $("#lw-date").append(html);
+                page++;
+
+                if (html=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+
+                if ($('#lw-date li').length < 5) {
+                    $('#lw-loadover').hide();
+                    $('#lw-loading').hide();
+                }
+                if ($('#lw-date li').length < 1) {
+                    $('#lw-nodata').show();
+                }
+                //alert( JSON.stringify( result ) )
+            }
+        });
+    }
+
+    function openGoods(goodsID) {
+        $.ajax({
+            type: 'GET',
+            url: AJAX_URI+'/showindex/get_goods_status',
+            data: {goods_id: goodsID},
+            dateType:'json',
+            success: function(result) {
+                switch(result){
+                    case '1': // 详情页
+                        winName = 'edbGoodsDetailWin';
+                        url = '../html/goods.html';
+                        break;
+                    case '2': // 揭晓页
+                        winName = 'edbGoodsAnnounceWin';
+                        url = '../html/goods-win.html';
+                        break;
+                    case '3': // 倒计时页
+                        winName = 'edbGoodsTimeWin';
+                        url = '../html-time.html';
+                        break;
+                }
+                api.openWin({
+                    name: winName,
+                    url: url,
+                    pageParam: {
+                        goodsID: goodsID
+                    },
+                    bounces:false,
+                    hScrollBarEnabled:false
+                });
+            }
+        });
+    }
+
+    //确认收货
+    function ok(uid,goodsID){
+        $.ajax({
+            type: 'post',
+            url: AJAX_URI+'/users/confirmation_of_receipt',
+            data: { uid: uid ,goods_id: goodsID},
+            dataType: 'json',
+            success: function(result) {
+                if(result==1){
+                    alert('成功确认收货');
+                }else{
+                    alert('确认收货失败');
+                }
+                location.reload();
+            }
+        });
+    }
+</script>
+</html>

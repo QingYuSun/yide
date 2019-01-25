@@ -1,0 +1,66 @@
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button {
+  -webkit-appearance: none; }
+
+.lw-sign-date {
+  background: #F0EBEC;
+  line-height: 20px;
+  border: #EED7D9 1px solid;
+  padding: 10px 20px;
+  overflow: hidden;
+  color: #666;
+  zoom: 1; }
+  .lw-sign-date dd {
+    float: left;
+    margin-right: 18px; }
+    .lw-sign-date dd b {
+      color: #e60044; }
+
+.lw-sign-promptiy {
+  clear: both;
+  margin: 30px 0 0 0; }
+
+.lw-sign-red {
+  margin-left: 18%;
+  margin-top: 5%; }
+  .lw-sign-red input {
+    outline: none;
+    background: #e60044;
+    border: 1px solid #e60044;
+    color: #fff;
+    border-radius: 16px;
+    padding: 1px 20% 0 20%;
+    font-size: 2.4rem; }
+
+.lw-sign-word {
+  margin: 2% 0 2% 5%; }
+  .lw-sign-word span {
+    color: #666; }
+
+.lw-sign-span b {
+  color: red;
+  font-size: 1.6rem; }
+
+.lw-sign-frequency {
+  margin-left: 5%; }
+  .lw-sign-frequency span {
+    color: #666; }
+
+.lw-sign-img {
+  margin: 0 auto;
+  background: url(../image/icon/disk2.png);
+  width: 322px;
+  height: 326px;
+  position: relative;
+  background-size: 100% 100%;
+  margin-bottom: 20%; }
+  .lw-sign-img img {
+    max-width: 28%;
+    z-index: 2;
+    position: absolute;
+    top: 24%;
+    left: 36%; }
+
+/*# sourceMappingURL=sign.css.map */

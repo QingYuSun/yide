@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>参与记录</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/userbuy.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    <!-- <script type="text/javascript" src="../js/dep/api.js"></script> -->
+    </head>
+<body>
+	<section>
+        <div class="lw-userbuy-wrap">
+            <ul id="lw-date">
+            <!-- <li onclick="userbuywrap()">
+                    <cite class="lw-userbuy-img">
+                        <a href="javascript:;">
+                            <img src="../image/92149415431432.jpg">
+                        </a>
+                        <i class="pink">进行中</i>
+                    </cite>
+                    <dl>
+                        <dt>
+                            <a href="#">(第112期)Apple&nbsp;iPad&nbsp;Air&nbsp;平板电脑&nbsp;16G&nbsp;轻轻地改变一切</a>
+                        </dt>
+                        <dd>
+                            已参与<em style="color:#e60044;">1</em>人次
+                        </dd>
+                        <div class="lw-shift-ing">
+                            <p class="lw-jindup">
+                                <span class="lw-pgbar" style="width:80%;">
+                                    <span class="lw-pging"></span>
+                                </span>
+                            </p>
+                            <div class="lw-bar">
+                                <a class="lw-bar1">
+                                    <em>57</em>
+                                    已参与
+                                </a>
+                                <a class="lw-bar2">
+                                    <em>65</em>
+                                    总需人次
+                                </a>
+                                <a class="lw-bar3">
+                                    <em>8</em>
+                                    剩余
+                                </a>
+                            </div>
+                        </div>
+                    </dl>
+                </li> -->
+                <!-- <li onclick="userbuywrap()">
+                    <cite class="lw-userbuy-img">
+                        <a href="javascript:;">
+                            <img src="../image/92149415431432.jpg">
+                        </a>
+                        <i class="pink">已满员</i>
+                    </cite>
+                    <dl>
+                        <dt>
+                            <a href="#">(第112期)Apple&nbsp;iPad&nbsp;Air&nbsp;平板电脑&nbsp;16G&nbsp;轻轻地改变一切</a>
+                        </dt>
+                        <dd>
+                            已参与<em style="color:#e60044;">1</em>人次
+                        </dd>
+                        <div class="wording">
+                            <b>正在揭晓...</b>
+                        </div>
+                    </dl>
+                </li> -->
+                <!-- <li onclick="userbuywrap()">
+                    <cite class="lw-userbuy-img">
+                        <a href="javascript:;">
+                            <img src="../image/92149415431432.jpg">
+                        </a>
+                        <i>已揭晓</i>
+                    </cite>
+                    <dl>
+                        <dt>
+                            <a href="#">(第112期)Apple&nbsp;iPad&nbsp;Air&nbsp;平板电脑&nbsp;16G&nbsp;轻轻地改变一切</a>
+                        </dt>
+                        <dd>
+                            已参与<em style="color:#e60044;">1</em>人次
+                        </dd>
+                        <dd>
+                            获得者 :
+                            <a onclick="userbuyname()" href="javascript:;"> 187****4262</a>
+                        </dd>
+                        <dd>
+                            揭晓时间：<em>2016-07-11 11:44:10</em>
+                        </dd>
+                        <dd>
+                            本期幸运号码：<em>10001605</em>
+                        </dd>
+                    </dl>
+                </li> -->
+            </ul>
+        </div>
+        <div style="display:none;" id="lw-nodata" class="lw-nodata">
+            <s></s>
+            <p>暂无记录</p>
+        </div>
+        <div style="display:none;" id="lw-loading" class="lw-load">加载中...</div>
+        <div style="display:none;" id="lw-loadover" class="lw-load">没有更多数据了</div>
+	</section>
+</body>
+<script type="text/javascript">
+
+    var page = 1; // 分页页数
+    var uid=getUrlParam('uid');
+    loadajax(uid);
+
+    apiready = function() {
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '参与记录'
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+
+        //页面下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+            }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+
+        // 分页监听
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+        }, function(ret, err){
+            if ($('#lw-loadover').css('display') != 'block') {
+                if ($('#lw-date li').length > 5) {
+                    $('#lw-loading').show();
+                }
+            }
+            
+            loadajax(uid);
+        });
+
+    }
+
+    function loadajax(uid){
+        $.ajax({
+            type: 'POST',
+            url: AJAX_URI+'/users/get_userbuy',
+            data: { uid: uid,page: page },
+            dataType: 'json',
+            success: function(result) {
+                var html='';
+                    $(result).each(function(index){
+                        //已揭晓的
+                        if(this.codeState==3){
+                            html+='<li onclick="gotourl(\'./Framebuydate.html?goods_id='+this.shopid+'&uid='+this.uid+'\')">';
+                            html+='<cite class="lw-userbuy-img">';
+                            html+='<a href="javascript:;"><img src="http://m.51edb.com/love/uploads/'+this.thumb+'"></a>';
+                            html+='<i>已揭晓</i></cite>';
+                            html+='<dl><dt><a href="#">(第'+this.qishu+'期)'+this.shopname+'</a></dt>';
+                            html+='<dd>已参与<em style="color:#e60044;">'+this.gonumber+'</em>人次</dd>';
+                            html+='<dd>获得者 :<a onclick="event.stopPropagation(); gotowin(\''+this.uid+'\');" href="javascript:;"> '+this.username+'</a></dd>';
+                            html+='<dd>揭晓时间：<em>'+this.q_end_time+'</em></dd>';
+                            html+='<dd>本期幸运号码：<em>'+this.q_user_code+'</em></dd></dl></li>';
+                        }else if(this.codeState==2){
+                            //正在揭晓的
+                            html+='<li onclick="gotourl(\'./Framebuydate.html?goods_id='+this.shopid+'&uid='+this.uid+'\')"><cite class="lw-userbuy-img">';
+                            html+=' <a href="javascript:;"><img src="http://m.51edb.com/love/uploads/'+this.thumb+'"></a>';
+                            html+='<i class="pink">已满员</i></cite>';
+                            html+='<dl>';
+                            html+='<dt><a href="#">(第'+this.qishu+'期)'+this.shopname+'</a></dt>';
+                            html+='<dd>已参与<em style="color:#e60044;">'+this.gonumber+'</em>人次</dd>';
+                            html+='<div class="wording"><b>正在揭晓...</b></div>';
+                            html+='</dl>';
+                            html+='</li>';
+                        }else{
+                            //进行中
+                            html+='<li onclick="gotourl(\'./Framebuydate.html?goods_id='+this.shopid+'&uid='+this.uid+'\')"><cite class="lw-userbuy-img">';
+                            html+='<a href="javascript:;"><img src="http://m.51edb.com/love/uploads/'+this.thumb+'"></a>';
+                            html+='<i class="pink">进行中</i></cite>';
+                            html+='<dl>';
+                            html+='<dt><a href="#">(第'+this.qishu+'期)'+this.shopname+'</a></dt>';
+                            html+='<dd>已参与<em style="color:#e60044;">'+this.gonumber+'</em>人次</dd>';
+                            html+='<div class="lw-shift-ing">';
+                            var j = parseInt(this.canyurenshu * 100) / this.zongrenshu;
+                            html+='<p class="lw-jindup"><span class="lw-pgbar" style="width:'+parseInt(j)+'%;"> <span class="lw-pging"></span></span></p>';
+                            html+='<div class="lw-bar">';
+                            html+='<a class="lw-bar1"><em>'+this.canyurenshu+'</em>已参与</a>';
+                            html+='<a class="lw-bar2"><em>'+this.zongrenshu+'</em>总需人次</a>';
+                            html+='<a class="lw-bar3"><em>'+this.shenyurenshu+'</em>剩余</a></div>';
+                            html+='</div></dl></li>';
+                        }
+                    });
+                //alert( JSON.stringify( result ) )
+                $("#lw-date").append(html);
+                page++;
+
+                if (html=='') {
+                    $('#lw-loadover').show();
+                    $('#lw-loading').hide();
+                }
+
+                if ($('#lw-date li').length < 5) {
+                    $('#lw-loadover').hide();
+                    $('#lw-loading').hide();
+                }
+                if ($('#lw-date li').length < 1) {
+                    $('#lw-nodata').show();
+                }
+            }
+        });
+    }
+
+    //每个参与记录的点击
+    function gotourl(url) {
+        window.location.href=url
+    }
+    function gotowin(uid) {
+        api.openWin({
+            name: 'edbpeopleWin',
+            url: '../html/people.html',
+            pageParam: {
+                uid: uid
+            },
+            bounces:false,
+            hScrollBarEnabled:false
+        });
+    }
+</script>
+</html>

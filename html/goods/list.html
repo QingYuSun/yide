@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>商品列表</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commoditystyle.css" />
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../../js/global.js"></script>
+</head>
+<body id="lock" class="">
+    <div class="lw-classify">
+        <a href="javascript:showDefault();">
+            <abbr id="titlecut">全部分类</abbr><span></span><cite id="lw-triangleone" data-cateid="0" class="according"><em></em></cite>
+        </a>
+        <a href="javascript:showannounce();">
+            <abbr id="dropdown">即将揭晓</abbr><span></span><cite id="lw-triangletwo" data-orderid="0" class="according"><em></em></cite>
+        </a>
+    </div>
+    <div class="lw-hidden">
+        <div id="hidden" class="hidden according">
+            <ul id="lw-eq">
+                <li><a href="javascript:void(0);" onclick="javascript:cutclassify(this);" data-id="0">全部分类</a></li>
+                <li><a href="javascript:void(0);" onclick="javascript:cutclassify(this);" data-id="30">手机平板</a></li>
+                <li><a href="javascript:void(0);" onclick="javascript:cutclassify(this);" data-id="41">电脑数码</a></li>
+                <li><a href="javascript:void(0);" onclick="javascript:cutclassify(this);" data-id="44">黄金珠宝</a></li>
+                <li><a href="javascript:void(0);" onclick="javascript:cutclassify(this);" data-id="47">家用电器</a></li>
+                <li><a href="javascript:void(0);" onclick="javascript:cutclassify(this);" data-id="51">生活用品</a></li>
+                <li><a href="javascript:void(0);" onclick="javascript:cutclassify(this);" data-id="54">虚拟充值</a></li>
+                <li><a href="javascript:void(0);" onclick="javascript:cutclassify(this);" data-id="101">美食天地</a></li>
+                <li><a href="javascript:void(0);" onclick="javascript:cutclassify(this);" data-id="108">户外运动</a></li>
+                <li><a href="javascript:void(0);" onclick="javascript:cutclassify(this);" data-id="116">玩具礼品</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="lw-sort-list" class="lw-sort-list according">
+        <ul>
+            <li name="detail" class="hover">
+                <a href="javascript:void(0);" data-id="0" onclick="javascript:cutdetail(this)">
+                    即将揭晓
+                    <i></i>
+                </a>
+            </li>
+            <li name="detail">
+                <a href="javascript:void(0);" data-id="1" onclick="javascript:cutdetail(this)">
+                    最火
+                    <i></i>
+                </a>
+            </li>
+            <li name="detail">
+                <a href="javascript:void(0);" data-id="2" onclick="javascript:cutdetail(this)">
+                    剩余人次
+                    <i></i>
+                </a>
+            </li>
+            <li name="detail">
+                <a href="javascript:void(0);" data-id="3" onclick="javascript:cutdetail(this)">
+                    价值<em>(由高到低)</em>
+                    <i></i>
+                </a>
+            </li>
+            <li name="detail">
+                <a href="javascript:void(0);" data-id="4" onclick="javascript:cutdetail(this)">
+                    价值<em>(由低到高)</em>
+                    <i></i>
+                </a>
+            </li>
+            <li name="detail">
+                <a href="javascript:void(0);" data-id="5" onclick="javascript:cutdetail(this)">
+                    最新
+                    <i></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="lw-goods" id="lw-goods">
+
+    </div>
+
+    <div id="block" onclick="block()" class="block according"></div>
+
+    <script type="text/javascript">
+        apiready = function(){
+            api.setRefreshHeaderInfo({
+                bgColor: '#ededed',
+                textDown: '下拉刷新...',
+                textUp: '松开刷新...',
+                showTime: false
+            }, function(ret, err) {
+                api.refreshHeaderLoadDone();
+                location.reload();
+            });
+
+            // 发送更改顶部导航标题的监听请求
+            api.sendEvent({
+                name: 'setHomeTitle',
+                extra: '商品列表'
+            });
+
+            // 显示后退按钮
+            api.sendEvent({
+                name: 'showBackButton'
+            });
+
+            // 激活底部按钮
+            api.sendEvent({
+                name: 'activeFooter',
+                extra: {
+                    "activeIndex": 10
+                }
+            });
+        }
+
+        var cateid = getUrlParam('cateid');
+        loadList(cateid, 0);
+
+        // 加载数据
+        function loadList(cateid, paixu) {
+            $.ajax({
+                type: 'GET',
+                url: AJAX_URI+'/showindex/allshop',
+                data: {cateid: cateid, paixu: paixu},
+                dataType: 'json',
+                success: function(result) {
+                    var infohtml = info(result);
+                    $("#lw-goods").html(infohtml);
+                }
+            });
+        }
+
+        function info(ret){
+            var html = '';
+            $(ret).each(function(index){
+                if(this.id != null){
+                    html+='<div onclick="openItem(\'' + this.id + '\')"><ul>';
+                    html+='<li id="lw-goods-list" class="lw-goods-list"><span class="lw-goods-img"><img src="'+this.thumb+'"></span>';
+                    html+='<div class="lw-goods-information"><h3>(第'+this.qishu+'期)'+this.title+'</h3><em>价值：￥'+this.money+'</em>';
+                    html+='<div class="lw-goods-particpation">';
+                    var j=parseInt(this.canyurenshu *100)/this.zongrenshu;
+                    html+='<p><span style="width:'+parseInt(j)+'%;"></span></p>';
+                    html+='<ul class="lw-goods-number"><li class="lw-goods-numer-li">';
+                    html+='<em>'+this.canyurenshu+'</em>已参与</li>';
+                    html+='<li class="lw-goods-numer-two"><em>'+this.zongrenshu+'</em>总需人数</li>';
+                    html+=' <li class="lw-goods-numer-three"><em>'+this.shenyurenshu+'</em>剩余</li>';
+                    html+='</ul></div></div></li></ul></div>';
+                }
+            });
+            return html;
+        }
+
+        //全部分类的点击效果
+        function showDefault(){
+            if ($("#hidden").hasClass("according")) {
+                $("#hidden").removeClass("according");
+                $("#block").removeClass("according");
+                $("#lw-sort-list").addClass("according");
+                $("#lock").addClass("lock");
+                $("#lw-triangleone").removeClass("according");
+                $("#lw-triangletwo").addClass("according");
+            }else{
+                $("#hidden").addClass("according");
+                $("#lw-sort-list").addClass("according");
+                $("#block").addClass("according");
+                $("#lock").removeClass("lock");
+                $("#lw-triangleone").addClass("according");
+            }
+        }
+
+        //即将揭晓的点击效果
+        function showannounce(){
+            if ($("#lw-sort-list").hasClass("according")) {
+                $("#lw-sort-list").removeClass("according");
+                $("#block").removeClass("according");
+                $("#hidden").addClass("according");
+                $("#lock").addClass("lock");
+                $("#lw-triangletwo").removeClass("according");
+                $("#lw-triangleone").addClass("according");
+            }else{
+                $("#lw-sort-list").addClass("according");
+                $("#hidden").addClass("according");
+                $("#block").addClass("according");
+                $("#lock").removeClass("lock");
+                $("#lw-triangletwo").addClass("according");
+            }
+        }
+
+        //遮罩的点击效果
+        function block(){
+            $("#hidden").addClass("according");
+            $("#lw-sort-list").addClass("according");
+            $("#block").addClass("according");
+            $("#lw-triangletwo").addClass("according");
+            $("#lw-triangleone").addClass("according");
+        }
+
+        //全部分类的里面分类点击效果
+        function cutclassify(obj){
+            var cateid = $(obj).attr("data-id");
+            $("#lw-triangleone").attr("data-cateid", cateid);
+            var text = $(obj).text();
+            $("#titlecut").text(text);
+            $("#lw-eq li").removeClass("cutred");
+            $(obj).parent().addClass("cutred");
+            var paixu = $("#lw-triangletwo").attr("data-orderid");
+            loadList(cateid, paixu);
+            block();
+        }
+
+        //即将揭晓的里面分类的点击效果
+        function cutdetail(obj){
+            var paixu = $(obj).attr("data-id");
+            $("#lw-triangletwo").attr("data-orderid", paixu);
+            var text = $(obj).text();
+            $("#dropdown").text(text);
+            $("#lw-sort-list li").removeClass("hover");
+            $(obj).parent().addClass("hover");
+            var cateid = $("#lw-triangleone").attr("data-cateid");
+            loadList(cateid, paixu);
+            block();
+        }
+
+        function openItem(goodsID) {
+            api.openWin({
+                name: 'edbDetailsWindow',
+                url: '../goods.html',
+                pageParam: {
+                    "goodsID": goodsID
+                },
+                bounces:false,
+                hScrollBarEnabled:false,
+                progress:{
+                    type:"default"
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+@charset "utf-8";
+
+@import "variable";
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button {
+-webkit-appearance: none;
+}
+//签到的日期的样式
+.lw-sign-date{
+    background: #F0EBEC;
+    line-height: 20px;
+    border: #EED7D9 1px solid;
+    padding: 10px 20px;
+    overflow: hidden;
+    color: #666;
+    zoom: 1;
+    dd{
+    	float: left;
+        margin-right: 18px;
+        b{
+        	color:$background;
+        }
+    }
+}
+//马上签到的外层样式
+.lw-sign-promptiy{
+	clear: both;
+    margin: 30px 0 0 0;
+    }
+//马上签到的样式
+.lw-sign-red{
+	margin-left: 18%;
+    margin-top: 5%;
+    input{
+        outline: none;
+    	background: #e60044;
+        border: 1px solid #e60044;
+        color: #fff;
+        border-radius: 16px;
+        padding: 1px 20% 0 20%;
+        font-size: 2.4rem;
+    }
+}
+//签到说明文字部分样式
+.lw-sign-word{
+	margin:2% 0 2% 5%;
+	span{
+		color:#666;
+	}
+}
+//"签到说明"样式
+.lw-sign-span{
+	b{
+		color:rgb(255,0,0);
+		font-size:1.6rem;
+	}
+}
+//抽奖次数样式
+.lw-sign-frequency{
+	margin-left:5%;
+	span{
+		color:#666;
+	}
+}
+//大转盘抽奖的样式
+.lw-sign-img{
+	margin:0 auto;
+	background:url(../image/icon/disk2.png);
+	width: 322px;
+    height: 326px;
+    position: relative;
+    background-size: 100% 100%;
+    margin-bottom: 20%;
+	img{
+		max-width: 28%;
+        z-index: 2;
+        position: absolute;
+        top: 24%;
+        left: 36%;
+	}
+}

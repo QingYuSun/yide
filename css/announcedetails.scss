@@ -1,0 +1,146 @@
+@charset "utf-8";
+html,body{
+        height: 100%;
+        background-color:#fff;
+        min-width: 320px;
+        font-size: 62.5%;
+        font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
+    }
+h1, h2, h3, h4, h5, b{
+    font-weight: normal;
+}
+*{
+        margin: 0;
+        padding: 0;
+    }
+div, ul, li, dl, dt, dd, table, td, input ,span{
+        font-size:1.2rem;
+    }
+article{
+    padding: 0 5px;
+    word-wrap: break-word;
+}
+@import "variable";
+//定义晒单人的个人获奖信息头像部分
+.lw-andes-wrap{
+    display:block;
+    padding: 10px 10px 7px;
+    position: relative;
+    a{
+        img{
+        width: 75px;
+        height: 75px;
+        border-radius: 5px;
+        }
+    }
+}
+//定义晒单人的个人获奖信息文字部分
+.lw-andes-word{
+    margin-left:85px;
+    p{
+        margin: 1px 0 2px;
+        color: #999;
+    }
+}
+//定义晒单人的个人获奖信息的手机号码蓝色显示
+.lw-andes-blue{
+    margin-left: 0;
+    color:#2af;
+    margin-bottom:-5px;
+}
+//定义晒单人的个人获奖信息的幸运号码和参与人次颜色样式
+.lw-andes-orange{
+    color:$background;
+
+}
+//晒单的内容外部样式
+.lw-andes-title{
+    display:block;
+    background: #F4F4F4;
+    padding: 10px 5px;
+    border-top: 1px solid #D7D7D7;
+    position: relative;
+    box-shadow: inset 0 0 1px #C9C9C9;
+    b{
+        width:6px;
+        height:6px;
+        display:inline-block;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        font-size:0;
+        line-height:0;
+        float:right;
+        margin: 4px 10px 0 0;
+        border:solid #d7d7d7;
+        background: #F4F4F4;
+        border-width:1px 0 0 1px;
+        position:absolute;
+        left:40px;
+        top:-8px;
+    }
+}
+//晒单内容的文字和图片样式
+.lw-andes-title{
+    margin-bottom:65px;
+    h2{
+        overflow: hidden;
+        color: #666;
+    }
+    em{
+        color: #BCBCBC;
+    }
+    p{
+        margin-bottom: 10px;
+        text-align: center;
+        color: #666;
+        font-size: 1.4rem;
+        &.lw-title-word{
+            padding: 10px 0 0;
+            line-height: 22px;
+            text-align: left;
+        } 
+        img{
+            max-width:100%;
+        }
+    }
+}
+//晒单内容下面"羡慕嫉妒"的样式
+.lw-andes-envy{
+    width: 100%;
+    height: 45px;
+    margin: 3px auto 0 auto;
+    display: -webkit-box;
+    margin-top: 5px;
+    line-height: 30px;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    display: block;
+    text-align: center;
+
+    a{
+        &.lw-envy{
+            background:#9e9e9e;
+        }
+        display:block;
+        line-height:30px;
+        background:$background;
+        border-radius:3px;
+        color:#fff;
+        s{
+            background: url(../image/icon/share-img.png);
+            background-size: 90px auto;
+            display:inline-block;
+            margin-right:5px;
+            width: 15px;
+            height: 14px;
+            background-position: 0 -33px;
+            vertical-align: -3px;
+        }
+        em{
+            font-style:normal;
+            color:#fff;
+        }
+    }
+
+}

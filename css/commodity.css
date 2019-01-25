@@ -1,0 +1,116 @@
+html, body {
+  height: 100%;
+  background-color: #fff;
+  min-width: 320px;
+  font-size: 62.5%;
+  font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif; }
+
+h1, h2, h3, h4, h5, b {
+  font-weight: normal; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+div, ul, li, dl, dt, dd, table, td, input, span {
+  font-size: 1.175rem; }
+
+.lw-new {
+  height: 42px;
+  padding-top: 15px;
+  line-height: 42px;
+  background-color: #e60044;
+  border-bottom: 1px solid #e60044;
+  position: relative;
+  display: block;
+  width: 100%;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  text-align: center;
+  color: #fff; }
+  .lw-new .lw-page-title {
+    font-size: 1.6rem; }
+
+.lw-return {
+  display: block;
+  position: absolute;
+  top: 21px;
+  left: 3px; }
+  .lw-return a {
+    display: block;
+    height: 33px;
+    line-height: 33px;
+    padding-left: 15px;
+    display: inline-block;
+    position: relative; }
+    .lw-return a s {
+      position: absolute;
+      top: 25%;
+      display: block;
+      height: 10px;
+      width: 10px;
+      border: solid #fff;
+      border-width: 3px 0 0 3px;
+      background: #e60044;
+      transform: rotate(-45deg);
+      -moz-transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg); }
+
+.lw-footer-nav {
+  border-top: 1px solid #ddd;
+  height: 49px;
+  z-index: 99; }
+  .lw-footer-nav .lw-footer-tab {
+    background: #f7f7f7; }
+
+.lw-footer-same a {
+  display: block;
+  height: 44px;
+  padding-top: 4px;
+  text-align: center;
+  color: #888; }
+  .lw-footer-same a i {
+    display: block;
+    background: url(/image/icon/footer.png) no-repeat;
+    background-size: 27px auto;
+    margin: 0 auto; }
+
+.lw-footer-home a i {
+  width: 24px;
+  height: 24px;
+  background-position: 0 -133px; }
+
+.lw-footer-latest a i {
+  width: 27px;
+  height: 23px;
+  background-position: 0px -189px;
+  position: relative;
+  top: 1px;
+  margin-bottom: 1px; }
+
+.lw-footer-invoice a i {
+  width: 26px;
+  height: 22px;
+  background-position: 0 -241px;
+  position: relative;
+  top: 2px;
+  margin-bottom: 2px; }
+
+.lw-footer-shopping a i {
+  width: 26px;
+  height: 24px;
+  background-position: 0 -26px;
+  position: relative;
+  top: 0px;
+  margin-bottom: 0px; }
+
+.lw-footer-user a i {
+  width: 28px;
+  height: 24px;
+  background-position: 0px -80px;
+  position: relative;
+  top: 1px;
+  margin-bottom: 0px; }
+
+/*# sourceMappingURL=commodity.css.map */

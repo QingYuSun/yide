@@ -1,0 +1,163 @@
+@charset "utf-8";
+html,body{
+    height: 100%;
+    background-color:#f4f4f4;
+    min-width: 320px;
+    font-size: 62.5%;
+    font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
+}
+h1, h2, h3, h4, h5, b{
+    font-weight: normal;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+div, ul, li, dl, dt, dd, table, td, input ,span{
+    font-size: 1.2rem;
+}
+@import "variable";
+//注册最外层div
+.lw-register{
+    width: 100%;
+    background: #f4f4f4;
+    text-align: center;
+    padding-bottom: 30px;
+    min-height: 190px;
+    overflow: hidden;
+    ul{
+        padding:20px;
+        position:relative;
+        li{
+            width: 100%;
+            margin-bottom: 10px;
+            position: relative;
+            font-size: 1.4rem;
+            color: #999;
+            text-align: left;
+            line-height: 22px;
+            //下一步的样式
+            &.lw-next-step{
+                width:100%;
+                height:43px;
+                line-height:43px;
+                text-align:center;
+                border-radius:5px;
+                background:$background;
+                border: 1px solid $background;
+                &.notnext{
+                    background: #ddd;
+                    border: 1px solid #bbb;
+                }
+                a{
+                    color:#fff;
+                    font-size:1.7rem;
+                }
+            }
+            input{
+                width: 100%;
+                height: 45px;
+                background: #fff;
+                border: 1px solid #ddd;
+                color: #ccc;
+                border-radius: 5px;
+                padding: 0 5px;
+                display: inline-block;
+                -webkit-box-sizing: border-box;
+                position: relative;
+                font-size: 1.6rem;
+                outline:none;
+                //li往右移动的样式
+                &.lw-mover-right{
+                    padding-left:30px;
+                }
+                //验证码往右移动和宽度样式
+                &.lw-mover{
+                    padding-left:30px;
+                    width:50%;
+                }
+            }
+            s{
+                background: url(../image/icon/loginSet.png);
+                background-size: 20px auto;
+                float: left;
+                background-repeat: no-repeat;
+                height: 19px;
+                position: absolute;
+                left: 10px;
+                top: 13px;
+                //iupnt里面第一个小图标的样式
+                &.lw-icon-one{
+                    background-position: 0 0;
+                    width: 13px;
+                }
+                //iupnt里面下面两个小图标的样式
+                &.lw-icon-two{
+                    background-position: 0 -50px;
+                    width: 15px;
+                    height: 20px;
+                    margin-left: 2px;
+                }
+            }
+        }
+    }
+}
+//验证码图片的样式
+.lw-register-img{
+    vertical-align:middle;
+    margin-left:10px;
+}
+//一得宝协议阅读同意的样式
+.lw-consent{
+    font-size:1.3rem;
+    em{
+        background: url(../image/icon/setIcon.png);
+        background-size: 80px auto;
+        float: left;
+        background-repeat: no-repeat;
+        background-position: 0 -6px;
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+}
+.notconsent{
+    font-size:1.3rem;
+    em{
+        border: 1px solid #bbb;
+        border-radius: 3px;
+        background: #fff;
+        width: 16px;
+        height: 16px;
+        position: relative;
+        top: 2px;
+        margin-right: 7px;
+    } 
+}
+//一得宝协议样式
+.lw-consent-a{
+    margin-left:5px;
+    color:#2af;
+}
+//弹出的提示
+.lw-regalert{
+    z-index: 102;
+    width: 54%;
+    height: 45px;
+    position: fixed;
+    left: 23%;
+    top: 46%;
+    display: none;
+}
+//弹出的提示
+.lw-alertreg{
+    color: #fff;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    line-height: 45px;
+    margin: 0 auto;
+    text-align: center;
+    background: rgba(0,0,0,0.7);
+    font-size: 1.4rem;
+}

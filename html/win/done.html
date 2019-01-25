@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>已确认收货</title>
+    <link rel="stylesheet" type="text/css" href="../../css/done.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/signsure.css" />
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../../js/global.js"></script>
+</head>
+<body>
+    <div>
+        <div class="lw-donewarp">
+            <div class="lw-addwarp">
+                <span class="lw-address">配送地址&nbsp:</span>
+                <div class="lw-info" id="lw-info-data">
+                    <!-- <span class="name">王莉莉</span>
+                    <span class="gray6">13600001593</span>
+                    <p>
+                        <span>黑龙江省 鸡西市 密山市 密山街道 王莉莉</span>
+                    </p>
+                    <p>
+                        <span class="name">邮编</span>
+                        <span>325606</span>
+                    </p> -->
+                </div>
+            </div>
+        </div>
+        <div class="lw-wrapper">
+            <p class="gray6">获得的商品信息</p>
+            <div class="lw-goodsword" id="lw-goodsword-data">
+                <!-- <h6 class="gray6">
+                    <a href="#">(第89期)Apple&nbsp;iPhone6s&nbsp;16G&nbsp;颜色随机</a>
+                </h6>
+                <p class="gray9">价值：￥5688.00</p>
+                <p class="gray9">幸运号码：10004075</p>
+                <p class="gray9">揭晓时间：2016-07-27 18:14:10</p>
+                <a class="lw-goodsimg" href="">
+                    <img src="../../image/79349982429501.jpg">
+                </a> -->
+            </div>
+        </div>
+        <div class="lw-donereturn">
+            <a href="#">已确认收货</a>
+        </div>
+        <div class="lw-message"></div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    var uid = getUrlParam('uid');
+    var goods_id = getUrlParam('goods_id');
+
+    apiready = function(){
+        //页面下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            api.refreshHeaderLoadDone();
+        });
+    }
+        
+    $.ajax({
+        type: 'post',
+            url: AJAX_URI+'/users/address_suer',
+            data: {
+                uid: uid,
+                goods_id: goods_id
+            },
+            dataType: 'json',
+            success: function(result) {
+                var user_html='';
+                var goods_html='';
+                $(result).each(function(){
+                    user_html+='<span class="name">'+this.shouhuoren+'</span>';
+                    user_html+='<span class="gray6">'+this.mobile+'</span>';
+                    user_html+='<p><span>'+this.sheng+' '+this.shi+' '+this.xian+' '+this.jiedao+' '+this.shouhuoren+'</span></p>';
+                    user_html+='<p><span class="name">邮编</span><span>'+(this.youbian ? this.youbian : " ")+'</span></p>';
+
+                    goods_html+='<h6 class="gray6"><a href="#">(第'+this.qishu+'期)'+this.title+'</a></h6>';
+                    goods_html+='<p class="gray9">价值：￥'+this.money+'</p>';
+                    goods_html+='<p class="gray9">幸运号码：'+this.q_user_code+'</p>';
+                    goods_html+='<p class="gray9">揭晓时间：'+this.q_end_time+'</p>';
+                    goods_html+='<a class="lw-goodsimg" href="" id="'+goods_id+'">';
+                    goods_html+='<img src="http://m.51edb.com/love/uploads/'+this.thumb+'">';
+                    goods_html+='</a>';
+                });
+                $("#lw-info-data").append(user_html);
+                $("#lw-goodsword-data").append(goods_html);
+            }
+    });
+</script>
+</html>

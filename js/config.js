@@ -1,0 +1,1 @@
+var AJAX_URI = 'http://jl.haodbao.com/index.php'; // ajax连接地址

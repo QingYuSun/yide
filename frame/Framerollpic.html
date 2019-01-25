@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <script type="text/javascript" src="../js/api.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/deatails.css" />
+    <title>商品详情frame</title>
+</head>
+<body>
+<div id="deatailswarp" class="lw-deatails-warp"></div>
+        <div id="lw-date"></div>
+        <div class="lw-deatails-include">
+            <a href="#"  onclick="canyu()">
+                参与记录
+                <s class="lw-fr"></s>
+            </a>
+            <a href="#" onclick="picdate()">
+                图文详情
+                <em>( 建议WIFI下使用 )</em>
+                <s class="lw-fr"></s>
+            </a>
+            <a href="#" onclick="shai()">
+                商品晒单
+                <s class="lw-fr"></s>
+            </a>
+            <a href="#" onclick="beforepublish()">
+                往期揭晓
+                <s class="lw-fr"></s>
+            </a>
+        </div>
+</body>
+</html>
+<script type="text/javascript">
+
+    function getpagedate(){
+        var shopid = api.pageParam.shopid;//获取首页传递过来的商品ID
+        return shopid;
+    }
+    apiready = function(){
+        //数据加载
+        var shopid=getpagedate();
+            api.ajax({
+                url: 'http://jl.haodbao.com/index.php/Join/item',
+                method: 'get',
+                returnAll:false,
+                dateType:'json',
+                data: {
+                    values: {shopid: shopid},
+                }
+            },function(ret, err){
+                if (ret) {
+                    ret=eval(ret);
+                    var html="";
+                    var paths="";
+                   for(var i in ret){
+                    html+='<div class="lw-deatails-info">';
+                    html+='<h2 class="lw-gary6">(第'+ret[i].qishu+'期) '+ret[i].title+'<span>'+(ret[i].title1 ? ret[i].title1 : " ") +'</span></h2>';
+                    html+='<div class="lw-deatails-value lw-gary9"> 价值 : ￥'+ret[i].money+'</div>';
+                    html+='<div class="lw-deatails-margin">';
+                    html+='<div>';
+                    var j=parseInt(ret[i].canyurenshu *100)/ret[i].zongrenshu;
+                    html+='<p class="lw-deatails-p"><span style="width:'+parseInt(j)+'%;"></span></p>';
+                    html+='<div class="lw-deatails-progress">';
+                    html+='<ul>';
+                    html+='<li class="lw-deatails-one"><em>'+ret[i].canyurenshu+'</em> 已参与</li>';
+                    html+='<li class="lw-deatails-two"><em>'+ret[i].zongrenshu+'</em>总需人数</li>';
+                    html+='<li class="lw-deatails-three"><em>'+ret[i].shenyurenshu+'</em>剩余</li>';
+                    html+='</ul></div></div></div></div>';
+                    html+='<div class="lw-deatails-no"><span>您没有参与本期商品</span></div>';
+                    //以下字符串代码 是用户登录后有没有购买的时候显示   后续修改
+                    html+='<div style="display:none;" class="lw-deatails-yes">';
+                    html+='<p class="lw-yes-word">您参与了：<em>1</em>人次</span><br></p>';
+                    html+='<table>';
+                    html+='<tbody>';
+                    html+='<tr>';
+                    html+='<td>幸运号码：</td>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='</tr>';
+                    html+='<tr>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='<td><b>10001915</b></td>';
+                    html+='<td><b><a href="3">查看全部</a></b></td>';
+                    html+='</tr></tbody></table></div>';
+                    paths='['+'http://m.51edb.com/love/uploads/'+ret[i].thumb+']';
+                    /*paths='['+'http://m.51edb.com/love/uploads/'+ret[i].thumb+''+']';*/
+                }
+                    $api.append($api.byId('lw-date'),html);
+                } else {
+                    alert( JSON.stringify( err ) );
+                }
+            });
+        //图片 轮播
+        var deatailswarp=document.getElementById('deatailswarp');
+        var win = window.screen.width;
+        deatailswarp.style.height=win/2.3+"px";
+        var UIScrollPicture = api.require('UIScrollPicture');
+        UIScrollPicture.open({
+            rect: {
+                x: (api.winWidth -api.winWidth/2.3)/2,
+                y: 20,
+                w: api.winWidth/2.3,
+                h: api.winWidth/2.3,
+            },
+            data: {
+                paths: [
+                'widget://image/20943729429500.jpg',
+                'widget://image/74839464428399.jpg',
+                'widget://image/79323602428381.jpg',
+                'widget://image/79349982429501.jpg',
+                'widget://image/92099980429501.jpg',
+                ],
+            },
+            styles: {
+                caption: {
+                    height: 35,
+                    color: '#E0FFFF',
+                    size: 13,
+                    bgColor: '#696969',
+                    position: 'bottom'
+                },
+                indicator: {
+                    align: 'center',
+                    color: '#bbb',
+                    activeColor: '#e60044'
+                }
+            },
+            placeholderImg: 'widget://res/slide1.jpg',
+            contentMode: 'scaleToFill',
+            interval: 3,
+            fixedOn: api.frameName,
+            loop: true,
+            fixed: false
+        });
+        //页面下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+    }
+    //商品详情的参与记录
+    function canyu(){
+        var shopid=getpagedate();
+        api.openWin({
+            name: 'record',
+            url: '../html/announce/record.html',
+            pageParam: {
+                    shopid: shopid,
+                    num: 1
+                },
+        });
+
+     }
+
+     //商品详情的图文详情
+    function picdate(){
+        var shopid=getpagedate();
+        api.openWin({
+            name: 'record',
+            url: '../html/announce/record.html',
+            pageParam: {
+                    shopid: shopid,
+                    num: 2
+                },
+        });
+     }
+     //商品详情的商品晒单
+    function shai(){
+        var shopid=getpagedate();
+        api.openWin({
+            name: 'record',
+            url: '../html/announce/record.html',
+            pageParam: {
+                    shopid: shopid,
+                    num: 3
+                },
+        });
+    }
+    //往期揭晓
+    function beforepublish(){
+        var shopid=getpagedate();
+        api.openWin({
+            name: 'record',
+            url: '../html/announce/record.html',
+            pageParam: {
+                    shopid: shopid,
+                    num: 4
+                },
+        });
+    }
+</script>

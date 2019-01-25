@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>计算详情Frame</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/count.css" />
+    <script type="text/javascript" src="../../js/dep/api.js"></script>
+    <script type="text/javascript" src="../../js/count.js"></script>
+    <script type="text/javascript" src="../../js/zepto.min.js"></script>
+    <script type="text/javascript" src="../../js/global.js"></script>
+    </head>
+<body>
+    <section>
+        <div class="lw-count-wrap">
+            <div class="lw-count-list">
+                <ul>
+                    <li class="lw-count-red">
+                        <dl>
+                            <dd>计算公式</dd>
+                            <dd>幸运号码 = [(数值A+数值B)÷商品所需人次]取余数+10000001</dd>
+                        </dl>
+                    </li>
+                    <li class="lw-count-a">
+                        <dl>
+                            <dd class="lw-a-one">数值A</dd>
+                            <dd class="lw-a-two">=截止该商品最后一个购买时间前全站最新50条参与纪录</dd>
+                            <dd class="lw-a-three" id="lw-a-three-data">
+                                <!-- <span class="lw-span">=760151409</span> -->
+                                <span onclick="onunfold()" id="lw-a-span" class="lw-a-span">展开∨</span>
+                            </dd>
+                        </dl>
+                    </li>
+                    <div id="lw-count-unfold" class="lw-count-unfold hidden">
+                        <dl id="lw-record-data">
+                            <!-- <dd>
+                                <span class="lw-unfold-time">
+                                    2016-07-09 10:58:23.349 -&gt;
+                                    <strong>105823349</strong>
+                                </span>
+                                <span class="lw-unfold-word">可爱的小绵羊</span>
+                            </dd> -->
+                        </dl>
+                    </div>
+                    <li class="lw-count-b">
+                        <dl>
+                            <dd class="lw-a-one">数值B</dd>
+                            <div id="lw-caipiao">
+                                <!-- <dd class="lw-a-two">=第20160708026期中国福利彩票“重庆时时彩”的开奖结果</dd>
+                                <dd class="lw-a-three">
+                                    <span class="lw-b-span">=66280</span>
+                                    <span class="lw-span-two">开奖查询</span>
+                                </dd> -->
+                            </div>
+                        </dl>
+                    </li>
+                    <li class="lw-count-result">
+                        <dl>
+                            <dt >计算结果</dt>
+                            <dd class="lw-result" id="lw-result-data">
+                                <!-- 幸运号码 : <em>10000033</em> -->
+                            </dd>
+                            <dd class="lw-result-word">
+                            注：最后一个幸运号认购时间距离"重庆时时彩"最近下一期开奖大于24小时，默认"重庆时时彩"开奖结果为00000；如遇福彩中心通讯故障，无法获取"重庆时时彩"开奖结果或者最后一个幸运号分配认购时间距离故障时间大于24小时，亦默认"重庆时时彩"开奖结果为00000。
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript">
+    var goodsID;
+    apiready = function(){
+        goodsID = api.pageParam.goodsID;
+    $.ajax({
+        type: 'GET',
+        url: 'http://192.168.1.180/index.php/showindex/calResult',
+        data: {goods_id: goodsID},
+        dateType: 'json',
+        success: function(result) {
+            var result = JSON.parse(result);
+            var number_a_html='';
+            var recording_html='';
+            var lottery_html='';
+            var luck_code='';
+
+            //数值A
+            number_a_html+='<span class="lw-span">='+result.number_a+'</span>';
+            $("#lw-a-three-data").append(number_a_html);
+
+            //数值B
+            lottery_html+='<dd class="lw-a-two">=中国福利彩票“重庆时时彩”的开奖结果</dd>';
+            lottery_html+='<dd class="lw-a-three">';
+            lottery_html+='<span class="lw-b-span">='+(result.lottery ? result.lottery : "正在等待开奖")+'</span>';
+            lottery_html+='<span class="lw-span-two"> 第'+result.mi+'期</span>';
+            lottery_html+='</dd>';
+             $("#lw-caipiao").append(lottery_html);
+
+             //幸运号码
+             luck_code+='幸运号码 : <em>'+(result.gongbu ? result.gongbu : "等待揭晓...")+'</em>';
+             $("#lw-result-data").append(luck_code);
+
+             //50条数据
+            $(result.recording).each(function(index){
+                recording_html+='<dd>';
+                recording_html+='<span class="lw-unfold-time">';
+                recording_html+=''+this.date+' '+this.time+'.'+this.ms+' -&gt;<strong>'+this.h+''+this.i+''+this.s+''+this.ms+'</strong></span>';
+                recording_html+='<span class="lw-unfold-word">'+this.username+'</span>';
+                recording_html+='</dd>';
+            });
+            $("#lw-record-data").append(recording_html);
+
+            //alert( JSON.stringify( result ) );
+        }
+    });
+}
+
+    //计算详情里面展开和收缩的效果
+    function onunfold(){
+        var a = document.getElementById('lw-a-span');
+        var count = document.getElementById('lw-count-unfold');
+        if (count.style.display!='none') {
+            count.style.display='none';
+            a.innerHTML='展开∨';
+        }else{
+            count.style.display='block';
+            a.innerHTML='收缩∧';
+        }
+    }
+</script>
+</html>

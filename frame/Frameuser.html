@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <title>用户登录</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    <script type="text/javascript" src="../js/zepto.min.js"></script>
+</head>
+
+<body>
+    <section>
+        <div class="lw-user-input" id="lw-user-input">
+            <ul>
+                <input id="userphone" class="lw-user-phone" type="text" placeholder="请输入您的手机号码">
+                <input id="userpassword" class="lw-user-phone lw-user-password" type="password" placeholder="密码">
+                <input id="usersubmit" class="lw-user-submit" type="submit" name="submit" value="登录">
+                <a class="lw-user-register" href="../html/user/register.html">立即注册</a>
+                <a class="lw-user-forgrt" href="../html/user/forget.html">忘记密码？</a>
+            </ul>
+        </div>
+        <div id="useralert" class="lw-useralert">
+            <div id="alertword" class="lw-alertword"></div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript">
+    apiready = function() {
+        // 发送更改顶部导航标题的监听请求
+        api.sendEvent({
+            name: 'setHomeTitle',
+            extra: '用户登录'
+        });
+
+        // 激活底部按钮
+        api.sendEvent({
+            name: 'activeFooter',
+            extra: {
+                "activeIndex": 10
+            }
+        });
+
+        // 显示后退按钮
+        api.sendEvent({
+            name: 'showBackButton'
+        });
+
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            api.refreshHeaderLoadDone();
+        });
+    }
+
+
+    //登陆按钮登陆方式
+    $(function(){
+        $("#usersubmit").live("click", function(){
+            var phone = $("#userphone").val();
+            var password = $("#userpassword").val();
+
+            if (phone == "") {
+                api.toast({
+                    msg: '请输入手机号',
+                    duration: 2000,
+                    location: 'middle'
+                });
+                return false;
+            }
+            if (password == "") {
+                api.toast({
+                    msg: '请输入密码',
+                    duration: 2000,
+                    location: 'middle'
+                });
+                return false;
+            }
+            login(phone, password);
+        });
+    });
+
+    function login(phone, password) {
+        $.ajax({
+            type: 'POST',
+            url: AJAX_URI+'/users/login',
+            data: {phone: phone, password: password},
+            dateType: 'json',
+            success: function(result) {
+               var json = JSON.parse(result);
+               //alert( JSON.stringify( json ) );
+                 if (json.ret == "0") {
+                    api.toast({
+                        msg: '账号和密码错误',
+                        duration: 2000,
+                        location: 'middle'
+                    });
+                }else{
+                    //alert( JSON.stringify( json ) );
+                    localStorage.setItem("uid", json.ret);
+                    localStorage.setItem("session_id", json.session_id);
+                    localStorage.setItem("mi", json.mi);
+                    /*window.location.href = './Framecenter.html?uid=' + json.ret+'&session_id='+json.session_id+'&mi='+json.mi;*/
+                    window.location.href = './Framecenter.html?uid=' + json.ret;
+                }
+            }
+
+        });
+    }
+</script>
+
+</html>

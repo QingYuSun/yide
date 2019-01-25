@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>常见问题frame</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/problem.css" />
+    <link rel="stylesheet" type="text/css" href="../css/commodity.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+</head>
+<body>
+	<div class="lw-help">
+		<div class="lw-help-list" id="lw-help-list">
+			<!-- <a href="#">
+                <dt>
+                    <div class="lw-help-xingxing"></div>
+                    <h3>非常6+1 这个儿童节不一般</h3>
+                </dt>
+            </a>
+            <a href="#">
+                <dt>
+                    <div class="lw-help-xingxing"></div>
+                    <h3>开启幸运大转盘 立即免费夺大奖</h3>
+                </dt>
+            </a>
+                <a href="#">
+                <dt>
+                    <div class="lw-help-xingxing"></div>
+                    <h3>五一发货延迟通知</h3>
+                </dt>
+            </a>
+                <a href="#">
+                <dt>
+                    <div class="lw-help-xingxing"></div>
+                    <h3>关于一得宝</h3>
+                </dt>
+            </a>
+                <a href="#" onclick="">
+                <dt>
+                    <div class="lw-help-xingxing"></div>
+                    <h3>服务协议</h3>
+                </dt>
+            </a> -->
+		</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+    apiready = function(){
+        api.ajax({
+            url: AJAX_URI+'/showindex/question',
+            method: 'get',
+            cache:false,
+            dateType:'json',
+            returenAll:false
+            },function(ret, err){
+            if (ret) {
+                var html='';
+                for (var i  in ret){
+                    html+='<a href="javascript:;" onclick="info('+ret[i].id+')">';
+                    html+='<dt>';
+                    html+='<div class="lw-help-xingxing"></div>';
+                    html+='<h3>'+ret[i].title+'</h3>';
+                    html+='</dt></a>';
+                }
+                $api.append($api.byId('lw-help-list'),html)
+                //alert( JSON.stringify( ret ) );
+            } else {
+                alert( JSON.stringify( err ) );
+            }
+        });
+    }
+
+    function info (id){
+        var heardheght = api.pageParam.heardheght;//获取宽度
+        var winHeight = api.pageParam.winHeight;
+        api.sendEvent({
+            name: 'helplist',
+            extra: {
+            }
+        });
+        api.openFrame({
+            name: 'center',
+            url: './Frameanswer.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                id: id
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+    }
+</script>

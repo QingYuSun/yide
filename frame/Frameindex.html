@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>首页frame</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-win.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <script type="text/javascript" src="../js/config.js"></script>
+</head>
+<body id="lw-body">
+    <div id="header">
+        <div id="Carousel" class="Carousel">
+
+        </div>
+        <div id="nav" class="nav">
+            <ul>
+                <li onclick="allshop()">
+                    <a class="nav-a">
+                    <img class="nav-img" src="../image/icon/nav-pro.png">
+                    <span class="nav-span">所有商品</span>
+                    </a>
+                 </li>
+                 <li onclick="mobile()">
+                    <a class="nav-a" href="#">
+                    <img class="nav-img" src="../image/icon/nav-10.png">
+                    <span class="nav-span">10元区</span></a>
+                </li>
+                <li onclick="question()">
+                    <a class="nav-a" href="#">
+                    <img class="nav-img" src="../image/icon/nav-ques.png">
+                    <span class="nav-span">常见问题</span></a>
+                </li>
+                <li onclick="gongao()">
+                    <a class="nav-a" href="#">
+                    <img class="nav-img" src="../image/icon/nav-notice.png">
+                    <span class="nav-span">公告</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="main">
+        <div id="roll" class="roll">
+            <ul id="lw-roll-one">
+
+            </ul>
+            <ul id="lw-roll-two"></ul>
+        </div>
+        <div  id="main-nav">
+            <div id="main-nav-one" class="main-nav-one">
+            <ul>
+                <li name="cutrevea" onclick="randomone(this)" class="red">
+                    <a href="javascript:;">
+                    <span>即将揭晓</span>
+                    </a>
+                </li>
+                <li name="cutrevea" onclick="randomone(this)">
+                    <a href="javascript:;">
+                    <span>最新</span>
+                    </a>
+                </li>
+                <li name="cutrevea" onclick="randomone(this)">
+                    <a href="javascript:;">
+                    <span>最火</span>
+                    </a>
+                </li>
+                <li name="cutrevea" onclick="randomone(this)">
+                    <a href="javascript:;">
+                    <span>价值</span>
+                    </a>
+                </li>
+            </ul>
+            </div>
+            <div id="main-nav-last" class="main-nav-last" onclick="showDefault()">
+                <span>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </span>
+                分类
+            </div>
+            <div id="hidden" style="display:none;" class="hidden">
+            <ul>
+                <li><a href="#">全部分类</a></li>
+                <li><a href="#">手机平板</a></li>
+                <li><a href="#">电脑数码</a></li>
+                <li><a href="#">黄金珠宝</a></li>
+                <li><a href="#">家用电器</a></li>
+                <li><a href="#">生活用品</a></li>
+                <li><a href="#">虚拟充值</a></li>
+                <li><a href="#">美食天地</a></li>
+                <li><a href="#">户外运动</a></li>
+                <li><a href="#">玩具礼品</a></li>
+            </ul>
+        </div>
+        </div>
+        <div id="goods" class="goods">
+            <div class="aui-content" id="lw-reveal" name="reveal"></div><!-- 即将揭晓的 -->
+            <div class="aui-content" id="lw-newest" style="display:none" name="reveal"></div><!-- 最新 -->
+            <div class="aui-content" id="lw-fire" style="display:none" name="reveal"></div><!-- 最火 -->
+            <div class="aui-content" id="lw-value" style="display:none" name="reveal"></div><!-- 价值 -->
+
+        </div>
+    </div>
+<script type="text/javascript">
+
+    apiready = function(){
+        //首页轮播图
+        var Carousel=document.getElementById('Carousel');
+        var win = window.screen.height;
+        Carousel.style.height=win*0.2638+"px";
+        var UIScrollPicture = api.require('UIScrollPicture');
+        UIScrollPicture.open({
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: win * 0.2638,
+            },
+            data: {
+                paths: [
+                'widget://image/kk.jpg',
+                'widget://image/23260489146841.jpg',
+                'widget://image/86213614146754.jpg',
+                ],
+            },
+            styles: {
+                caption: {
+                    height: 35,
+                    color: '#E0FFFF',
+                    size: 13,
+                    bgColor: '#696969',
+                    position: 'bottom'
+                },
+                indicator: {
+                    align: 'center',
+                    color: '#FFFFFF',
+                    activeColor: '#DA70D6'
+                }
+            },
+            placeholderImg: 'widget://./image/kk.jpg',
+            contentMode: 'scaleToFill',
+            interval: 3,
+            fixedOn: api.frameName,
+            loop: true,
+            fixed: false
+        });
+
+        var pageSize=10; // 页容量
+            var totalData=0;  //定义一个变量存储第一次加载返回来的总记录数
+            var totalPages=0;  // 定义一个变量存储第一次加载返回来的总页数
+            localStorage.setItem("currentPage", 1); // 默认设置为第一页
+            // 默认第一次打开页面就加载数据
+            ajax(1,true); // 第一次加载
+        //下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            ajax(1,true); // 第一次加载
+            api.refreshHeaderLoadDone();
+        });
+
+        // 分页加载
+        api.addEventListener({
+            name: 'scrolltobottom',
+             extra:{
+                threshold: 700 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+            }, function(ret, err){
+                    //$api.setStorage类似于设置COOKIE  $api.setStorage('key',value) $api.getStorage 类似于获取COOKIE
+                    var _page=parseInt(localStorage.getItem("currentPage"));
+                    if(_page+1<=totalPages){
+                        ajax(_page+1,false);
+                        localStorage.setItem("currentPage", _page+1); // 页码+1
+                    }
+                    else{
+                    }
+            });
+
+        //页面打开时加载数据
+        //即将揭晓
+        function ajax(currentPage,isReload){
+            api.ajax({
+                url: AJAX_URI+'/showindex/jx',
+                method: 'get',
+                cache:false,
+                dateType:'json',
+                returenAll:false,
+                    data:{
+                    values: {
+                        pagesize: pageSize,
+                        page: currentPage
+                    },
+                }
+                },function(ret, err){
+                if (ret) {
+                        totalData=ret.totalCount;
+                        totalPages=ret.totalPages;
+                    if(isReload){
+                            localStorage.setItem("currentPage", 1);        // 重新设置为1
+                    }
+                    var jxhtml=xunhuan(ret);
+                    $api.append($api.byId('lw-reveal'),jxhtml);
+                } else {
+                    alert( JSON.stringify( err ) );
+                }
+            });
+        }
+        //最新
+        function ajax(currentPage,isReload){
+            api.ajax({
+                url: AJAX_URI+'/showindex/zx',
+                method: 'get',
+                cache:false,
+                dateType:'json',
+                returenAll:false,
+                    data:{
+                        values: {
+                            pagesize: pageSize,
+                            page: currentPage
+                        },
+                    }
+                },function(ret, err){
+                if (ret) {
+                    totalData=ret.totalCount;
+                        totalPages=ret.totalPages;
+                    if(isReload){
+                            localStorage.setItem("currentPage", 1);        // 重新设置为1
+                    }
+                    var zxhtml=xunhuan(ret);
+                    $api.append($api.byId('lw-newest'),zxhtml);
+                } else {
+                    alert( JSON.stringify( err ) );
+                }
+            });
+        }
+        //最火
+        function ajax(currentPage,isReload){
+            api.ajax({
+                url: AJAX_URI+'/showindex/zh',
+                method: 'get',
+                cache:false,
+                dateType:'json',
+                returenAll:false,
+                    data:{
+                        values: {
+                            pagesize: pageSize,
+                            page: currentPage
+                        },
+                    }
+                },function(ret, err){
+                if (ret) {
+                        totalData=ret.totalCount;
+                        totalPages=ret.totalPages;
+                    if(isReload){
+                            localStorage.setItem("currentPage", 1);        // 重新设置为1
+                    }
+                     var zhhtml=xunhuan(ret);
+                    $api.append($api.byId('lw-fire'),zhhtml);
+
+                } else {
+                    alert( JSON.stringify( err ) );
+                }
+            });
+        }
+        //价值
+        function ajax(currentPage,isReload){
+            api.ajax({
+                url: AJAX_URI+'/showindex/jz',
+                method: 'get',
+                cache:false,
+                dateType:'json',
+                returenAll:false,
+                    data:{
+                        values: {
+                            pagesize: pageSize,
+                            page: currentPage
+                        },
+                    }
+                },function(ret, err){
+                if (ret) {
+                        totalData=ret.totalCount;
+                        totalPages=ret.totalPages;
+                    if(isReload){
+                            localStorage.setItem("currentPage", 1);        // 重新设置为1
+                    }
+                     var jzhtml=xunhuan(ret);
+                    $api.append($api.byId('lw-value'),jzhtml);
+                } else {
+                    alert( JSON.stringify( err ) );
+                }
+            });
+        }
+
+        function xunhuan(ret){
+             var html="";
+                    html+='<ul class="aui-list-view aui-grid-view" id="goos_info">';
+                    ret=eval(ret);
+                    for(var i in ret){
+                        if(i!='totalCount' && i!='totalPages'){
+                            html+='<li class="aui-list-view-cell aui-img aui-col-xs-6 lw-goods-list lw-goods-a">';
+                            html+='<a href="javascript:;" id='+ret[i].id+' onclick="openxiangqing('+ret[i].id+')"><img class="aui-img-object lw-goods-img" src="http://m.51edb.com/love/uploads/'+ret[i].thumb+'"></a>';
+                            html+='<p class="lw-goods-name">'+ ret[i].title +'</p>';
+                            html+='<ins class="lw-goods-value">价值:'+ ret[i].money +'</ins>';
+                            html+='<div class="lw-progress">';
+                            //首页百分比参数
+                            var j=parseInt(ret[i].canyurenshu *100)/ret[i].zongrenshu;
+                            html+='<p><span style="width:'+parseInt(j)+'%"></span></p></div>';
+                            html+='<div class="lw-goods-value">剩余';
+                            html+='<b style="color:#e60044;">'+(parseInt(100-j)==0 ? 1:parseInt(100-j))+'%</b></div>';
+                            html+='<div class="participate">';
+                            html+='<a href="javascript:;" onclick="Now_participate('+ret[i].id+')">立即参与</a>';
+                            html+='<div class="shopping">';
+                            html+='<a href="javascript:;">';
+                            html+='<s></s></a></div></div></li>';
+                    }
+                }
+                    html+='</ul>';
+                    return html;
+        }
+        // 中奖前20名
+        api.ajax({
+            url: AJAX_URI+'/showindex/roll',
+            method: 'get',
+            cache:false,
+            dateType:'json',
+            returenAll:false
+            },function(ret, err){
+            if (ret) {
+                ret=eval(ret);
+                var html='';
+                for(var i in ret){
+                    html+='<li onclick="indexname('+ret[i].id+','+ret[i].qishu+');"><a href="javascript:;"> 恭喜<b style="color:#e60044;">'+ret[i].username+'</b>获得<b style="color:#000;">'+ret[i].title+'</b></a></li>';
+                }
+                $api.append($api.byId('lw-roll-one'),html);
+                $api.append($api.byId('lw-roll-two'),html);
+            } else {
+                alert( JSON.stringify( err ) );
+            }
+        });
+
+
+        //页面下拉刷新
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err){
+            location.reload();
+            api.refreshHeaderLoadDone();
+        });
+    }
+    //点击页面立即购买 跳转购物车页面  待修改
+    function Now_participate(shopid){
+        alert('待开发')
+         /*var heardheght = api.pageParam.heardheght;//获取宽度
+         var winHeight = api.pageParam.winHeight;
+         api.ajax({
+                url: 'http://jl.haodbao.com/index.php/showindex/lijicanyu',
+                method: 'get',
+                returnAll:false,
+                dateType:'json',
+                data: {
+                    values: {shopid: shopid},
+                }
+            },function(ret, err){
+                if (ret) {
+                    api.openFrame({
+                        name: 'goshopingcar',
+                        url: './Frameshoppingcart.html',
+                        rect: {
+                            x: 0,
+                            y: heardheght,
+                            w: 'auto',
+                            h: winHeight,
+                        },
+                        pageParam: {
+                            shopid: shopid
+                        },
+                        bounces: true,
+                        bgColor: 'rgba(0,0,0,0)',
+                        vScrollBarEnabled: true,
+                        hScrollBarEnabled: true
+                    });
+                } else {
+                    alert( JSON.stringify( err ) );
+                }
+            });*/
+
+    }
+
+    //点击页面商品图片 跳转详情页
+    function openxiangqing(shopid){
+        api.openWin({
+            name: 'deatails',
+            url: '../html/goods/deatails.html',
+            pageParam: {
+                    shopid: shopid
+                },
+        });
+    }
+    //滚动栏跳转
+    function indexname(id,qishu){
+        api.openWin({
+            name: 'result',
+            url: '../html/win/result.html',
+            pageParam: {
+                shopid: id,
+                qishu: qishu,
+
+                },
+        });
+    }
+    var cutrevea = document.getElementsByName('cutrevea');
+    var reveal = document.getElementsByName('reveal');
+    var hidden = document.getElementById('hidden');
+    var body = document.getElementById('lw-body');
+    //"即将揭晓，最新，最火，价值"的点击效果
+    function randomone(obj){
+        for (var i = 0; i < cutrevea.length; i++) {
+            if (cutrevea[i]==obj) {
+                cutrevea[i].className="red";
+                reveal[i].style.display="";
+            }else{
+                cutrevea[i].className="";
+                reveal[i].style.display="none";
+            }
+        }
+        if (hidden.style.display!="none") {
+            hidden.style.display="none"
+        }
+    }
+
+    //"分类"的点击效果
+    function showDefault(){
+        if (hidden.style.display!="none") {
+            body.style.overflow="";
+            hidden.style.display="none"
+        }else{
+            hidden.style.display=""
+            body.style.overflow="hidden";
+        }
+    }
+// 首页前20名滚动效果
+    var test=document.getElementById("roll");
+    var test1=document.getElementById("lw-roll-one");
+    var test2=document.getElementById("lw-roll-two");
+    var speed = 15;//滚动速度
+    var rows = 25;//每行高度
+    var stim = 80; //停留时间倍数 * speed
+    var stop = 0; //初始化值，不管
+    test2.innerHTML=test1.innerHTML;
+    function Marquee(){
+        if(test.scrollTop%rows==0 && stop<=stim){
+          stop++;
+          return;
+        }
+        stop = 0;
+        if(test2.offsetTop-test.scrollTop<=0)
+          test.scrollTop-=test1.offsetHeight
+        else{
+          test.scrollTop++
+        }
+    }
+    var MyMar = setInterval(Marquee,speed)
+    var Carousel=document.getElementById('Carousel');
+    var win = window.screen.height;
+    Carousel.style.height=win*0.2638+"px";
+
+
+//所有商品
+function allshop(){
+    api.sendEvent({
+            name: 'allshop',
+            extra: {
+            }
+        });
+    var heardheght = api.pageParam.heardheght;//获取宽度
+    var winHeight = api.pageParam.winHeight;
+    api.openFrame({
+            name: 'center',
+            url: './Framecommodity.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                cateid: 0,
+            },
+
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+//手机专区
+function mobile(){
+    var heardheght = api.pageParam.heardheght;//获取宽度
+    var winHeight = api.pageParam.winHeight;
+    api.sendEvent({
+            name: 'mobile',
+            extra: {
+            }
+        });
+    api.openFrame({
+            name: 'center',
+            url: './Framecommodity.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                cateid: 30,
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+
+
+//常见问题
+function question(){
+    api.sendEvent({
+            name: 'question',
+            extra: {
+            }
+        });
+    var heardheght = api.pageParam.heardheght;//获取宽度
+    var winHeight = api.pageParam.winHeight;
+    api.openFrame({
+            name: 'center',
+            url: './Frameproblem.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                page: 0,
+                heardheght: heardheght,
+                winHeight: winHeight,
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+function gongao(){
+    var heardheght = api.pageParam.heardheght;//获取宽度
+    var winHeight = api.pageParam.winHeight;
+    api.sendEvent({
+            name: 'gongao',
+            extra: {
+            }
+        });
+    api.openFrame({
+            name: 'center',
+            url: './Frameproblem.html',
+            rect: {
+                x: 0,
+                y: heardheght,
+                w: 'auto',
+                h: winHeight,
+            },
+            pageParam: {
+                page: 1,
+                heardheght: heardheght,
+                winHeight: winHeight,
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+}
+
+
+</script>
+</body>
+</html>

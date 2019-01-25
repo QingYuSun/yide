@@ -1,0 +1,17 @@
+.lw-goods {
+  max-width: 100%;
+  max-height: 100%; }
+  .lw-goods p {
+    text-align: left; }
+    .lw-goods p img {
+      text-align: center;
+      max-width: 100%;
+      vertical-align: bottom; }
+
+.lw-goods-word {
+  color: gray;
+  font-size: 14px; }
+  .lw-goods-word p {
+    text-align: left; }
+
+/*# sourceMappingURL=goods.css.map */
